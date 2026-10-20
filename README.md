@@ -239,10 +239,6 @@ docs/                manuais em PDF e imagens do README
 .github/workflows/   CI e atividade diária
 ```
 
-## Atividade diária
-
-O workflow [`diario.yml`](.github/workflows/diario.yml) registra uma linha em `.github/atividade.txt` duas vezes por dia, às **11:34** e às **21:12** (Brasília), com um horário reserva para cada turno caso o primeiro falhe. Para ativar, crie em **Settings → Secrets and variables → Actions** os secrets `GIT_NAME` e `GIT_EMAIL` (use o e-mail noreply do GitHub) e rode uma vez em **Actions → Atividade diária → Run workflow**.
-
 ## Licença
 
 [MIT](LICENSE). pdf.js é Apache-2.0; os ícones vêm do Lucide (ISC); Public Sans e Literata usam a SIL Open Font License.
