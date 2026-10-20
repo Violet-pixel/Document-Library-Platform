@@ -2,7 +2,7 @@
   <img src="docs/images/logo.png" width="160" alt="Lume">
 </p>
 
-<h1 align="center">Lume<br><sub><sup><sup><sub>Copyright (©) 2026 Clara A. Portes</sub></sup></sup></sub></h1>
+<h1 align="center">Lume<br><sub><sup><sup><sub>Copyright (©) 2026 Clara Portes e Erik Pimenta</sub></sup></sup></sub></h1>
 
 <p align="center">
   Biblioteca web para organizar e ler PDFs e DOCX: você arrasta os arquivos, o Lume gera as capas, escreve uma descrição de cada documento com IA e abre tudo num leitor próprio que lembra onde você parou.<br>
