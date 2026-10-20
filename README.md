@@ -106,6 +106,22 @@ docker compose up -d --scale worker=3   # mais workers quando precisar
 docker compose logs -f worker           # acompanhar o processamento
 ```
 
+## Versão para Windows
+
+Quer usar o Lume sem Docker, servidor ou conta? O **[Lume para Windows](https://github.com/havelroot/Document-Library-Desktop)** traz a mesma biblioteca num único `Lume.exe`. Você arrasta arquivos ou pastas, ele gera as capas, extrai texto e sumário, escreve a descrição por IA e abre tudo no leitor próprio, com anotações, estantes, coleções e busca em texto completo. Tudo roda no seu computador.
+
+| | Web (este repositório) | Desktop |
+|---|---|---|
+| Execução | Docker Compose, acesso pelo navegador | `Lume.exe` sem instalador (Windows 10 e 11, 64 bits) |
+| Aplicação | Django ASGI | Processo principal do Electron |
+| Banco e filas | PostgreSQL 16 + Redis 7 | SQLite com FTS5 + fila em memória |
+| Leitura dos arquivos | Processador Java 21 + PDFBox | pdf.js e leitor de DOCX em JavaScript |
+| Tempo real | WebSocket | IPC, sem porta de rede aberta |
+| Contas | Várias, com papéis e compartilhamento | Sem conta, uso local |
+| Chaves de IA | Arquivo `.env` | Cofre de credenciais do Windows |
+
+Repositório: [havelroot/Document-Library-Desktop](https://github.com/havelroot/Document-Library-Desktop)
+
 ## Contas de demonstração
 
 Todas usam a senha **`Lume@2026`**. Elas existem só para testes, para qualquer pessoa entrar logo depois de baixar o projeto. Os nomes, os documentos de [`exemplos/`](exemplos) e o domínio `lume.dev` são fictícios.
