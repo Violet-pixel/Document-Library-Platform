@@ -1,9 +1,22 @@
 name: Atividade diária
 
+# 5 registros por dia, em horário de Brasília (UTC-3), cada um com um horário reserva
+# caso o GitHub atrase ou pule o agendamento principal.
+#   1º turno 09:17 (reserva 10:08)
+#   2º turno 11:46 (reserva 12:39)
+#   3º turno 14:23 (reserva 15:14)
+#   4º turno 17:52 (reserva 18:41)
+#   5º turno 21:12 (reserva 22:43)
 on:
   schedule:
-    - cron: "34 14 * * *"
-    - cron: "56 15 * * *"
+    - cron: "17 12 * * *"
+    - cron: "8 13 * * *"
+    - cron: "46 14 * * *"
+    - cron: "39 15 * * *"
+    - cron: "23 17 * * *"
+    - cron: "14 18 * * *"
+    - cron: "52 20 * * *"
+    - cron: "41 21 * * *"
     - cron: "12 0 * * *"
     - cron: "43 1 * * *"
   workflow_dispatch:
@@ -14,6 +27,9 @@ on:
         options:
           - 1º turno
           - 2º turno
+          - 3º turno
+          - 4º turno
+          - 5º turno
         default: 1º turno
 
 permissions:
@@ -41,10 +57,12 @@ jobs:
             echo "Defina os secrets GIT_NAME e GIT_EMAIL no repositório."
             exit 1
           fi
-          # 11:34 e 21:12 (Brasília), com um horário reserva para cada turno.
           case "$AGENDA" in
-            "34 14 * * *"|"56 15 * * *") TURNO="1º turno" ;;
-            "12 0 * * *"|"43 1 * * *") TURNO="2º turno" ;;
+            "17 12 * * *"|"8 13 * * *") TURNO="1º turno" ;;
+            "46 14 * * *"|"39 15 * * *") TURNO="2º turno" ;;
+            "23 17 * * *"|"14 18 * * *") TURNO="3º turno" ;;
+            "52 20 * * *"|"41 21 * * *") TURNO="4º turno" ;;
+            "12 0 * * *"|"43 1 * * *") TURNO="5º turno" ;;
             *) TURNO="${TURNO_MANUAL:-1º turno}" ;;
           esac
           export TZ=America/Sao_Paulo
@@ -58,7 +76,7 @@ jobs:
             exit 0
           fi
           echo "$HOJE $TURNO $(date +%H:%M) (Brasília)" >> "$ARQUIVO"
-          tail -n 60 "$ARQUIVO" > "$ARQUIVO.tmp" && mv "$ARQUIVO.tmp" "$ARQUIVO"
+          tail -n 150 "$ARQUIVO" > "$ARQUIVO.tmp" && mv "$ARQUIVO.tmp" "$ARQUIVO"
           git add "$ARQUIVO"
           git commit -m "Atividade de $(date +%d/%m/%Y) ($TURNO)"
           for tentativa in 1 2 3; do
