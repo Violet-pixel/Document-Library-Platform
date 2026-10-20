@@ -1,0 +1,9 @@
+-r requirements.txt
+pytest==8.4.2
+pytest-django==4.11.1
+pytest-asyncio==1.2.0
+pytest-cov==7.0.0
+python-docx==1.2.0
+reportlab==5.0.1
+daphne==4.2.3
+ruff==0.16.9

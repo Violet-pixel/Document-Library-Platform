@@ -1,0 +1,91 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+    paths-ignore:
+      - ".github/atividade.txt"
+  pull_request:
+  schedule:
+    - cron: "3 12 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  testes:
+    name: Pytest · Django + processador Java
+    runs-on: ubuntu-24.04
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: lume
+          POSTGRES_PASSWORD: lume
+          POSTGRES_DB: lume
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U lume -d lume"
+          --health-interval 5s --health-timeout 5s --health-retries 12
+      redis:
+        image: redis:7-alpine
+        ports: ["6379:6379"]
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 5s --health-timeout 3s --health-retries 12
+    env:
+      DB_HOST: localhost
+      DB_NAME: lume
+      DB_USER: lume
+      DB_PASSWORD: lume
+      TEST_REDIS_URL: redis://localhost:6379/15
+      PROCESSOR_URL: http://localhost:8090
+      E2E_DATA_ROOT: ${{ github.workspace }}/.e2e-data
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: "21"
+          cache: maven
+      - name: Compilar o processador Java
+        working-directory: processor
+        run: mvn -B -q package
+      - name: Subir o processador
+        run: |
+          mkdir -p "$E2E_DATA_ROOT"
+          PROCESSOR_DATA_ROOT="$E2E_DATA_ROOT" nohup java -Djava.awt.headless=true -jar processor/target/processor.jar > processor.log 2>&1 &
+          for i in $(seq 1 30); do curl -fsS http://localhost:8090/health && exit 0; sleep 1; done
+          cat processor.log; exit 1
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.13"
+          cache: pip
+          cache-dependency-path: web/requirements-dev.txt
+      - run: pip install -r web/requirements-dev.txt
+      - name: Ruff
+        working-directory: web
+        run: ruff check .
+      - name: Pytest (unidade, API, WebSocket, pipeline e ponta a ponta)
+        working-directory: web
+        run: python -m pytest --cov-report=xml
+      - name: Migrações sem pendências
+        working-directory: web
+        run: python manage.py makemigrations --check --dry-run
+        env:
+          APP_SECRET_KEY: ci
+
+  docker:
+    name: Docker · imagens
+    runs-on: ubuntu-24.04
+    needs: testes
+    steps:
+      - uses: actions/checkout@v5
+      - run: cp .env.example .env
+      - run: docker compose config -q
+      - run: docker compose build

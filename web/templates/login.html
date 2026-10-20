@@ -1,0 +1,40 @@
+{% extends "base.html" %}{% load static %}
+{% block title %}Entrar · {{ BRAND.name }}{% endblock %}
+{% block body %}
+<div class="login">
+  <section class="login-art" aria-hidden="true">
+    <div class="brand"><span class="brand-mark">{% include "partials/logo.html" %}</span><span class="brand-name">{{ BRAND.name }}</span></div>
+    <div class="login-shelf">
+      <i class="b1"></i><i class="b2"></i><i class="b3"></i><i class="b4"></i>
+    </div>
+    <div>
+      <h2>Seus documentos, organizados e prontos para ler.</h2>
+      <p>Arraste PDFs e DOCX para a biblioteca. O {{ BRAND.name }} gera as capas, escreve uma descrição de cada arquivo e guarda a página onde você parou.</p>
+    </div>
+  </section>
+  <section class="login-form">
+    <form id="login-form" novalidate data-next="{{ next }}" data-signup="{{ ALLOW_SIGNUP|yesno:'1,0' }}">
+      {% csrf_token %}
+      <h1 id="form-title">Entrar</h1>
+      <p class="lead" id="form-lead">Use seu e-mail e senha para acessar a biblioteca.</p>
+      <div class="form-error" id="form-error" hidden></div>
+      <div class="field" id="name-field" hidden>
+        <label for="name">Nome</label>
+        <input class="input" id="name" name="name" autocomplete="name" maxlength="120">
+      </div>
+      <div class="field">
+        <label for="email">E-mail</label>
+        <input class="input" id="email" name="email" type="email" autocomplete="username" required autofocus>
+      </div>
+      <div class="field">
+        <label for="password">Senha</label>
+        <input class="input" id="password" name="password" type="password" autocomplete="current-password" required>
+      </div>
+      <button class="btn primary" type="submit" id="submit">Entrar</button>
+      {% if ALLOW_SIGNUP %}<p class="switch-mode"><span id="switch-text">Ainda não tem conta?</span> <button type="button" id="switch">Criar conta</button></p>{% endif %}
+      {% if SEED_DEMO %}<div class="demo">Demonstração: <code>admin@{{ BRAND.name|lower }}.dev</code> ou <code>leitor@{{ BRAND.name|lower }}.dev</code>, senha <code>{{ BRAND.name }}@2026</code>.</div>{% endif %}
+    </form>
+  </section>
+</div>
+<script src="{% static 'js/login.js' %}"></script>
+{% endblock %}

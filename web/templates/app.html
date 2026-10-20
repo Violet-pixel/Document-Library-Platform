@@ -1,0 +1,17 @@
+{% extends "base.html" %}{% load static %}
+{% block head %}
+  <link rel="stylesheet" href="{% static 'css/reader.css' %}">
+{% endblock %}
+{% block body %}
+  <script id="boot" type="application/json">{{ boot|safe }}</script>
+  <div id="app" class="app">
+    <aside class="sidebar" id="sidebar" aria-label="Menu principal"></aside>
+    <div class="main">
+      <header class="topbar" id="topbar"></header>
+      <main class="content" id="content" tabindex="-1"></main>
+    </div>
+  </div>
+  <div id="reader-root" hidden></div>
+  <noscript><p style="padding:24px">O {{ BRAND.name }} precisa de JavaScript ativado.</p></noscript>
+  <script type="module" src="{% static 'js/main.js' %}"></script>
+{% endblock %}

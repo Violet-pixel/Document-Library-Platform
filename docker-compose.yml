@@ -1,0 +1,123 @@
+name: lume
+
+x-app: &app
+  build:
+    context: .
+    dockerfile: web/Dockerfile
+  image: lume-web:1.0.0
+  restart: unless-stopped
+  init: true
+  environment: &app-env
+    APP_SECRET_KEY: ${APP_SECRET_KEY:?defina APP_SECRET_KEY no arquivo .env}
+    APP_ALLOWED_HOSTS: ${APP_ALLOWED_HOSTS:-localhost,127.0.0.1}
+    APP_CSRF_TRUSTED_ORIGINS: ${APP_CSRF_TRUSTED_ORIGINS:-}
+    APP_HTTPS: ${APP_HTTPS:-false}
+    APP_SEED_DEMO: ${APP_SEED_DEMO:-true}
+    APP_SIGNUP: ${APP_SIGNUP:-true}
+    APP_MAX_UPLOAD_MB: ${APP_MAX_UPLOAD_MB:-200}
+    APP_TIMEZONE: ${APP_TIMEZONE:-America/Sao_Paulo}
+    APP_LOG_LEVEL: ${APP_LOG_LEVEL:-INFO}
+    DB_HOST: postgres
+    DB_PORT: 5432
+    DB_NAME: ${DB_NAME:-lume}
+    DB_USER: ${DB_USER:-lume}
+    DB_PASSWORD: ${DB_PASSWORD:?defina DB_PASSWORD no arquivo .env}
+    REDIS_URL: redis://redis:6379/0
+    DATA_ROOT: /data
+    PROCESSOR_URL: http://processor:8090
+    AI_PROVIDER: ${AI_PROVIDER:-local}
+    AI_API_KEY: ${AI_API_KEY:-}
+    AI_MODEL: ${AI_MODEL:-}
+    AI_BASE_URL: ${AI_BASE_URL:-}
+  volumes:
+    - documents:/data
+  depends_on: &app-deps
+    postgres:
+      condition: service_healthy
+    redis:
+      condition: service_healthy
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${DB_USER:-lume}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:?defina DB_PASSWORD no arquivo .env}
+      POSTGRES_DB: ${DB_NAME:-lume}
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    ports:
+      - "127.0.0.1:${DB_PORT:-5432}:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 12
+
+  # Java 21 + PDFBox: lê PDF e DOCX, gera capa, texto, sumário e o HTML de leitura. Só acessível pela rede interna.
+  processor:
+    build: ./processor
+    image: lume-processor:1.0.0
+    restart: unless-stopped
+    environment:
+      PROCESSOR_CONCURRENCY: ${PROCESSOR_CONCURRENCY:-2}
+    volumes:
+      - documents:/data
+
+  # Páginas, API REST, WebSocket e arquivos estáticos. Aplica as migrações ao subir.
+  web:
+    <<: *app
+    ports:
+      - "${APP_PORT:-8080}:8000"
+    environment:
+      <<: *app-env
+      WEB_WORKERS: ${WEB_WORKERS:-2}
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/api/health', timeout=3)"]
+      interval: 10s
+      timeout: 5s
+      retries: 6
+      start_period: 20s
+
+  # Consome as filas: chama o processador Java e escreve a descrição por IA. Escale com --scale worker=N.
+  worker:
+    <<: *app
+    command: ["python", "manage.py", "worker"]
+    environment:
+      <<: *app-env
+      WORKER_THREADS: ${WORKER_THREADS:-2}
+    stop_grace_period: 60s
+    depends_on:
+      <<: *app-deps
+      web:
+        condition: service_healthy
+      processor:
+        condition: service_healthy
+
+  # Opcional: modelo de linguagem local. Suba com `docker compose --profile ia-local up -d`
+  # e use AI_PROVIDER=openai, AI_BASE_URL=http://ollama:11434/v1, AI_MODEL=<modelo baixado>.
+  ollama:
+    image: ollama/ollama:latest
+    profiles: ["ia-local"]
+    restart: unless-stopped
+    volumes:
+      - ollama-data:/root/.ollama
+
+volumes:
+  postgres-data:
+  redis-data:
+  documents:
+  ollama-data:
