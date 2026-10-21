@@ -255,6 +255,36 @@ docs/                manuais em PDF e imagens do README
 .github/workflows/   CI e atividade diária
 ```
 
+## Parceria
+
+O Lume é um projeto desenvolvido em parceria por Erik Pimenta ([@havelroot](https://github.com/havelroot)) e Clara Portes ([@Violet-pixel](https://github.com/Violet-pixel)).
+
+A ideia surgiu da vontade de ter um lugar único para organizar, ler e anotar documentos, sem depender de vários aplicativos diferentes. Desde o início, o projeto foi pensado e construído a quatro mãos: das decisões de arquitetura e do pipeline de ingestão até o design do leitor e a identidade visual.
+
+O repositório oficial fica nesta conta, em [Violet-pixel/Document-Library-Platform](https://github.com/Violet-pixel/Document-Library-Platform). A versão desktop, [Document-Library-Desktop](https://github.com/havelroot/Document-Library-Desktop), segue a mesma parceria e reaproveita a base da versão web.
+
+Sugestões, issues e pull requests são bem-vindos nos dois repositórios.
+
 ## Licença
 
-[MIT](LICENSE). pdf.js é Apache-2.0; os ícones vêm do Lucide (ISC); Public Sans e Literata usam a SIL Open Font License.
+Copyright (©) 2026 Clara A. Portes
+
+Este projeto é distribuído sob a licença [MIT](LICENSE). Você pode usar, copiar, modificar e redistribuir o código, inclusive para fins comerciais, desde que mantenha o aviso de copyright e o texto da licença.
+
+### Componentes de terceiros
+
+O Lume inclui ou depende de componentes com licenças próprias, que continuam valendo para cada um deles:
+
+| Componente | Uso no projeto | Licença |
+|---|---|---|
+| [pdf.js](https://github.com/mozilla/pdf.js) | Renderização de PDF no leitor | Apache-2.0 |
+| [Apache PDFBox](https://pdfbox.apache.org/) | Serviço Java de capas, texto e sumário | Apache-2.0 |
+| [Django](https://www.djangoproject.com/) | Back-end web | BSD-3-Clause |
+| [Lucide](https://lucide.dev/) | Ícones da interface | ISC |
+| [Public Sans](https://public-sans.digital.gov/) | Fonte da interface | SIL Open Font License 1.1 |
+| [Literata](https://github.com/googlefonts/literata) | Fonte de leitura | SIL Open Font License 1.1 |
+| [Pytest](https://pytest.org/) | Testes automatizados | MIT |
+
+PostgreSQL e Redis rodam como serviços externos via Docker e não são redistribuídos neste repositório; cada um segue a licença da sua própria imagem.
+
+Os documentos enviados pelos usuários (PDF e DOCX) pertencem aos seus respectivos autores e não são cobertos por esta licença.
