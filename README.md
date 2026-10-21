@@ -288,3 +288,8 @@ O Lume inclui ou depende de componentes com licenças próprias, que continuam v
 PostgreSQL e Redis rodam como serviços externos via Docker e não são redistribuídos neste repositório; cada um segue a licença da sua própria imagem.
 
 Os documentos enviados pelos usuários (PDF e DOCX) pertencem aos seus respectivos autores e não são cobertos por esta licença.
+
+## Contribuidores
+
+- Clara Portes ([@Violet-pixel](https://github.com/Violet-pixel))
+- Erik Pimenta ([@havelroot](https://github.com/havelroot))
