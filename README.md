@@ -255,6 +255,12 @@ docs/                manuais em PDF e imagens do README
 .github/workflows/   CI e atividade diária
 ```
 
+### Como contribuir
+
+1. Abra uma issue descrevendo a ideia ou o problema.
+2. Crie uma branch a partir da `main` e envie um pull request.
+3. Quando a mudança for feita em dupla, inclua a linha `Co-authored-by:` no commit para que as duas pessoas recebam o crédito.
+
 ## Parceria
 
 O Lume é um projeto desenvolvido em parceria por Erik Pimenta ([@havelroot](https://github.com/havelroot)) e Clara Portes ([@Violet-pixel](https://github.com/Violet-pixel)).
