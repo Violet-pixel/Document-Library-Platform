@@ -2,7 +2,7 @@ import { api } from "../api.js";
 import { progressOf, sourceLabel } from "../components/card.js";
 import { on } from "../realtime.js";
 import { refreshCollections, store } from "../store.js";
-import { SHELVES, avatar, clear, confirmDialog, cover, errorMessage, fmt, formDialog, h, icon, menu, toast, fill } from "../ui.js";
+import { SHELVES, avatar, callNumber, clear, confirmDialog, cover, dateStamp, errorMessage, fmt, formDialog, h, icon, menu, toast, fill } from "../ui.js";
 
 export async function mount({ root, params, navigate }) {
   let doc = await api(`documents/${params.id}`);
@@ -126,7 +126,7 @@ export async function mount({ root, params, navigate }) {
       h("div", { style: { viewTransitionName: "doc-cover" } }, cover(doc)),
       progress > 0 ? h("div", h("div.bar", h("i", { style: { width: `${progress * 100}%` } })),
         h("p.muted", { style: { fontSize: "12.5px", marginTop: "6px" } },
-          progress >= 1 ? "Leitura concluída" : doc.kind === "pdf" && doc.page_count ? `Página ${reading.page} de ${doc.page_count} · ${Math.round(progress * 100)}%` : `${Math.round(progress * 100)}% lido`)) : null,
+          progress >= 1 ? "Leitura concluída" : doc.kind === "pdf" && doc.page_count ? `Página ${reading.page} de ${doc.page_count}, ${Math.round(progress * 100)}%` : `${Math.round(progress * 100)}% lido`)) : null,
       h("div.actions",
         h("a.btn.primary", { href: `/ler/${doc.id}`, "aria-disabled": ready ? null : "true" }, icon("book", "sm"), progress > 0 && progress < 1 ? "Continuar lendo" : "Ler agora"),
         h("a.btn.icon", { href: `${doc.file_url}?download=1`, download: "", "aria-label": "Baixar o arquivo original", title: "Baixar o arquivo original" }, icon("download")),
@@ -159,21 +159,24 @@ export async function mount({ root, params, navigate }) {
       h("div.detail",
         aside,
         h("article",
-          h("h1", doc.title),
-          doc.author ? h("p.by", doc.author) : null,
-          h("div.facts", facts.map(([i, t]) => h("span", i, t))),
+          h("header.ficha",
+            h("div.call", { "aria-label": "Número de chamada" }, callNumber(doc).map((part) => h("span", part))),
+            dateStamp(doc.created_at),
+            h("h1", doc.title),
+            doc.author ? h("p.by", doc.author) : null,
+            h("div.facts", facts.map(([i, t]) => h("span", i, t)))),
           doc.status === "failed" ? h("div.notice", { style: { marginTop: "18px" } }, icon("alert"), h("div", h("strong", "Não foi possível ler este arquivo. "), doc.status_detail || "")) : null,
           processing ? h("div.notice.info", { style: { marginTop: "18px" } }, h("span.spinner"), h("div", h("strong", `${doc.status_label}… `), "Esta página se atualiza sozinha quando terminar.")) : null,
 
           h("section.block",
-            h("h2", icon("sparkles", "sm"), "Descrição por IA",
+            h("h2", icon("note", "sm"), "Descrição por IA",
               owner && ready ? h("button.btn.ghost.sm", { onclick: async () => {
                 await api(`documents/${doc.id}/describe`, { method: "POST" });
                 toast("Gerando a descrição de novo");
                 reload();
               } }, icon("refresh", "sm"), "Gerar de novo") : null),
             h(`div.ai-box${doc.summary ? "" : ".pending"}`,
-              h("div.label", icon("sparkles"), sourceLabel(doc) || "Aguardando", doc.summary_at ? h("span", fmt.ago(doc.summary_at)) : null),
+              h("div.label", icon("note"), sourceLabel(doc) || "Aguardando", doc.summary_at ? h("span", fmt.ago(doc.summary_at)) : null),
               h("p", doc.summary || (processing ? "A descrição aparece aqui assim que o documento terminar de ser lido." : "Sem descrição.")))),
 
           doc.description ? h("section.block", h("h2", "Sua descrição"), h("p", { style: { whiteSpace: "pre-line" } }, doc.description)) : null,
@@ -181,7 +184,7 @@ export async function mount({ root, params, navigate }) {
           h("section.block",
             h("h2", "Etiquetas", owner ? h("button.btn.ghost.sm", { onclick: editTags }, icon("pencil", "sm"), "Editar") : null),
             doc.tags.length
-              ? h("div.chips", doc.tags.map((t) => h(`a.tag${t.source === "ia" ? ".ai" : ""}`, { href: `/?tag=${t.slug}`, title: t.source === "ia" ? "Sugerida pela IA" : "Escolhida por você" }, t.source === "ia" ? icon("sparkles", "sm") : null, t.name)))
+              ? h("div.chips", doc.tags.map((t) => h(`a.tag${t.source === "ia" ? ".ai" : ""}`, { href: `/?tag=${t.slug}`, title: t.source === "ia" ? "Sugerida pela IA" : "Escolhida por você" }, t.name)))
               : h("p.muted", "Nenhuma etiqueta.")),
 
           h("section.block", h("h2", "Minha leitura"),

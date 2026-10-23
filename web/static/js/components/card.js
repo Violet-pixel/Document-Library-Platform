@@ -1,12 +1,12 @@
 import { api } from "../api.js";
-import { SHELVES, avatar, clear, cover, errorMessage, fmt, h, icon, toast, fill } from "../ui.js";
+import { SHELVES, avatar, callNumber, clear, cover, errorMessage, fmt, h, icon, toast, fill } from "../ui.js";
 
 const SOURCES = { local: "Resumo automático", anthropic: "Claude", openai: "Modelo compatível com OpenAI" };
 
 export function sourceLabel(doc) {
   if (!doc.summary_source) return "";
   if (doc.summary_source === "openai" && doc.summary_model) return doc.summary_model;
-  if (doc.summary_source === "anthropic" && doc.summary_model) return `Claude · ${doc.summary_model}`;
+  if (doc.summary_source === "anthropic" && doc.summary_model) return `Claude (${doc.summary_model})`;
   return SOURCES[doc.summary_source] || doc.summary_source;
 }
 
@@ -46,13 +46,13 @@ function fillPreview(doc) {
   const ready = doc.status === "ready" || (doc.summary && doc.status !== "failed");
   fill(preview, 
     h("div.arrow"),
-    h("div.kicker", h(`span.badge.${doc.kind}`, doc.kind), doc.page_count ? `${fmt.n(doc.page_count)} páginas` : null,
-      doc.size_bytes ? h("span", `· ${fmt.bytes(doc.size_bytes)}`) : null,
+    h("div.kicker", h("span.call-inline", callNumber(doc).join(" ")), doc.page_count ? h("span", `${fmt.n(doc.page_count)} págs.`) : null,
+      doc.size_bytes ? h("span", fmt.bytes(doc.size_bytes)) : null,
       shelf ? h("span", { style: { marginLeft: "auto" } }, SHELVES[shelf]) : null),
     h("h3", doc.title),
     doc.author ? h("div.by", doc.author) : null,
     h(`div.ai-box${ready ? "" : ".pending"}`,
-      h("div.label", icon("sparkles"), "Descrição por IA", ready ? h("span", sourceLabel(doc)) : null),
+      h("div.label", icon("note"), "Descrição por IA", ready ? h("span", sourceLabel(doc)) : null),
       h("p", ready ? doc.summary || "Sem texto suficiente para descrever." : doc.status === "failed"
         ? doc.status_detail || "O arquivo não pôde ser lido."
         : "A descrição aparece aqui assim que o documento terminar de ser lido.")),

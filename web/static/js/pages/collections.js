@@ -34,7 +34,7 @@ export async function mount({ root, navigate }) {
           return h("div", { style: { "--cover-color": cover?.color || "var(--surface-3)", visibility: cover || i === 0 ? "visible" : "hidden" } },
             cover?.url ? h("img", { src: cover.url, alt: "", loading: "lazy" }) : null);
         }))),
-        h("div", h("h3", c.name), h("p", `${fmt.n(c.document_count)} ${c.document_count === 1 ? "documento" : "documentos"}${c.description ? ` · ${c.description}` : ""}`)))),
+        h("div", h("h3", c.name), h("p", `${fmt.n(c.document_count)} ${c.document_count === 1 ? "documento" : "documentos"}`), c.description ? h("p", c.description) : null))),
       h("button.collection-tile.new-tile", { type: "button", onclick: create, style: { border: 0, background: "none", padding: 0, textAlign: "left" } },
         h("div.mosaic", h("div", { style: { display: "grid", justifyItems: "center", gap: "8px" } }, icon("folder-plus", "lg"), "Nova coleção")),
         h("div", h("h3", "Criar coleção"), h("p", "Junte documentos relacionados"))),

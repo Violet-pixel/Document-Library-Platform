@@ -9,7 +9,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 BRAND = {
     "name": "Lume",
     "tagline": "Biblioteca de documentos",
-    "version": "1.0.0",
+    "version": "1.1.0",
 }
 
 SECRET_KEY = env("APP_SECRET_KEY", "dev-inseguro-troque-no-arquivo-env")

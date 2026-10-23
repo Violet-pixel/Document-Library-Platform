@@ -113,7 +113,7 @@ export async function mount({ root, params, query, navigate }) {
   focusBtn.addEventListener("click", () => toggleFocus());
   function toggleFocus() {
     reader.classList.toggle("focus");
-    if (reader.classList.contains("focus")) toast("Modo foco · F ou Esc para sair");
+    if (reader.classList.contains("focus")) toast("Modo foco ligado. F ou Esc para sair");
     afterLayout();
   }
 
@@ -284,8 +284,8 @@ export async function mount({ root, params, query, navigate }) {
     const pct = Math.round(state.progress * 100);
     progressBar.style.width = `${pct}%`;
     const count = annotations.length;
-    footerRight.textContent = `${pct}% lido${count ? ` · ${count} ${count === 1 ? "anotação" : "anotações"}` : ""}`;
-    footerText.textContent = doc.kind === "pdf" ? `Página ${state.page} de ${state.pages}` : doc.word_count ? `${fmt.n(doc.word_count)} palavras · ${Math.max(1, Math.round(doc.word_count / 230))} min de leitura` : "";
+    footerRight.textContent = `${pct}% lido${count ? `, ${count} ${count === 1 ? "anotação" : "anotações"}` : ""}`;
+    footerText.textContent = doc.kind === "pdf" ? `Página ${state.page} de ${state.pages}` : doc.word_count ? `${fmt.n(doc.word_count)} palavras, cerca de ${Math.max(1, Math.round(doc.word_count / 230))} min de leitura` : "";
   }
 
   /* ---------- Motor de cada formato ---------- */
