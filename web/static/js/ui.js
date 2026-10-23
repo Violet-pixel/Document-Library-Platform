@@ -104,40 +104,13 @@ export const fmt = {
   },
   pages(doc) {
     if (!doc.page_count) return doc.kind.toUpperCase();
-    return `${doc.kind.toUpperCase()}, ${fmt.n(doc.page_count)} ${doc.page_count === 1 ? "pág." : "págs."}`;
+    return `${doc.kind.toUpperCase()} · ${fmt.n(doc.page_count)} ${doc.page_count === 1 ? "pág." : "págs."}`;
   },
   lang(code) {
     const map = { pt: "Português", "pt-br": "Português", en: "Inglês", "en-us": "Inglês", es: "Espanhol" };
     return map[(code || "").toLowerCase()] || code || "—";
   },
 };
-
-/* ---------- Ficha catalográfica ---------- */
-function hash(text, mod) {
-  let n = 7;
-  for (const c of String(text || "")) n = (n * 31 + c.charCodeAt(0)) % 100003;
-  return n % mod;
-}
-
-/** Número de chamada da ficha: formato, classe de três dígitos e código de autor no estilo Cutter. */
-export function callNumber(doc) {
-  const who = (doc.author || doc.original_name || doc.title || "").trim();
-  const surname = who.split(/[\s,]+/).filter(Boolean).at(-1) || "X";
-  const initial = surname.normalize("NFD").replace(/[^A-Za-z]/g, "").charAt(0).toUpperCase() || "X";
-  const titleInitial = (doc.title || "").normalize("NFD").replace(/[^A-Za-z]/g, "").charAt(0).toLowerCase() || "x";
-  const cls = String(hash(doc.title, 1000)).padStart(3, "0");
-  const cutter = `${initial}${String(100 + hash(who, 900))}${titleInitial}`;
-  return [doc.kind ? doc.kind.toUpperCase() : "DOC", cls, cutter];
-}
-
-/** Carimbo de data de entrada da ficha. */
-export function dateStamp(value, label = "entrada") {
-  if (!value) return null;
-  const d = new Date(value);
-  const day = String(d.getDate()).padStart(2, "0");
-  const month = d.toLocaleDateString("pt-BR", { month: "short" }).replace(".", "");
-  return h("div.stamp", { title: `Adicionado em ${fmt.date(value)}` }, h("small", label), `${day} ${month} ${d.getFullYear()}`);
-}
 
 export const SHELVES = { para_ler: "Quero ler", lendo: "Lendo", lido: "Lido" };
 export const STAGES = {

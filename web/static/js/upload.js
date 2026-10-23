@@ -33,7 +33,7 @@ export function pickFiles() {
 function initDropzone() {
   const zone = h("div.dropzone", { "aria-hidden": "true" },
     h("div.box", h("div.art", icon("file-up")), h("h2", "Solte para adicionar à biblioteca"),
-      h("p", `PDF ou DOCX, até ${store.maxUploadMb} MB cada. O Lume gera a capa e a descrição logo depois do envio.`)));
+      h("p", `PDF ou DOCX, até ${store.maxUploadMb} MB cada. A capa e a descrição ficam prontas em instantes.`)));
   document.body.append(zone);
   let depth = 0;
   const hasFiles = (e) => [...(e.dataTransfer?.types || [])].includes("Files");
@@ -126,7 +126,7 @@ function track(id, status) {
 }
 
 function stageText(item) {
-  if (item.status === "uploading") return item.progress < 1 ? `Enviando ${Math.round(item.progress * 100)}% de ${fmt.bytes(item.file.size)}` : "Recebido, entrando na fila";
+  if (item.status === "uploading") return item.progress < 1 ? `Enviando · ${Math.round(item.progress * 100)}% de ${fmt.bytes(item.file.size)}` : "Recebido, entrando na fila";
   if (item.status === "duplicate") return "Já estava na sua biblioteca";
   if (item.status === "error") return item.message;
   if (item.status === "failed") return item.message || "Não foi possível ler o arquivo";

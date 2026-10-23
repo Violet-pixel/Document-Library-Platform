@@ -31,13 +31,13 @@ export async function mount({ root }) {
     const q = data.queues;
 
     const services = h("div.panel", h("div.panel-head", h("h2", "Serviços")), h("div.panel-body", { style: { paddingTop: "4px", paddingBottom: "4px" } },
-      service("cpu", "Processador Java", proc.online ? `Versão ${proc.version}, PDFBox ${proc.pdfbox}. ${proc.busy} de ${proc.capacity} ocupados, média de ${fmt.ms(proc.avg_ms)}` : proc.error || "Sem resposta",
+      service("cpu", "Processador Java", proc.online ? `v${proc.version} · PDFBox ${proc.pdfbox} · ${proc.busy}/${proc.capacity} ocupados · média ${fmt.ms(proc.avg_ms)}` : proc.error || "Sem resposta",
         h(`span.status-pill.${proc.online ? "ok" : "err"}`, proc.online ? "Online" : "Fora do ar")),
-      service("server", "Workers do pipeline", workers.length ? workers.map((w) => `${w.name.split("-")[0]}: ${w.busy} de ${w.threads}`).join(", ") : "Nenhum worker ativo",
+      service("server", "Workers do pipeline", workers.length ? workers.map((w) => `${w.name.split("-")[0]}: ${w.busy}/${w.threads}`).join(" · ") : "Nenhum worker ativo",
         h(`span.status-pill.${workers.length ? "ok" : "err"}`, `${workers.length} online`)),
-      service("layers", "Filas (Redis Streams)", `Leitura: ${q.extract.waiting ?? 0} na fila, ${q.extract.pending} em andamento. Descrição: ${q.describe.waiting ?? 0} na fila, ${q.describe.pending} em andamento. ${q.delayed} aguardando nova tentativa.`,
+      service("layers", "Filas (Redis Streams)", `Leitura: ${q.extract.waiting ?? 0} na fila, ${q.extract.pending} em andamento · Descrição: ${q.describe.waiting ?? 0} na fila, ${q.describe.pending} em andamento · ${q.delayed} aguardando nova tentativa`,
         h(`span.status-pill.${q.delayed || q.extract.pending + q.describe.pending > 0 ? "warn" : "ok"}`, processing ? `${processing} processando` : "Em dia")),
-      service("note", "Descrição por IA", [ai.label, ai.model, ai.base_url].filter(Boolean).join(", "),
+      service("sparkles", "Descrição por IA", `${ai.label}${ai.model ? ` · ${ai.model}` : ""}${ai.base_url ? ` · ${ai.base_url}` : ""}`,
         h(`span.status-pill.${ai.configured ? "ok" : "err"}`, ai.configured ? "Configurado" : "Falta configurar")),
     ));
 
@@ -72,8 +72,8 @@ export async function mount({ root }) {
         kpi("Documentos", fmt.n(data.storage.count), fmt.bytes(data.storage.bytes)),
         kpi("Prontos", fmt.n(docs.ready), `${fmt.n(processing)} processando`),
         kpi("Com erro", fmt.n(docs.failed), docs.failed ? "veja abaixo" : "nenhum"),
-        kpi("Etapas em 24 h", fmt.n(day.succeeded), `${fmt.n(day.failed)} ${day.failed === 1 ? "falha" : "falhas"}, ${fmt.n(day.retried)} ${day.retried === 1 ? "nova tentativa" : "novas tentativas"}`),
-        kpi("Leitura do arquivo", fmt.ms(day.extract_ms), `média; descrição em ${fmt.ms(day.describe_ms)}`)),
+        kpi("Etapas em 24 h", fmt.n(day.succeeded), `${fmt.n(day.failed)} falhas · ${fmt.n(day.retried)} novas tentativas`),
+        kpi("Leitura do arquivo", fmt.ms(day.extract_ms), `tempo médio · descrição em ${fmt.ms(day.describe_ms)}`)),
       h("div.two-col", services, usersPanel),
       failures,
       jobs,

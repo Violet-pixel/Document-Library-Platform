@@ -70,7 +70,7 @@ export async function mount({ root, props, params, navigate }) {
         ]) }, icon("more")));
       head.append(h("a.back", { href: "/colecoes" }, icon("arrow-left", "sm"), "Coleções"),
         h("div.page-head", h("div", h("h1", collection.name),
-          h("p", collection.description || `${fmt.n(collection.document_count)} ${collection.document_count === 1 ? "documento" : "documentos"}. Arraste os cartões para mudar a ordem.`)), actions));
+          h("p", collection.description || `${fmt.n(collection.document_count)} ${collection.document_count === 1 ? "documento" : "documentos"} · arraste os cartões para mudar a ordem`)), actions));
     } else if (scope === "shared") {
       head.append(h("div.page-head", h("div", h("h1", "Compartilhados"),
         h("p", "Documentos que outras pessoas desta instalação deixaram visíveis para todos."))));
