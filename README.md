@@ -263,7 +263,7 @@ docs/                manuais em PDF e imagens do README
 
 ## Parceria
 
-O Lume é um projeto desenvolvido em parceria por Erik Pimenta ([@havelroot](https://github.com/havelroot)) e Clara Portes ([@Violet-pixel](https://github.com/Violet-pixel)).
+Projeto desenvolvido em parceria com meu parceiro de projetos e de vida Erik Pimenta (@ravelroot).
 
 A ideia surgiu da vontade de ter um lugar único para organizar, ler e anotar documentos, sem depender de vários aplicativos diferentes. Desde o início, o projeto foi pensado e construído a quatro mãos: das decisões de arquitetura e do pipeline de ingestão até o design do leitor e a identidade visual.
 
