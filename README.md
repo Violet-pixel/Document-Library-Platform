@@ -355,11 +355,7 @@ Repositório: [havelroot/Document-Library-Desktop](https://github.com/havelroot/
 
 Projeto desenvolvido em parceria com meu parceiro de projetos e de vida Erik Pimenta (@ravelroot).
 
-A ideia surgiu da vontade de ter um lugar único para organizar, ler e anotar documentos, sem depender de vários aplicativos diferentes. Desde o início, o projeto foi pensado e construído a quatro mãos: das decisões de arquitetura e do pipeline de ingestão até o design do leitor e a identidade visual.
-
-O repositório oficial fica nesta conta, em [Violet-pixel/Document-Library-Platform](https://github.com/Violet-pixel/Document-Library-Platform). A versão desktop, [Document-Library-Desktop](https://github.com/havelroot/Document-Library-Desktop), segue a mesma parceria e reaproveita a base da versão web.
-
-Sugestões, issues e pull requests são bem-vindos nos dois repositórios.
+O repositório oficial fica em [Violet-pixel/Document-Library-Platform](https://github.com/Violet-pixel/Document-Library-Platform). A versão desktop, [Document-Library-Desktop](https://github.com/ravelroot/Document-Library-Desktop), segue a mesma parceria e reaproveita a base da versão web.
 
 ### Componentes de terceiros
 
