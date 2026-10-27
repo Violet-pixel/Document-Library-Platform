@@ -1,0 +1,1046 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Lume — Manual técnico</title>
+<meta name="author" content="Clara A. Portes">
+<meta name="description" content="Manual técnico do Lume, biblioteca web de PDF e DOCX">
+<meta name="dcterms.created" content="2026-10-26">
+<link rel="stylesheet" href="base.css">
+<link rel="stylesheet" href="manual.css">
+</head>
+<body>
+<span class="doc-title">Manual técnico</span><span class="doc-version">versão 1.1.0 · outubro de 2026</span>
+
+<!-- ===================== CAPA ===================== -->
+<div class="cover">
+  <div class="spine"><span>Lume · manual técnico · 1.1.0</span></div>
+  <div class="top"><span>Lume · DOC-01 · v1.1.0</span><span>Manual técnico</span></div>
+  <div class="rule"></div>
+  <div class="mark"><svg viewBox="0 0 64 64"><path fill="#1E252C" fill-rule="evenodd" d="M18 6H46A6 6 0 0 1 52 12V52A6 6 0 0 1 46 58H18A6 6 0 0 1 12 52V12A6 6 0 0 1 18 6ZM32 14.5C33.1 23.6 36.4 26.9 45.5 28C36.4 29.1 33.1 32.4 32 41.5C30.9 32.4 27.6 29.1 18.5 28C27.6 26.9 30.9 23.6 32 14.5ZM22 47.5A2 2 0 0 1 24 45.5H40A2 2 0 0 1 42 47.5V49.5A2 2 0 0 1 40 51.5H24A2 2 0 0 1 22 49.5Z"/></svg></div>
+  <h1>Lume</h1>
+  <div class="sub">Manual técnico do projeto</div>
+  <div class="desc">Biblioteca web para organizar e ler PDF e DOCX, com capas automáticas, descrição por IA, busca em texto completo e leitor próprio com anotações.</div>
+
+  <div class="card">
+    <div class="card-id"><span>Ficha DOC-01</span><span>004.4 · LUM</span></div>
+    <dl>
+      <div class="row"><dt>Assunto</dt><dd>Instalação, uso, arquitetura, API e operação</dd></div>
+      <div class="row"><dt>Plataforma</dt><dd>Django · Python · Java 21 · PostgreSQL · Redis</dd></div>
+      <div class="row"><dt>Interface</dt><dd>JavaScript sem etapa de build · pdf.js</dd></div>
+      <div class="row"><dt>Edição</dt><dd>Versão 1.1.0 · outubro de 2026</dd></div>
+      <div class="row"><dt>Licença</dt><dd>MIT</dd></div>
+    </dl>
+    <div class="hole"></div>
+  </div>
+
+  <div class="labels">
+    <div style="background:#F4F1DE;border:0.6pt solid #C9BFA8"><b>Creme</b>#F4F1DE</div>
+    <div style="background:#B0A08C"><b>Camurça</b>#B0A08C</div>
+    <div style="background:#B8C9A9"><b>Sálvia</b>#B8C9A9</div>
+    <div style="background:#8395A7"><b>Ardósia</b>#8395A7</div>
+    <div style="background:#D8A7B1"><b>Rosé</b>#D8A7B1</div>
+  </div>
+
+  <div class="foot">
+    <div><div class="author">Clara A. Portes</div>Copyright © 2026 Clara A. Portes</div>
+    <div class="mono">Outubro de 2026<br>Rio de Janeiro · pt-BR</div>
+  </div>
+</div>
+
+<!-- ===================== SUMÁRIO ===================== -->
+<div class="toc-page">
+  <div class="toc-head"><span class="eyebrow">Índice</span><h2>Sumário</h2></div>
+  <nav class="toc"><ol>
+    <li class="ch"><a href="#ch-rapida"><span class="n">01</span>Visão rápida</a></li>
+    <li class="ch"><a href="#ch-geral"><span class="n">02</span>Visão geral</a></li>
+    <li class="sub"><a href="#s-para-que">Para que serve</a></li>
+    <li class="sub"><a href="#s-faz">Funcionalidades</a></li>
+    <li class="sub"><a href="#s-tecnologias">Tecnologias</a></li>
+    <li class="sub"><a href="#s-identidade">Identidade visual</a></li>
+    <li class="ch"><a href="#ch-instalacao"><span class="n">03</span>Instalação e execução</a></li>
+    <li class="sub"><a href="#s-requisitos">Requisitos</a></li>
+    <li class="sub"><a href="#s-primeira">Primeira execução</a></li>
+    <li class="sub"><a href="#s-demo">Contas de demonstração</a></li>
+    <li class="sub"><a href="#s-comandos">Comandos do dia a dia</a></li>
+    <li class="sub"><a href="#s-producao">Instalação para uso real</a></li>
+    <li class="sub"><a href="#s-sem-docker">Execução sem Docker</a></li>
+    <li class="sub"><a href="#s-rede">Acesso pela rede e HTTPS</a></li>
+    <li class="ch"><a href="#ch-telas"><span class="n">04</span>Guia das telas</a></li>
+    <li class="sub"><a href="#s-entrada">Entrada</a></li>
+    <li class="sub"><a href="#s-biblioteca">Biblioteca</a></li>
+    <li class="sub"><a href="#s-envio">Envio de documentos</a></li>
+    <li class="sub"><a href="#s-busca">Busca</a></li>
+    <li class="sub"><a href="#s-detalhe">Detalhe do documento</a></li>
+    <li class="sub"><a href="#s-leitor-pdf">Leitor de PDF</a></li>
+    <li class="sub"><a href="#s-leitor-docx">Leitor de DOCX</a></li>
+    <li class="sub"><a href="#s-estantes">Estantes</a></li>
+    <li class="sub"><a href="#s-colecoes">Coleções e compartilhados</a></li>
+    <li class="sub"><a href="#s-sistema">Sistema</a></li>
+    <li class="sub"><a href="#s-conta">Minha conta</a></li>
+    <li class="sub"><a href="#s-escuro">Tema escuro e celular</a></li>
+    <li class="ch"><a href="#ch-teclado"><span class="n">05</span>Teclado e acessibilidade</a></li>
+    <li class="sub"><a href="#s-atalhos">Atalhos de teclado</a></li>
+    <li class="sub"><a href="#s-acessibilidade">Acessibilidade</a></li>
+    <li class="ch"><a href="#ch-ia"><span class="n">06</span>Descrição por IA</a></li>
+    <li class="sub"><a href="#s-provedores">Provedores</a></li>
+    <li class="sub"><a href="#s-enviado">Dados enviados ao provedor</a></li>
+    <li class="sub"><a href="#s-falha">Falhas do provedor</a></li>
+    <li class="ch"><a href="#ch-arq"><span class="n">07</span>Arquitetura</a></li>
+    <li class="sub"><a href="#s-servicos">Serviços</a></li>
+    <li class="sub"><a href="#s-caminho">O caminho de um documento</a></li>
+    <li class="sub"><a href="#s-filas">Filas, retentativas e recuperação</a></li>
+    <li class="sub"><a href="#s-seguranca">Segurança</a></li>
+    <li class="sub"><a href="#s-pastas">Estrutura de pastas</a></li>
+    <li class="ch"><a href="#ch-api"><span class="n">08</span>API REST</a></li>
+    <li class="sub"><a href="#s-auth">Autenticação</a></li>
+    <li class="sub"><a href="#s-rotas">Rotas principais</a></li>
+    <li class="sub"><a href="#s-exemplos">Exemplos</a></li>
+    <li class="sub"><a href="#s-erros">Erros</a></li>
+    <li class="ch"><a href="#ch-config"><span class="n">09</span>Configuração</a></li>
+    <li class="sub"><a href="#s-cfg-app">Aplicação</a></li>
+    <li class="sub"><a href="#s-cfg-dados">Banco, Redis e arquivos</a></li>
+    <li class="sub"><a href="#s-cfg-pipeline">Pipeline e IA</a></li>
+    <li class="sub"><a href="#s-cfg-java">Processador Java</a></li>
+    <li class="sub"><a href="#s-checklist">Checklist para produção</a></li>
+    <li class="ch"><a href="#ch-testes"><span class="n">10</span>Testes e automação</a></li>
+    <li class="sub"><a href="#s-pytest">Pytest</a></li>
+    <li class="sub"><a href="#s-ci">Integração contínua</a></li>
+    <li class="sub"><a href="#s-diario">Atividade diária</a></li>
+    <li class="ch"><a href="#ch-problemas"><span class="n">11</span>Solução de problemas</a></li>
+    <li class="ch"><a href="#ch-ref"><span class="n">12</span>Referência</a></li>
+    <li class="sub"><a href="#s-glossario">Glossário</a></li>
+    <li class="sub"><a href="#s-terceiros">Componentes de terceiros</a></li>
+    <li class="sub"><a href="#s-versoes">Histórico de versões</a></li>
+  </ol></nav>
+  <p class="toc-note">Convenções: <code>código</code> indica comandos, variáveis e rotas; <kbd>Tecla</kbd> indica atalhos de teclado; nomes em <strong>negrito</strong> são botões e rótulos da interface.</p>
+</div>
+
+<!-- ===================== 01 VISÃO RÁPIDA ===================== -->
+<section class="chapter" id="ch-rapida">
+  <div class="chapter-head">
+    <div class="num">Capítulo 01</div>
+    <h2>Visão rápida</h2>
+    <p class="lede">O Lume em uma página: o que é, para quem foi feito e como as peças se encaixam.</p>
+  </div>
+  <div class="quick">
+    <div class="q l">
+      <div class="eyebrow">O que é</div>
+      <p>Uma biblioteca digital auto-hospedada para PDF e DOCX. Cada arquivo enviado recebe capa, texto indexado, sumário, descrição e etiquetas geradas por IA, e abre em um leitor próprio que guarda a posição de leitura, os destaques e as notas de cada pessoa.</p>
+    </div>
+    <div class="q">
+      <div class="eyebrow">Para quem</div>
+      <ul>
+        <li>Equipes que precisam reunir apostilas, manuais, relatórios, contratos e atas em um só lugar.</li>
+        <li>Quem quer uma estante pessoal de leitura no próprio computador ou servidor.</li>
+        <li>Desenvolvedores que desejam estudar ou adaptar uma aplicação Django com processamento assíncrono.</li>
+      </ul>
+    </div>
+    <div class="q wide">
+      <div class="eyebrow">Do envio à leitura</div>
+      <div class="flow">
+        <div><b>01 · Envio</b>Arraste PDF ou DOCX para a janela. Repetidos são reconhecidos pelo SHA-256.</div>
+        <div><b>02 · Leitura</b>O processador Java extrai texto, sumário e metadados e gera a capa.</div>
+        <div class="ai"><b>03 · Descrição</b>O worker escreve a descrição e sugere até quatro etiquetas.</div>
+        <div><b>04 · Pronto</b>O cartão se atualiza sozinho por WebSocket em todas as abas abertas.</div>
+        <div><b>05 · Leitor</b>Leia, destaque, anote e continue de onde parou.</div>
+      </div>
+    </div>
+    <div class="q l">
+      <div class="eyebrow">Como começar</div>
+      <p>Com Docker instalado, execute <code>iniciar.cmd</code> (Windows) ou <code>./iniciar.sh</code> (Linux e macOS). O navegador abre em <code>http://localhost:8080</code>; entre com <code>admin@lume.dev</code> e a senha <code>Lume@2026</code>.</p>
+      <p>Detalhes no <a href="#ch-instalacao">capítulo 03</a>.</p>
+    </div>
+    <div class="q">
+      <div class="eyebrow">Peças do sistema</div>
+      <table class="compact" style="margin:0">
+        <tr><td><strong>web</strong></td><td>Django: páginas, API REST e WebSocket</td></tr>
+        <tr><td><strong>worker</strong></td><td>Python: pipeline e descrição por IA</td></tr>
+        <tr><td><strong>processor</strong></td><td>Java 21 com PDFBox: capas, texto e HTML</td></tr>
+        <tr><td><strong>postgres</strong></td><td>Fonte da verdade e busca em texto</td></tr>
+        <tr><td><strong>redis</strong></td><td>Filas, eventos, cache e sessões</td></tr>
+      </table>
+    </div>
+    <div class="q l">
+      <div class="eyebrow">Destaques</div>
+      <ul>
+        <li>Busca sem acentos, com radicais e tolerância a erros no título.</li>
+        <li>Estantes Quero ler, Lendo e Lidos; coleções com ordem própria.</li>
+        <li>Temas Papel, Sépia e Noite no leitor; tema claro e escuro na interface.</li>
+      </ul>
+    </div>
+    <div class="q">
+      <div class="eyebrow">Privacidade</div>
+      <p>Por padrão, a descrição é feita por um resumo extrativo local: nenhum trecho sai do servidor. Provedores externos (Claude ou APIs compatíveis com OpenAI) são opcionais. Cada documento é privado até que o dono o compartilhe com todos.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 02 VISÃO GERAL ===================== -->
+<section class="chapter" id="ch-geral">
+  <div class="chapter-head">
+    <div class="num">Capítulo 02</div>
+    <h2>Visão geral</h2>
+    <p class="lede">O Lume é uma plataforma web para organizar e ler documentos PDF e DOCX. Basta arrastar os arquivos para a janela: em poucos segundos, cada um ganha capa, descrição escrita por IA, sumário e um leitor que guarda a página onde você parou.</p>
+  </div>
+
+  <h3 id="s-para-que">Para que serve</h3>
+  <p>O Lume funciona como uma estante digital, no estilo do Scribd, instalada no seu computador ou no servidor da sua equipe. Apostilas, manuais internos, relatórios, contratos, livros técnicos e atas ficam reunidos em um só lugar, com busca no texto completo e um modelo de permissão simples: cada documento é privado ou fica visível, apenas para leitura, a todas as contas da instalação. O projeto pode ser usado como está, estudado ou adaptado.</p>
+
+  <h3 id="s-faz">Funcionalidades</h3>
+  <table>
+    <thead><tr><th style="width:28%">Recurso</th><th>Descrição</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Envio por arrastar e soltar</strong></td><td>Vários arquivos de uma vez, com barra de progresso e a etapa de cada um em tempo real. Arquivos repetidos são reconhecidos pela impressão digital (SHA-256) e não ocupam espaço novamente.</td></tr>
+      <tr><td><strong>Capas automáticas</strong></td><td>No PDF, a capa é a primeira página renderizada (ou a segunda ou terceira, se a primeira estiver em branco). O DOCX recebe uma capa tipográfica com a paleta do projeto.</td></tr>
+      <tr><td><strong>Prévia com descrição por IA</strong></td><td>Ao parar o mouse sobre uma capa, uma prévia abre ao lado do cartão com a descrição, as etiquetas sugeridas e os botões de leitura.</td></tr>
+      <tr><td><strong>Leitor próprio</strong></td><td>PDF com pdf.js (zoom, miniaturas, sumário, busca, temas Papel, Sépia e Noite, modo foco) e DOCX convertido em HTML de leitura confortável. Destaques coloridos, notas e marcadores ficam salvos por pessoa.</td></tr>
+      <tr><td><strong>Estantes, coleções e favoritos</strong></td><td>Estantes Quero ler, Lendo e Lidos com arrastar e soltar; coleções com ordem própria; favoritos marcados pela estrela.</td></tr>
+      <tr><td><strong>Busca em texto completo</strong></td><td>Título, autor, descrição, etiquetas e todo o conteúdo, sem diferenciar acentos, com o trecho encontrado em destaque e tolerância a erros de digitação no título.</td></tr>
+      <tr><td><strong>Tempo real</strong></td><td>A tela se atualiza sozinha, por WebSocket, quando um documento muda de etapa, em qualquer aba aberta.</td></tr>
+      <tr><td><strong>Administração</strong></td><td>Painel com serviços, filas, falhas, provedor de IA e contas; API REST documentada, com tokens pessoais.</td></tr>
+    </tbody>
+  </table>
+
+  <h3 id="s-tecnologias">Tecnologias</h3>
+  <table>
+    <thead><tr><th style="width:18%">Camada</th><th style="width:38%">Tecnologia</th><th>Papel</th></tr></thead>
+    <tbody>
+      <tr><td>Aplicação web</td><td>Python 3.13 · Django 5.2 · Django REST Framework</td><td>Páginas, API REST, autenticação e regras da biblioteca</td></tr>
+      <tr><td>Tempo real</td><td>Django Channels · Uvicorn (ASGI) · WebSockets</td><td>Avisa o navegador quando um documento muda</td></tr>
+      <tr><td>Processamento</td><td>Java 21 · Apache PDFBox 3 · Gson</td><td>Lê PDF e DOCX; gera capa, texto, sumário e HTML de leitura</td></tr>
+      <tr><td>Interface</td><td>JavaScript (módulos ES, sem etapa de build) · pdf.js 5</td><td>Biblioteca, prévia, leitor, estantes e painéis</td></tr>
+      <tr><td>Banco de dados</td><td>PostgreSQL 16 · busca <code>pt_unaccent</code> · trigramas</td><td>Fonte da verdade de documentos, leituras e anotações</td></tr>
+      <tr><td>Filas e eventos</td><td>Redis 7 · Streams · pub/sub</td><td>Pipeline com retentativas, eventos, cache e sessões</td></tr>
+      <tr><td>IA</td><td>Resumo extrativo local · Claude · APIs compatíveis com OpenAI</td><td>Descrição e etiquetas de cada documento</td></tr>
+      <tr><td>Execução</td><td>Docker Compose</td><td>PostgreSQL, Redis, processor, web e worker</td></tr>
+      <tr><td>Testes</td><td>Pytest · pytest-django · pytest-asyncio</td><td>70 testes com PostgreSQL, Redis e o processador Java reais</td></tr>
+    </tbody>
+  </table>
+
+  <h3 id="s-identidade" class="page-break">Identidade visual <span class="tag new">1.1.0</span></h3>
+  <p>A versão 1.1.0 mantém a paleta original de cinco tons claros, mas passa a usá-la com intenção: cada cor tem um papel fixo. A marca continua sendo a <strong>Faísca</strong>, uma página com uma estrela de quatro pontas vazada (o documento que ganha descrição escrita por IA), sempre monocromática: preta no tema claro e branca no escuro.</p>
+
+  <h4>Paleta de identidade</h4>
+  <div class="swatches">
+    <div class="sw"><div class="chip" style="background:#F4F1DE"></div><b>Creme</b><span class="hex">#F4F1DE</span>A “mesa”: barra lateral e fundos de apoio.</div>
+    <div class="sw"><div class="chip" style="background:#B0A08C"></div><b>Camurça</b><span class="hex">#B0A08C</span>Tom neutro de apoio para bordas e detalhes.</div>
+    <div class="sw"><div class="chip tab" style="background:#B8C9A9"></div><b>Sálvia</b><span class="hex">#B8C9A9</span>Etiqueta da estante Lidos.</div>
+    <div class="sw"><div class="chip tab" style="background:#8395A7"></div><b>Ardósia</b><span class="hex">#8395A7</span>Etiqueta da estante Lendo.</div>
+    <div class="sw"><div class="chip tab" style="background:#D8A7B1"></div><b>Rosé</b><span class="hex">#D8A7B1</span>Etiqueta da estante Quero ler.</div>
+  </div>
+
+  <h4>Papéis de cor</h4>
+  <div class="swatches">
+    <div class="sw"><div class="chip" style="background:#FAF8F2"></div><b>Fundo de leitura</b><span class="hex">#FAF8F2</span>Área principal, mais clara que a mesa; superfícies quase brancas por cima.</div>
+    <div class="sw"><div class="chip" style="background:#1E252C"></div><b>Tinta</b><span class="hex">#1E252C</span>Texto e botão principal.</div>
+    <div class="sw"><div class="chip" style="background:#9C4A5B"></div><b>Rosé tinta</b><span class="hex">#9C4A5B</span>Assinatura: navegação ativa, progresso de leitura, anel de foco e links.</div>
+    <div class="sw"><div class="chip" style="background:#556B47"></div><b>Sálvia escura</b><span class="hex">#556B47</span>Tudo o que vem da IA: rótulos, descrição e etiquetas sugeridas.</div>
+  </div>
+  <div class="dark-strip">
+    <div class="t">Tema escuro</div>
+    <div><span class="dot" style="background:#15191D;border:0.5pt solid #555"></span>Fundo <span class="m">#15191D</span></div>
+    <div><span class="dot" style="background:#F1EEDC"></span>Texto <span class="m">#F1EEDC</span></div>
+    <div><span class="dot" style="background:#E3A3B0"></span>Assinatura <span class="m">#E3A3B0</span></div>
+  </div>
+
+  <h4>Tipografia em três vozes</h4>
+  <div class="type-voices">
+    <div class="voice serif"><div class="eyebrow">Literata</div><div class="sample">Leitura e títulos</div><p>Serifada para títulos de página, nomes de documentos e o texto do leitor de DOCX.</p></div>
+    <div class="voice sans"><div class="eyebrow">Public Sans</div><div class="sample">Interface</div><p>Sem serifa para botões, menus, formulários e textos de apoio.</p></div>
+    <div class="voice mono"><div class="eyebrow">IBM Plex Mono</div><div class="sample">PDF · 214 PÁG.</div><p>Monoespaçada para metadados, contadores, rótulos de seção e atalhos. Nova na 1.1.0, auto-hospedada (licença OFL).</p></div>
+  </div>
+
+  <h4>Melhorias de experiência</h4>
+  <ul>
+    <li><strong>Cabeçalho da biblioteca</strong> com a data, uma saudação e um resumo com números reais: documentos, em leitura e em processamento.</li>
+    <li><strong>Filtros como abas</strong>, com sublinhado na aba ativa e contadores ao lado de cada nome.</li>
+    <li><strong>Capas com efeito de lombada</strong> e metadados em fonte monoespaçada, como numa ficha de catálogo.</li>
+    <li><strong>Acabamento mais sóbrio</strong>: cantos menos arredondados e sombras mais discretas.</li>
+    <li><strong>Acessibilidade</strong>: link “Pular para o conteúdo”, respeito a <code>prefers-reduced-motion</code> e contraste AA entre texto e fundo (veja o <a href="#s-acessibilidade">capítulo 05</a>).</li>
+  </ul>
+</section>
+
+<!-- ===================== 03 INSTALAÇÃO ===================== -->
+<section class="chapter" id="ch-instalacao">
+  <div class="chapter-head">
+    <div class="num">Capítulo 03</div>
+    <h2>Instalação e execução</h2>
+    <p class="lede">Com Docker, o Lume sobe com um único comando. Os scripts criam o arquivo de configuração com senhas aleatórias, constroem as imagens e abrem o navegador quando tudo estiver pronto.</p>
+  </div>
+
+  <h3 id="s-requisitos">Requisitos</h3>
+  <ul>
+    <li>Docker com Docker Compose (Docker Desktop no Windows e no macOS).</li>
+    <li>Cerca de 2 GB de memória livre e 2 GB de disco para as imagens, além do espaço ocupado pelos documentos.</li>
+    <li>Na primeira execução, acesso à internet para baixar as imagens base e as dependências do Python e do Maven.</li>
+  </ul>
+
+  <h3 id="s-primeira">Primeira execução</h3>
+  <h4>Windows</h4>
+  <p>Na pasta do projeto, dê dois cliques em <code>iniciar.cmd</code>.</p>
+  <h4>Linux ou macOS</h4>
+  <pre><code>./iniciar.sh</code></pre>
+  <p>Os dois scripts executam as mesmas etapas:</p>
+  <ol class="steps">
+    <li>Verificam se o Docker está instalado.</li>
+    <li>Na primeira vez, copiam <code>.env.example</code> para <code>.env</code> e substituem <code>DB_PASSWORD</code> e <code>APP_SECRET_KEY</code> por valores aleatórios.</li>
+    <li>Executam <code>docker compose up -d --build</code>, que sobe PostgreSQL, Redis, o processador Java, o servidor web e o worker.</li>
+    <li>Aguardam a rota <code>/api/health</code> responder e abrem <code>http://localhost:8080</code>.</li>
+  </ol>
+  <table>
+    <thead><tr><th style="width:44%">Endereço</th><th>Conteúdo</th></tr></thead>
+    <tbody>
+      <tr><td><code>http://localhost:8080</code></td><td>Aplicação: biblioteca, leitor e administração</td></tr>
+      <tr><td><code>http://localhost:8080/api/docs</code></td><td>Documentação interativa da API (Swagger)</td></tr>
+      <tr><td><code>http://localhost:8080/api/health</code></td><td>Saúde do banco e do Redis (usada pelo Docker)</td></tr>
+    </tbody>
+  </table>
+  <p>Para subir sem o script:</p>
+  <pre><code>cp .env.example .env           # troque DB_PASSWORD e APP_SECRET_KEY
+docker compose up -d --build</code></pre>
+
+  <h3 id="s-demo">Contas de demonstração</h3>
+  <p>Em um banco vazio, o Lume cria duas contas e importa os 12 documentos da pasta <code>exemplos/</code> pelo mesmo pipeline de um envio normal. Os nomes, os e-mails (domínio de exemplo <code>lume.dev</code>) e os documentos são fictícios e servem apenas para testes.</p>
+  <table>
+    <thead><tr><th style="width:17%">Papel</th><th style="width:24%">E-mail</th><th style="width:16%">Senha</th><th>Permissões</th></tr></thead>
+    <tbody>
+      <tr><td>Administrador</td><td><code>admin@lume.dev</code></td><td><code>Lume@2026</code></td><td>Tudo, inclusive a tela Sistema e a gestão de contas</td></tr>
+      <tr><td>Membro</td><td><code>leitor@lume.dev</code></td><td><code>Lume@2026</code></td><td>A própria biblioteca e os documentos compartilhados</td></tr>
+    </tbody>
+  </table>
+  <div class="note warn"><span class="eyebrow">Atenção</span>As contas de demonstração usam senhas públicas. Em uma instalação real, desative-as com <code>APP_SEED_DEMO=false</code> antes da primeira subida (veja <a href="#s-producao">Instalação para uso real</a>).</div>
+
+  <h3 id="s-comandos">Comandos do dia a dia</h3>
+  <table>
+    <thead><tr><th style="width:40%">Tarefa</th><th>Comando</th></tr></thead>
+    <tbody>
+      <tr><td>Acompanhar os logs</td><td><code>docker compose logs -f web worker processor</code></td></tr>
+      <tr><td>Parar os serviços</td><td><code>docker compose down</code> (os dados permanecem nos volumes)</td></tr>
+      <tr><td>Atualizar após baixar uma versão nova</td><td><code>docker compose up -d --build</code></td></tr>
+      <tr><td>Processar mais documentos em paralelo</td><td><code>docker compose up -d --scale worker=3</code></td></tr>
+      <tr><td>Abrir o terminal do Django</td><td><code>docker compose exec web python manage.py shell</code></td></tr>
+      <tr><td>Apagar tudo, inclusive os documentos</td><td><code>docker compose down -v</code></td></tr>
+    </tbody>
+  </table>
+
+  <h3 id="s-producao">Instalação para uso real</h3>
+  <ol class="steps">
+    <li>No <code>.env</code>, defina <code>APP_SEED_DEMO=false</code> antes da primeira subida (ou apague os volumes com <code>docker compose down -v</code>).</li>
+    <li>Para impedir o cadastro aberto, defina <code>APP_SIGNUP=false</code>.</li>
+    <li>Suba os serviços com <code>docker compose up -d --build</code>.</li>
+    <li>Crie o administrador (a senha é solicitada no terminal):</li>
+  </ol>
+  <pre><code>docker compose exec web python manage.py createuser --admin \
+  --email voce@suaempresa.com --name "Seu Nome"</code></pre>
+  <p>As demais contas podem ser criadas na tela Sistema ou, com o cadastro aberto, na própria tela de entrada.</p>
+
+  <h3 id="s-sem-docker">Execução sem Docker</h3>
+  <p>Indicada para desenvolvimento. São necessários Python 3.12 ou mais recente, Java 21 com Maven, PostgreSQL 16 e Redis 7.</p>
+  <h4>Processador Java</h4>
+  <pre><code>cd processor
+mvn -B package
+PROCESSOR_DATA_ROOT=../.data java -jar target/processor.jar</code></pre>
+  <h4>Aplicação web e worker</h4>
+  <pre><code>cd web
+python -m venv .venv &amp;&amp; source .venv/bin/activate
+pip install -r requirements-dev.txt
+export DB_NAME=lume DB_USER=lume DB_PASSWORD=... DATA_ROOT=../.data \
+       PROCESSOR_URL=http://localhost:8090 APP_DEBUG=true
+python manage.py migrate
+python manage.py seed_demo             # opcional
+python manage.py worker &amp;              # pipeline
+uvicorn config.asgi:application --port 8000</code></pre>
+  <div class="note"><span class="eyebrow">Mesma pasta de dados</span>O web, o worker e o processador precisam enxergar a mesma pasta: <code>DATA_ROOT</code> (Python) e <code>PROCESSOR_DATA_ROOT</code> (Java) devem apontar para o mesmo lugar. No Docker, essa pasta é o volume <code>documents</code>, montado em <code>/data</code>.</div>
+
+  <h3 id="s-rede">Acesso pela rede e HTTPS</h3>
+  <table>
+    <thead><tr><th style="width:32%">Variável</th><th>Quando ajustar</th></tr></thead>
+    <tbody>
+      <tr><td><code>APP_ALLOWED_HOSTS</code></td><td>Acrescente o IP ou o domínio usado para abrir o Lume (ex.: <code>192.168.0.20,lume.suaempresa.com</code>). Sem isso, o Django recusa a requisição e o WebSocket não conecta.</td></tr>
+      <tr><td><code>APP_HTTPS</code></td><td><code>true</code> quando houver um proxy reverso com HTTPS na frente: os cookies passam a ser seguros e o HSTS é ativado.</td></tr>
+      <tr><td><code>APP_CSRF_TRUSTED_ORIGINS</code></td><td>Com HTTPS, a origem completa, por exemplo <code>https://lume.suaempresa.com</code>.</td></tr>
+      <tr><td><code>APP_PORT</code></td><td>Porta publicada no computador (padrão <code>8080</code>).</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ===================== 04 GUIA DAS TELAS ===================== -->
+<section class="chapter" id="ch-telas">
+  <div class="chapter-head">
+    <div class="num">Capítulo 04</div>
+    <h2>Guia das telas</h2>
+    <p class="lede">O que cada tela mostra e como usá-la. Todas funcionam nos temas claro e escuro e se adaptam ao celular.</p>
+  </div>
+
+  <div class="screen-head"><h3 id="s-entrada">Entrada</h3><span class="eyebrow">/entrar</span></div>
+  <figure class="narrow"><img src="../images/tela-entrada.png" alt="Tela de entrada"><figcaption><b>Fig. 1</b> Tela de entrada, com o formulário de acesso e a opção de criar conta.</figcaption></figure>
+  <p>Entre com e-mail e senha. Se o cadastro estiver aberto (<code>APP_SIGNUP=true</code>), o link <strong>Criar conta</strong> alterna para o formulário de cadastro. Após cinco senhas erradas para o mesmo e-mail e IP, a entrada fica bloqueada por 15 minutos. O aviso com as contas de demonstração só aparece quando <code>APP_SEED_DEMO=true</code>.</p>
+
+  <div class="screen-head page-break"><h3 id="s-biblioteca">Biblioteca</h3><span class="eyebrow">Tela inicial</span></div>
+  <figure><img src="../images/tela-biblioteca.png" alt="Biblioteca"><figcaption><b>Fig. 2</b> Biblioteca: cabeçalho com resumo, continuar lendo, filtros, ordenação e a grade de capas.</figcaption></figure>
+  <ul>
+    <li><strong>Cabeçalho</strong>: data, saudação e um resumo com os números reais da sua biblioteca (documentos, em leitura e em processamento).</li>
+    <li><strong>Continuar lendo</strong>: os três últimos documentos abertos, com a página e a barra de progresso. Um clique abre o leitor no ponto exato.</li>
+    <li><strong>Filtros</strong>: abas Todos, PDF, DOCX, Quero ler, Lendo, Lidos e Favoritos, com contadores. Quando há documentos nessas situações, aparecem também Processando e Com erro.</li>
+    <li><strong>Ordenação</strong>: adicionados recentemente, lidos recentemente, título, autor, mais páginas ou maior tamanho (e “mais relevantes” durante uma busca).</li>
+    <li><strong>Grade ou lista</strong>: o botão ao lado da ordenação alterna a visualização; a escolha fica lembrada no navegador.</li>
+    <li><strong>Cartão</strong>: capa, título, autor, tipo e páginas, estante e progresso. A estrela marca o favorito. Arraste um cartão até uma coleção no menu lateral para incluí-lo nela.</li>
+    <li>Mais documentos são carregados automaticamente ao rolar a página.</li>
+  </ul>
+  <h4 id="s-previa">Prévia ao passar o mouse</h4>
+  <p>Pare o mouse sobre uma capa por um instante (ou chegue até ela com <kbd>Tab</kbd>): a prévia abre ao lado, com tipo, páginas, tamanho, a descrição por IA e quem a escreveu (resumo automático, Claude ou o modelo configurado), as etiquetas e os botões <strong>Ler agora</strong> (ou <strong>Continuar</strong>) e <strong>Detalhes</strong>. Enquanto o documento é processado, a prévia avisa que a descrição ainda vai chegar.</p>
+
+  <div class="screen-head page-break"><h3 id="s-envio">Envio de documentos</h3><span class="eyebrow">Atalho U</span></div>
+  <figure><img src="../images/tela-envio.png" alt="Envio de documentos"><figcaption><b>Fig. 3</b> Envio: os arquivos podem ser soltos em qualquer ponto da janela; a bandeja acompanha cada um.</figcaption></figure>
+  <ol class="steps">
+    <li>Arraste PDFs e DOCX para a janela, clique em <strong>Enviar documentos</strong> ou pressione <kbd>U</kbd>.</li>
+    <li>A bandeja no canto mostra cada arquivo: <em>Enviando</em> (com porcentagem), <em>Na fila</em>, <em>Lendo o documento</em>, <em>Escrevendo a descrição</em> e <em>Pronto</em>.</li>
+    <li>O cartão aparece na biblioteca imediatamente, com um esqueleto animado no lugar da capa, que surge quando o processador termina.</li>
+    <li>Se o envio for feito dentro de uma coleção, o documento já entra nela.</li>
+  </ol>
+  <div class="note warn"><span class="eyebrow">Limites</span>Até 50 arquivos por envio e 200 MB por arquivo (<code>APP_MAX_UPLOAD_MB</code>). O tipo é verificado pelo conteúdo, não pela extensão: um <code>.txt</code> renomeado para <code>.pdf</code> é recusado. Arquivos <code>.doc</code> do Word 97–2003 também são recusados; abra-os no Word e salve como <code>.docx</code>.</div>
+
+  <div class="screen-head page-break"><h3 id="s-busca">Busca</h3><span class="eyebrow">Atalho /</span></div>
+  <figure><img src="../images/tela-busca.png" alt="Busca"><figcaption><b>Fig. 4</b> Resultado de uma busca: os trechos encontrados aparecem marcados nos cartões.</figcaption></figure>
+  <p>A caixa no topo pesquisa título, autor, descrição, etiquetas e o texto completo dos documentos. Acentos e maiúsculas não importam (“decisoes tecnicas” encontra “decisões técnicas”), palavras derivadas também são reconhecidas (“tabelas” encontra “tabela”) e pequenos erros de digitação no título são tolerados.</p>
+  <table>
+    <thead><tr><th style="width:30%">Sintaxe</th><th>Efeito</th></tr></thead>
+    <tbody>
+      <tr><td><code>banco de dados</code></td><td>Documentos com todos os termos, em qualquer ordem</td></tr>
+      <tr><td><code>"banco de dados"</code></td><td>Frase exata</td></tr>
+      <tr><td><code>contrato -rascunho</code></td><td>Exclui os documentos que contêm a palavra precedida de hífen</td></tr>
+    </tbody>
+  </table>
+
+  <div class="screen-head page-break"><h3 id="s-detalhe">Detalhe do documento</h3><span class="eyebrow">/documento/{id}</span></div>
+  <figure><img src="../images/tela-documento.png" alt="Detalhe do documento"><figcaption><b>Fig. 5</b> Detalhe: capa, ações, descrição por IA, etiquetas, leitura, coleções e sumário.</figcaption></figure>
+  <table>
+    <thead><tr><th style="width:27%">Ação</th><th style="width:23%">Onde</th><th>O que faz</th></tr></thead>
+    <tbody>
+      <tr><td>Ler agora / Continuar lendo</td><td>Botão sob a capa</td><td>Abre o leitor na página salva</td></tr>
+      <tr><td>Baixar</td><td>Ícone de download</td><td>Baixa o arquivo original</td></tr>
+      <tr><td>Editar informações</td><td>Menu ⋯</td><td>Título, autor e descrição própria. A partir daí, a leitura do arquivo não sobrescreve mais título e autor.</td></tr>
+      <tr><td>Compartilhar com todos / Só para mim</td><td>Menu ⋯</td><td>Torna o documento visível (só leitura) para todas as contas, ou volta a deixá-lo privado</td></tr>
+      <tr><td>Ler o arquivo de novo</td><td>Menu ⋯</td><td>Reenvia ao processador (útil depois de atualizar o Lume)</td></tr>
+      <tr><td>Gerar de novo</td><td>Bloco da descrição</td><td>Solicita outra descrição, por exemplo após trocar o provedor de IA</td></tr>
+      <tr><td>Etiquetas</td><td>Editar</td><td>Suas etiquetas substituem as sugeridas pela IA</td></tr>
+      <tr><td>Minha leitura</td><td>Quero ler · Lendo · Lido · Favoritar</td><td>Move entre estantes e marca o favorito</td></tr>
+      <tr><td>Coleções</td><td>Chips</td><td>Inclui ou retira o documento de cada coleção; cria uma nova</td></tr>
+      <tr><td>Sumário</td><td>Lista</td><td>Cada item abre o leitor diretamente naquela parte</td></tr>
+      <tr><td>Excluir</td><td>Menu ⋯</td><td>Apaga o documento, os arquivos, as anotações e o progresso</td></tr>
+    </tbody>
+  </table>
+  <p>Documentos de outras pessoas (compartilhados) mostram quem os enviou e não podem ser editados; anotações e progresso de leitura continuam sendo seus.</p>
+
+  <div class="screen-head page-break"><h3 id="s-leitor-pdf">Leitor de PDF</h3><span class="eyebrow">pdf.js 5</span></div>
+  <figure><img src="../images/tela-leitor-pdf.png" alt="Leitor de PDF"><figcaption><b>Fig. 6</b> Leitor de PDF com o painel de sumário à esquerda e o painel de anotações à direita.</figcaption></figure>
+  <table>
+    <thead><tr><th style="width:24%">Recurso</th><th>Como usar</th></tr></thead>
+    <tbody>
+      <tr><td>Páginas</td><td>Rolagem contínua; campo de página, setas <kbd>←</kbd> <kbd>→</kbd>, <kbd>Page Up</kbd> <kbd>Page Down</kbd>, <kbd>Home</kbd> <kbd>End</kbd></td></tr>
+      <tr><td>Zoom</td><td>Botões − e +, teclas <kbd>+</kbd> e <kbd>−</kbd>; clique na porcentagem para voltar a ajustar à largura</td></tr>
+      <tr><td>Sumário e miniaturas</td><td>Botão do painel esquerdo; abas Sumário e Páginas</td></tr>
+      <tr><td>Busca no documento</td><td>Caixa “Buscar no documento” ou <kbd>Ctrl</kbd> <kbd>F</kbd>; <kbd>Enter</kbd> vai ao próximo resultado, <kbd>Shift</kbd> <kbd>Enter</kbd> ao anterior</td></tr>
+      <tr><td>Temas da página</td><td>Papel, Sépia e Noite (a escolha fica salva na sua conta)</td></tr>
+      <tr><td>Destaques</td><td>Selecione um trecho e escolha uma das quatro cores (Sálvia, Rosé, Ardósia, Camurça); também é possível anotar ou copiar</td></tr>
+      <tr><td>Notas e marcadores</td><td>Painel direito: nota na página atual (<kbd>Ctrl</kbd> <kbd>Enter</kbd> salva) e ícone de marcador no topo</td></tr>
+      <tr><td>Modo foco</td><td>Ícone de tela cheia ou <kbd>F</kbd>; <kbd>Esc</kbd> sai do foco e, pressionado de novo, do leitor</td></tr>
+      <tr><td>Progresso</td><td>Salvo automaticamente ao trocar de página e ao sair; o documento passa para “Lendo”</td></tr>
+    </tbody>
+  </table>
+  <p>O PDF é baixado em partes (requisições <em>Range</em>): arquivos grandes começam a aparecer antes do fim do download, e apenas as páginas próximas da área visível ficam renderizadas na memória.</p>
+  <figure class="mid"><img src="../images/tela-leitor-noite.png" alt="Leitor no tema Noite"><figcaption><b>Fig. 7</b> Tema Noite da página, com o painel de miniaturas aberto.</figcaption></figure>
+
+  <div class="screen-head page-break"><h3 id="s-leitor-docx">Leitor de DOCX</h3><span class="eyebrow">HTML de leitura</span></div>
+  <figure><img src="../images/tela-leitor-docx.png" alt="Leitor de DOCX"><figcaption><b>Fig. 8</b> DOCX convertido em HTML de leitura, com o sumário montado a partir dos títulos.</figcaption></figure>
+  <p>O processador Java converte o DOCX em HTML limpo, preservando títulos, listas, tabelas, citações, links e imagens. O tamanho da letra é ajustado com os botões <strong>A−</strong> e <strong>A+</strong> (ou <kbd>+</kbd> e <kbd>−</kbd>). O progresso é salvo pela posição do parágrafo; destaques, notas, marcadores, busca e temas funcionam como no PDF.</p>
+
+  <div class="screen-head page-break"><h3 id="s-estantes">Estantes</h3><span class="eyebrow">Quero ler · Lendo · Lidos</span></div>
+  <figure><img src="../images/tela-estantes.png" alt="Estantes"><figcaption><b>Fig. 9</b> Estantes: arraste um documento de uma coluna para outra.</figcaption></figure>
+  <p>Três colunas, identificadas pelas etiquetas de catálogo: <strong>Quero ler</strong> (Rosé), <strong>Lendo</strong> (Ardósia) e <strong>Lidos</strong> (Sálvia). Arraste os cartões entre elas. Abrir um documento no leitor já o coloca em Lendo; marcá-lo como lido registra a data de conclusão.</p>
+
+  <div class="screen-head page-break"><h3 id="s-colecoes">Coleções</h3><span class="eyebrow">Ordem própria</span></div>
+  <figure class="narrow"><img src="../images/tela-colecoes.png" alt="Coleções"><figcaption><b>Fig. 10</b> Lista de coleções, cada uma representada pelas capas dos seus documentos.</figcaption></figure>
+  <figure class="narrow"><img src="../images/tela-colecao.png" alt="Dentro de uma coleção"><figcaption><b>Fig. 11</b> Dentro de uma coleção: adicione documentos e arraste os cartões para mudar a ordem.</figcaption></figure>
+  <ul>
+    <li><strong>Nova coleção</strong>: botão no topo da tela ou no próprio documento.</li>
+    <li><strong>Adicionar documentos</strong>: dentro da coleção, escolha numa lista; ou arraste o cartão até o nome da coleção no menu lateral.</li>
+    <li><strong>Reordenar</strong>: com a ordenação “Ordem da coleção”, arraste os cartões.</li>
+    <li><strong>Renomear e excluir</strong>: menu ⋯ da coleção. Excluir a coleção não apaga os documentos.</li>
+  </ul>
+  <h4 id="s-compartilhados">Compartilhados</h4>
+  <p>Reúne os documentos que outras pessoas deixaram visíveis para todos, com o nome de quem os enviou. Você pode ler, anotar, favoritar e colocá-los nas suas estantes e coleções.</p>
+
+  <div class="screen-head page-break"><h3 id="s-sistema">Sistema</h3><span class="eyebrow">Só administradores</span></div>
+  <figure><img src="../images/tela-sistema.png" alt="Sistema"><figcaption><b>Fig. 12</b> Sistema: números, serviços, contas e últimas etapas processadas.</figcaption></figure>
+  <ul>
+    <li><strong>Números</strong>: documentos e espaço usado, prontos, com erro, etapas nas últimas 24 h e tempo médio de leitura e de descrição.</li>
+    <li><strong>Serviços</strong>: processador Java (versão do PDFBox, vagas ocupadas, tempo médio), workers online, filas do Redis e provedor de IA.</li>
+    <li><strong>Documentos com erro</strong>: o motivo de cada falha e o botão <strong>Tentar todos de novo</strong>.</li>
+    <li><strong>Contas</strong>: criar, editar o papel, desativar e trocar a senha.</li>
+    <li><strong>Últimas etapas</strong>: cada tentativa de leitura e de descrição, com duração e erro. A tela se atualiza sozinha.</li>
+  </ul>
+
+  <div class="screen-head page-break"><h3 id="s-conta">Minha conta</h3><span class="eyebrow">Perfil · tokens · atalhos</span></div>
+  <figure><img src="../images/tela-conta.png" alt="Minha conta"><figcaption><b>Fig. 13</b> Minha conta: perfil, aparência, senha, tokens da API e atalhos de teclado.</figcaption></figure>
+  <p>Altere o nome, o tema (igual ao sistema, claro ou escuro) e a senha. Em <strong>Tokens da API</strong>, crie tokens para scripts: o valor aparece uma única vez e apenas o hash fica armazenado. Cada conta pode ter até 20 tokens ativos. A seção <strong>Atalhos</strong> lista os atalhos de teclado descritos no <a href="#s-atalhos">capítulo 05</a>.</p>
+
+  <div class="screen-head page-break"><h3 id="s-escuro">Tema escuro e celular</h3><span class="eyebrow">Claro · escuro · móvel</span></div>
+  <figure><img src="../images/tela-escuro.png" alt="Tema escuro"><figcaption><b>Fig. 14</b> Biblioteca no tema escuro, que segue o sistema ou a escolha feita em Minha conta.</figcaption></figure>
+  <div class="fig-pair">
+    <figure><img src="../images/tela-documento-escuro.png" alt="Detalhe no tema escuro"><figcaption><b>Fig. 15</b> Detalhe do documento no tema escuro.</figcaption></figure>
+    <figure><img src="../images/tela-celular.png" alt="Lume no celular"><figcaption><b>Fig. 16</b> No celular, o menu lateral vira gaveta.</figcaption></figure>
+  </div>
+</section>
+
+<!-- ===================== 05 TECLADO E ACESSIBILIDADE ===================== -->
+<section class="chapter" id="ch-teclado">
+  <div class="chapter-head">
+    <div class="num">Capítulo 05</div>
+    <h2>Teclado e acessibilidade</h2>
+    <p class="lede">O Lume pode ser usado inteiramente pelo teclado. Este capítulo reúne os atalhos implementados e os cuidados de acessibilidade da interface.</p>
+  </div>
+
+  <h3 id="s-atalhos">Atalhos de teclado</h3>
+  <p>Os atalhos globais e os do leitor não são acionados enquanto o foco está em um campo de texto. No macOS, <kbd>⌘</kbd> substitui <kbd>Ctrl</kbd>.</p>
+  <div class="group-title">Em qualquer tela</div>
+  <table class="keys">
+    <thead><tr><th>Tecla</th><th>Ação</th></tr></thead>
+    <tbody>
+      <tr><td><kbd>/</kbd></td><td>Leva o foco para a caixa de busca</td></tr>
+      <tr><td><kbd>U</kbd></td><td>Abre a seleção de arquivos para envio</td></tr>
+      <tr><td><kbd>Enter</kbd> na busca</td><td>Fora da biblioteca, abre a biblioteca com o resultado da busca</td></tr>
+      <tr><td><kbd>Esc</kbd> na busca</td><td>Sai da caixa de busca</td></tr>
+      <tr><td><kbd>Esc</kbd></td><td>Fecha janelas de diálogo e menus abertos</td></tr>
+      <tr><td><kbd>Enter</kbd> em um diálogo</td><td>Confirma a ação principal quando o foco está num campo</td></tr>
+      <tr><td><kbd>Enter</kbd> na lista</td><td>Abre o documento da linha selecionada (visualização em lista)</td></tr>
+    </tbody>
+  </table>
+  <div class="group-title">No leitor</div>
+  <table class="keys">
+    <thead><tr><th>Tecla</th><th>Ação</th></tr></thead>
+    <tbody>
+      <tr><td><kbd>→</kbd> ou <kbd>Page Down</kbd></td><td>Próxima página (PDF)</td></tr>
+      <tr><td><kbd>←</kbd> ou <kbd>Page Up</kbd></td><td>Página anterior (PDF)</td></tr>
+      <tr><td><kbd>Home</kbd> · <kbd>End</kbd></td><td>Primeira · última página (PDF)</td></tr>
+      <tr><td><kbd>+</kbd> · <kbd>−</kbd></td><td>Zoom (PDF) ou tamanho da letra (DOCX)</td></tr>
+      <tr><td><kbd>F</kbd></td><td>Liga ou desliga o modo foco</td></tr>
+      <tr><td><kbd>Esc</kbd></td><td>Sai do modo foco; pressionado de novo, fecha o leitor</td></tr>
+      <tr><td><kbd>Ctrl</kbd> <kbd>F</kbd></td><td>Busca dentro do documento</td></tr>
+      <tr><td><kbd>Enter</kbd> · <kbd>Shift</kbd> <kbd>Enter</kbd></td><td>Próximo · resultado anterior da busca</td></tr>
+      <tr><td><kbd>Esc</kbd> na busca do documento</td><td>Limpa a busca e devolve o foco à página</td></tr>
+      <tr><td><kbd>Enter</kbd> no campo de página</td><td>Vai para a página digitada</td></tr>
+      <tr><td><kbd>Ctrl</kbd> <kbd>Enter</kbd> na nota</td><td>Salva a nota</td></tr>
+    </tbody>
+  </table>
+
+  <h3 id="s-acessibilidade">Acessibilidade</h3>
+  <table>
+    <thead><tr><th style="width:28%">Aspecto</th><th>Como o Lume atende</th></tr></thead>
+    <tbody>
+      <tr><td>Navegação por teclado</td><td>Todos os controles são alcançáveis com <kbd>Tab</kbd>; a prévia dos cartões também abre pelo foco do teclado.</td></tr>
+      <tr><td>Pular para o conteúdo <span class="tag new">1.1.0</span></td><td>Primeiro item da página, visível ao receber foco, leva direto à área principal sem percorrer o menu lateral.</td></tr>
+      <tr><td>Foco visível</td><td>Anel de foco contínuo em <code>:focus-visible</code>, na cor de assinatura Rosé tinta a partir da 1.1.0, inclusive nas capas.</td></tr>
+      <tr><td>Contraste <span class="tag new">1.1.0</span></td><td>Texto e controles com contraste mínimo AA (WCAG) nos temas claro e escuro, com texto em tinta escura sobre fundos claros.</td></tr>
+      <tr><td>Movimento reduzido</td><td>Com <code>prefers-reduced-motion: reduce</code>, animações e transições são praticamente eliminadas e as transições entre páginas são desativadas.</td></tr>
+      <tr><td>Leitores de tela</td><td>Avisos (toasts) em região <code>role="status"</code> com <code>aria-live="polite"</code>; janelas com <code>role="dialog"</code> e <code>aria-modal</code>; menus com <code>role="menu"</code>; grupos de opções (tema, estante, cor da página) rotulados com <code>aria-label</code>.</td></tr>
+      <tr><td>Leitura confortável</td><td>Temas Papel, Sépia e Noite, tamanho de letra ajustável no DOCX e modo foco sem distrações.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ===================== 06 IA ===================== -->
+<section class="chapter" id="ch-ia">
+  <div class="chapter-head">
+    <div class="num">Capítulo 06</div>
+    <h2>Descrição por IA</h2>
+    <p class="lede">Cada documento recebe uma descrição de duas ou três frases e até quatro etiquetas. O provedor é escolhido no <code>.env</code> e pode ser trocado a qualquer momento.</p>
+  </div>
+
+  <h3 id="s-provedores">Provedores</h3>
+  <table>
+    <thead><tr><th style="width:18%">AI_PROVIDER</th><th>Como funciona</th><th style="width:30%">O que configurar</th></tr></thead>
+    <tbody>
+      <tr><td><code>local</code> (padrão)</td><td>Resumo extrativo feito no próprio worker: escolhe as frases mais representativas (frequência de termos, peso do título e dos títulos de seção, posição, corte de redundância) e extrai palavras-chave. Não envia nada para fora e não precisa de chave.</td><td>Nada.</td></tr>
+      <tr><td><code>anthropic</code></td><td>API de Mensagens da Anthropic (Claude).</td><td><code>AI_API_KEY</code>; <code>AI_MODEL</code> é opcional (padrão <code>claude-haiku-5-5</code>).</td></tr>
+      <tr><td><code>openai</code></td><td>Qualquer API compatível com <code>/v1/chat/completions</code>: OpenAI, Ollama, LM Studio, OpenRouter e outras.</td><td><code>AI_MODEL</code> (obrigatório), <code>AI_BASE_URL</code> (padrão da OpenAI) e <code>AI_API_KEY</code> quando o serviço exigir.</td></tr>
+    </tbody>
+  </table>
+  <h4>Exemplo com Claude</h4>
+  <pre><code>AI_PROVIDER=anthropic
+AI_API_KEY=sua-chave
+AI_MODEL=claude-haiku-5-5</code></pre>
+  <h4>Exemplo com um modelo local (Ollama)</h4>
+  <pre><code>docker compose --profile ia-local up -d
+docker compose exec ollama ollama pull llama3.2
+
+# no .env
+AI_PROVIDER=openai
+AI_BASE_URL=http://ollama:11434/v1
+AI_MODEL=llama3.2</code></pre>
+  <p>Depois de alterar o <code>.env</code>, aplique com <code>docker compose up -d</code>. Os documentos já descritos permanecem como estão; use <strong>Gerar de novo</strong> no detalhe do documento para refazer a descrição.</p>
+
+  <h3 id="s-enviado">Dados enviados ao provedor</h3>
+  <p>Somente o necessário para a descrição: título, autor, tipo, número de páginas, até 30 títulos do sumário e um trecho do texto já limpo (sem capa e sem cabeçalhos e rodapés repetidos) de até <code>AI_MAX_INPUT_CHARS</code> caracteres (padrão 12 000), composto por três quartos do início e um quarto do meio do documento. O pedido exige resposta em JSON, com a descrição em português e as etiquetas.</p>
+  <div class="note warn"><span class="eyebrow">Documentos confidenciais</span>Com <code>anthropic</code> ou <code>openai</code>, esse trecho sai do seu servidor. Para documentos sigilosos, mantenha o provedor <code>local</code> ou use um modelo executado na sua própria rede (Ollama).</div>
+
+  <h3 id="s-falha">Falhas do provedor</h3>
+  <p>Se a API externa demorar mais que <code>AI_TIMEOUT</code> (60 s), responder com erro, retornar sem JSON ou com uma descrição vazia, o worker usa imediatamente o resumo local: o documento fica pronto do mesmo jeito e o motivo aparece em <strong>Sistema → Últimas etapas</strong>. Documentos sem texto (PDF digitalizado como imagem) recebem um aviso no lugar da descrição. As etiquetas sugeridas pela IA nunca apagam as que você escolheu.</p>
+  <div class="note tip"><span class="eyebrow">Como identificar a origem</span>Na prévia e no detalhe, a descrição informa quem a escreveu: resumo automático, Claude ou o modelo configurado. Tudo o que vem da IA aparece em Sálvia escura.</div>
+</section>
+
+<!-- ===================== 07 ARQUITETURA ===================== -->
+<section class="chapter" id="ch-arq">
+  <div class="chapter-head">
+    <div class="num">Capítulo 07</div>
+    <h2>Arquitetura</h2>
+    <p class="lede">Cinco serviços no Docker Compose. O PostgreSQL guarda o estado; o Redis distribui o trabalho e os avisos; o processador Java não acessa o banco e apenas lê e grava arquivos.</p>
+  </div>
+
+  <div class="diagram">
+  <svg viewBox="0 0 660 300" xmlns="http://www.w3.org/2000/svg" font-family="Public Sans" font-size="10">
+    <defs>
+      <marker id="ar" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L8 4L0 8Z" fill="#1E252C"/></marker>
+      <marker id="arA" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L8 4L0 8Z" fill="#9C4A5B"/></marker>
+    </defs>
+    <!-- caixas -->
+    <g stroke="#1E252C" stroke-width="0.8">
+      <rect x="10" y="18" width="150" height="54" fill="#FFFFFF"/>
+      <rect x="255" y="18" width="150" height="54" fill="#F4F1DE"/>
+      <rect x="500" y="18" width="150" height="54" fill="#FFFFFF"/>
+      <rect x="10" y="123" width="150" height="54" fill="#FFFFFF"/>
+      <rect x="255" y="123" width="150" height="54" fill="#FFFFFF"/>
+      <rect x="10" y="228" width="150" height="54" fill="#EDF2E6" stroke="#556B47"/>
+      <rect x="255" y="228" width="150" height="54" fill="#F4F1DE"/>
+      <rect x="500" y="228" width="150" height="54" fill="#F4F1DE"/>
+    </g>
+    <g fill="#9C4A5B"><rect x="255" y="18" width="150" height="3"/><rect x="255" y="228" width="150" height="3"/><rect x="500" y="228" width="150" height="3"/></g>
+    <g font-family="Literata" font-weight="600" font-size="12" fill="#1E252C" text-anchor="middle">
+      <text x="85" y="42">Navegador</text>
+      <text x="330" y="42">web · Django 5</text>
+      <text x="575" y="42">Volume /data</text>
+      <text x="85" y="147">PostgreSQL 16</text>
+      <text x="330" y="147">Redis 7</text>
+      <text x="85" y="252" fill="#556B47">Provedor de IA</text>
+      <text x="330" y="252">worker · Python</text>
+      <text x="575" y="252">processor · Java 21</text>
+    </g>
+    <g font-size="8.5" fill="#3B4651" text-anchor="middle">
+      <text x="85" y="58">HTML · CSS · JavaScript</text>
+      <text x="330" y="58">API REST · WebSocket · páginas</text>
+      <text x="575" y="58">arquivos, capas, HTML</text>
+      <text x="85" y="163">fonte da verdade</text>
+      <text x="330" y="163">Streams · pub/sub · cache</text>
+      <text x="85" y="268">local · Claude · OpenAI</text>
+      <text x="330" y="268">pipeline · descrição por IA</text>
+      <text x="575" y="268">PDFBox · DOCX · capas</text>
+    </g>
+    <!-- ligações -->
+    <g stroke="#1E252C" stroke-width="0.8" fill="none">
+      <line x1="160" y1="38" x2="253" y2="38" marker-end="url(#ar)"/>
+      <line x1="255" y1="54" x2="162" y2="54" marker-end="url(#ar)"/>
+      <line x1="405" y1="45" x2="498" y2="45" marker-end="url(#ar)"/>
+      <line x1="280" y1="72" x2="150" y2="121" marker-end="url(#ar)"/>
+      <line x1="315" y1="72" x2="315" y2="121" marker-end="url(#ar)"/>
+      <line x1="315" y1="177" x2="315" y2="226" marker-end="url(#ar)"/>
+      <line x1="280" y1="228" x2="150" y2="179" marker-end="url(#ar)"/>
+      <line x1="255" y1="255" x2="162" y2="255" marker-end="url(#ar)"/>
+      <line x1="405" y1="255" x2="498" y2="255" marker-end="url(#ar)"/>
+      <line x1="575" y1="228" x2="575" y2="74" marker-end="url(#ar)"/>
+    </g>
+    <g stroke="#9C4A5B" stroke-width="0.8" fill="none" stroke-dasharray="3 2">
+      <line x1="350" y1="226" x2="350" y2="179" marker-end="url(#arA)"/>
+      <line x1="350" y1="123" x2="350" y2="74" marker-end="url(#arA)"/>
+    </g>
+    <g font-family="Plex Mono" font-size="7.5" fill="#66707A">
+      <text x="185" y="33">HTTP</text>
+      <text x="180" y="66">WebSocket</text>
+      <text x="420" y="40">grava o envio</text>
+      <text x="168" y="96">SQL</text>
+      <text x="270" y="102">XADD</text>
+      <text x="252" y="205">XREADGROUP</text>
+      <text x="168" y="208">SQL</text>
+      <text x="180" y="250">descrição</text>
+      <text x="415" y="250">POST /v1/process</text>
+      <text x="582" y="150">lê e grava</text>
+      <text x="356" y="205" fill="#9C4A5B">PUBLISH</text>
+      <text x="356" y="102" fill="#9C4A5B">eventos</text>
+    </g>
+  </svg>
+  </div>
+
+  <h3 id="s-servicos">Serviços</h3>
+  <table>
+    <thead><tr><th style="width:14%">Serviço</th><th style="width:30%">Comando</th><th>Responsabilidade</th></tr></thead>
+    <tbody>
+      <tr><td><code>postgres</code></td><td>imagem oficial 16</td><td>Documentos, contas, leituras, anotações, coleções e histórico do processamento</td></tr>
+      <tr><td><code>redis</code></td><td>imagem oficial 7, AOF ligado</td><td>Filas (Streams), retentativas, eventos (pub/sub), cache, sessões e bloqueio de login</td></tr>
+      <tr><td><code>processor</code></td><td><code>java -jar processor.jar</code></td><td>API HTTP interna (porta 8090): lê PDF e DOCX; gera capa, texto, sumário e HTML</td></tr>
+      <tr><td><code>web</code></td><td><code>./start.sh</code> (migrações + Uvicorn)</td><td>Páginas, API REST, WebSocket, arquivos estáticos e envio</td></tr>
+      <tr><td><code>worker</code></td><td><code>python manage.py worker</code></td><td>Consome as filas, chama o processador, escreve a descrição e recupera falhas</td></tr>
+    </tbody>
+  </table>
+
+  <h3 id="s-caminho">O caminho de um documento</h3>
+  <ol class="steps">
+    <li><strong>Envio.</strong> O web confere tamanho e tipo pelo conteúdo, calcula o SHA-256 enquanto grava, recusa repetidos e salva o arquivo em <code>/data/documents/&lt;id&gt;/original.pdf</code>. Cria o documento no estado <em>Na fila</em> e, só depois do commit, publica no stream <code>docs:extract</code>.</li>
+    <li><strong>Leitura.</strong> Um worker assume a mensagem (<code>XREADGROUP</code>), marca <em>Lendo o documento</em> com <code>SELECT … FOR UPDATE SKIP LOCKED</code> e chama <code>POST /v1/process</code> no processador.</li>
+    <li><strong>Processador Java.</strong> Para PDF: metadados, número de páginas, texto (páginas separadas por quebra de página), sumário pelos marcadores e capa da primeira página não vazia. Para DOCX: lê o pacote com StAX, gera <code>reader.html</code>, extrai imagens, monta o sumário pelos títulos e desenha a capa tipográfica.</li>
+    <li><strong>Gravação.</strong> O worker higieniza o HTML novamente, guarda metadados, texto e sumário, atualiza o índice de busca e publica em <code>docs:describe</code>.</li>
+    <li><strong>Descrição.</strong> O worker gera descrição, idioma e etiquetas, marca <em>Pronto</em> e publica o evento.</li>
+    <li><strong>Tempo real.</strong> A cada mudança, um aviso vai para o canal <code>events:user:&lt;id&gt;</code> (e <code>events:shared</code>, se o documento for compartilhado); o web o entrega pelo WebSocket e o navegador busca o documento atualizado.</li>
+  </ol>
+
+  <h3 id="s-filas">Filas, retentativas e recuperação</h3>
+  <table>
+    <thead><tr><th style="width:27%">Situação</th><th>Comportamento</th></tr></thead>
+    <tbody>
+      <tr><td>Streams <code>docs:extract</code> e <code>docs:describe</code></td><td>Grupo de consumidores <code>workers</code>; cada worker tem <code>WORKER_THREADS</code> linhas de execução e só confirma (<code>XACK</code>) depois de terminar.</td></tr>
+      <tr><td>Mensagem repetida</td><td>A etapa só começa se o documento estiver no estado esperado; uma mensagem duplicada ou atrasada não tem efeito.</td></tr>
+      <tr><td>Erro passageiro</td><td>Processador fora do ar, falha de rede ou resposta 503: nova tentativa com espera exponencial (5 s, 15 s, 45 s, até 300 s), registrada no ZSET <code>docs:delayed</code>. Depois de <code>PIPELINE_MAX_ATTEMPTS</code> (4), o documento fica <em>Falhou</em>.</td></tr>
+      <tr><td>Arquivo recusado</td><td>PDF com senha, arquivo corrompido ou formato inválido (resposta 422): falha imediata, com o motivo em português, sem consumir tentativas.</td></tr>
+      <tr><td>Worker interrompido</td><td>Mensagens paradas há mais de <code>PIPELINE_VISIBILITY_TIMEOUT</code> (600 s) são reassumidas com <code>XAUTOCLAIM</code>.</td></tr>
+      <tr><td>Redis apagado</td><td>Os grupos são recriados automaticamente e a varredura devolve à fila os documentos parados há mais de <code>PIPELINE_STALE_AFTER</code> (1 800 s). Nada se perde: o estado está no PostgreSQL.</td></tr>
+      <tr><td>Batimento</td><td>Cada worker grava <code>workers:&lt;nome&gt;</code> a cada 5 s, com validade de 30 s; é essa informação que a tela Sistema exibe.</td></tr>
+    </tbody>
+  </table>
+  <div class="note"><span class="eyebrow">Tempo limite</span>O worker espera o processador por até <code>PROCESSOR_TIMEOUT</code> (300 s), menos que o tempo para reassumir uma mensagem (600 s). Assim, um documento muito grande nunca é processado por dois workers ao mesmo tempo.</div>
+
+  <h3 id="s-seguranca">Segurança</h3>
+  <table>
+    <thead><tr><th style="width:20%">Camada</th><th>Proteção</th></tr></thead>
+    <tbody>
+      <tr><td>Navegador</td><td>Content-Security-Policy sem scripts inline, <code>X-Frame-Options: DENY</code>, nosniff, Referrer-Policy e Permissions-Policy; HSTS com <code>APP_HTTPS=true</code>.</td></tr>
+      <tr><td>Contas</td><td>Senhas com PBKDF2 e validadores do Django; bloqueio de 15 min após 5 erros por IP e e-mail; CSRF em todo POST com sessão; sessão de 14 dias com cookie HttpOnly.</td></tr>
+      <tr><td>Tokens da API</td><td>Formato <code>dl_&lt;prefixo&gt;_&lt;segredo&gt;</code>; apenas o SHA-256 é armazenado; podem expirar e ser revogados.</td></tr>
+      <tr><td>Envio</td><td>Tipo verificado pelo conteúdo, limite de tamanho por arquivo e por envio, arquivo temporário apagado em qualquer erro.</td></tr>
+      <tr><td>Arquivos</td><td>Servidos apenas pela API, com checagem de permissão; nomes de mídia validados; suporte a Range e ETag.</td></tr>
+      <tr><td>Processador Java</td><td>Sem acesso a banco ou Redis; <code>PathGuard</code> impede sair de <code>/data</code>; XML lido com StAX sem DTD nem entidades externas (XXE); limites contra zip-bomb (10 000 entradas, 64 MB por XML, 512 MB no total); PDFBox com cache em arquivo temporário; fila de capacidade com resposta 503.</td></tr>
+      <tr><td>HTML de leitura</td><td>Gerado com lista restrita no Java e higienizado novamente com nh3 (apenas tags e atributos permitidos; links http, https e mailto com <code>noopener</code>).</td></tr>
+      <tr><td>Busca</td><td>Trechos encontrados são escapados antes de virar HTML.</td></tr>
+    </tbody>
+  </table>
+
+  <h3 id="s-pastas">Estrutura de pastas</h3>
+  <pre class="tree">Document-Library-Platform/
+├── docker-compose.yml           <i>serviços, volumes e perfil ia-local</i>
+├── .env.example                 <i>todas as configurações (sem segredos)</i>
+├── iniciar.cmd · iniciar.sh     <i>primeira execução em um comando</i>
+├── web/                         <i>aplicação Python</i>
+│   ├── config/                  <i>settings, rotas, ASGI</i>
+│   ├── apps/
+│   │   ├── accounts/            <i>contas, tokens, bloqueio de login</i>
+│   │   ├── library/             <i>documentos, busca, estantes, coleções, anotações</i>
+│   │   ├── processing/          <i>filas, worker, etapas, cliente do processador</i>
+│   │   ├── ai/                  <i>resumo local e provedores externos</i>
+│   │   ├── realtime/            <i>WebSocket e distribuidor de eventos</i>
+│   │   └── core/                <i>arquivos com Range, eventos, segurança</i>
+│   ├── templates/ · static/     <i>páginas, CSS, JavaScript, fontes, pdf.js</i>
+│   └── tests/                   <i>Pytest</i>
+├── processor/                   <i>serviço Java (Maven)</i>
+│   └── src/main/java/io/github/havelroot/processor/
+│       └── http/ · pdf/ · docx/ · cover/
+├── exemplos/                    <i>12 documentos fictícios + manifest.json</i>
+├── docs/                        <i>imagens, fontes HTML e cópias dos PDFs</i>
+└── .github/workflows/           <i>ci.yml e diario.yml</i></pre>
+</section>
+
+<!-- ===================== 08 API ===================== -->
+<section class="chapter" id="ch-api">
+  <div class="chapter-head">
+    <div class="num">Capítulo 08</div>
+    <h2>API REST</h2>
+    <p class="lede">Tudo o que a interface faz está disponível na API. A documentação interativa, gerada a partir do código, fica em <code>/api/docs</code> (Swagger), e o esquema OpenAPI em <code>/api/schema</code>.</p>
+  </div>
+
+  <h3 id="s-auth">Autenticação</h3>
+  <ul>
+    <li><strong>No navegador</strong>: a sessão criada na tela de entrada. Pedidos que alteram dados levam o cabeçalho <code>X-CSRFToken</code> com o valor do cookie <code>csrftoken</code>.</li>
+    <li><strong>Em scripts</strong>: crie um token em Minha conta e envie <code>Authorization: Bearer dl_…</code>. Tokens não precisam de CSRF.</li>
+  </ul>
+
+  <h3 id="s-rotas">Rotas principais</h3>
+  <p>As rotas de documento abaixo são relativas a <code>/api/v1</code>.</p>
+  <table class="routes">
+    <thead><tr><th>Método</th><th>Rota</th><th>Finalidade</th></tr></thead>
+    <tbody>
+      <tr><td>GET</td><td><code>/api/v1/documents</code></td><td>Lista, com <code>q</code>, <code>scope</code> (mine, shared, all), <code>kind</code>, <code>status</code>, <code>shelf</code>, <code>favorite</code>, <code>collection</code>, <code>tag</code>, <code>sort</code>, <code>page</code> e <code>page_size</code></td></tr>
+      <tr><td>POST</td><td><code>/api/v1/documents</code></td><td>Envio multipart: campo <code>files</code> (repetido), <code>visibility</code> e <code>collection</code></td></tr>
+      <tr><td>GET · PATCH · DELETE</td><td><code>/api/v1/documents/{id}</code></td><td>Detalhe; edição de título, autor, descrição e visibilidade; exclusão</td></tr>
+      <tr><td>GET</td><td><code>/documents/{id}/file</code></td><td>Arquivo original (Range; <code>?download=1</code> força o download)</td></tr>
+      <tr><td>GET</td><td><code>/documents/{id}/cover</code></td><td>Capa em JPEG</td></tr>
+      <tr><td>GET</td><td><code>/documents/{id}/reader</code></td><td>HTML de leitura (DOCX) e sumário</td></tr>
+      <tr><td>POST</td><td><code>/documents/{id}/reprocess</code> · <code>/describe</code></td><td>Ler o arquivo de novo · gerar a descrição de novo</td></tr>
+      <tr><td>PUT</td><td><code>/documents/{id}/tags</code></td><td>Etiquetas do usuário</td></tr>
+      <tr><td>GET · PUT · PATCH</td><td><code>/documents/{id}/reading</code></td><td>Estante, página, progresso, posição e favorito</td></tr>
+      <tr><td>POST</td><td><code>/documents/{id}/open</code></td><td>Registra a abertura no leitor</td></tr>
+      <tr><td>GET · POST</td><td><code>/documents/{id}/annotations</code></td><td>Destaques, notas e marcadores (PATCH e DELETE em <code>/annotations/{id}</code>)</td></tr>
+      <tr><td>GET · POST</td><td><code>/api/v1/collections</code></td><td>Coleções (GET, PATCH e DELETE em <code>/{id}</code>; POST <code>/{id}/documents</code>; PUT <code>/{id}/order</code>)</td></tr>
+      <tr><td>GET</td><td><code>/api/v1/tags</code> · <code>/api/v1/stats</code></td><td>Etiquetas com contagem · números do menu lateral</td></tr>
+      <tr><td>GET · PATCH</td><td><code>/api/v1/me</code></td><td>Perfil, tema e preferências do leitor (senha em <code>/me/password</code>, tokens em <code>/me/tokens</code>)</td></tr>
+      <tr><td>GET</td><td><code>/api/v1/system</code></td><td>Administração: filas, workers, processador, IA e falhas</td></tr>
+      <tr><td>GET · POST</td><td><code>/api/v1/users</code></td><td>Administração: contas</td></tr>
+      <tr><td>WS</td><td><code>/ws/events</code></td><td>Avisos em tempo real (sessão do navegador)</td></tr>
+    </tbody>
+  </table>
+
+  <h3 id="s-exemplos">Exemplos</h3>
+  <h4>Enviar dois arquivos</h4>
+  <pre><code>curl -H "Authorization: Bearer $TOKEN" \
+     -F files=@relatorio.pdf -F files=@ata.docx \
+     http://localhost:8080/api/v1/documents</code></pre>
+  <h4>Buscar em todos os documentos visíveis</h4>
+  <pre><code>curl -H "Authorization: Bearer $TOKEN" \
+     "http://localhost:8080/api/v1/documents?q=banco+de+dados&amp;scope=all"</code></pre>
+  <h4>Baixar o original</h4>
+  <pre><code>curl -H "Authorization: Bearer $TOKEN" -OJ \
+     "http://localhost:8080/api/v1/documents/$ID/file?download=1"</code></pre>
+
+  <h3 id="s-erros">Erros</h3>
+  <p>Os erros seguem sempre o mesmo formato, com a mensagem em português:</p>
+  <pre><code>{"error": "invalid_credentials", "message": "E-mail ou senha incorretos."}</code></pre>
+  <table>
+    <thead><tr><th style="width:16%">Código</th><th>Quando ocorre</th></tr></thead>
+    <tbody>
+      <tr><td><code>400</code></td><td>Dados inválidos (com <code>fields</code> indicando cada campo) ou arquivo recusado</td></tr>
+      <tr><td><code>401</code> · <code>403</code></td><td>Sem sessão ou token · sem permissão (ex.: editar documento de outra pessoa)</td></tr>
+      <tr><td><code>404</code></td><td>Recurso inexistente ou não visível para você</td></tr>
+      <tr><td><code>409</code></td><td>Conflito (ex.: gerar descrição de um documento ainda em processamento)</td></tr>
+      <tr><td><code>429</code></td><td>Muitas tentativas de entrada</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ===================== 09 CONFIGURAÇÃO ===================== -->
+<section class="chapter" id="ch-config">
+  <div class="chapter-head">
+    <div class="num">Capítulo 09</div>
+    <h2>Configuração</h2>
+    <p class="lede">Toda a configuração é feita por variáveis de ambiente no arquivo <code>.env</code>. Os valores abaixo são os padrões aplicados quando a variável fica vazia.</p>
+  </div>
+
+  <h3 id="s-cfg-app">Aplicação</h3>
+  <table class="cfg">
+    <thead><tr><th>Variável</th><th>Padrão</th><th>Finalidade</th></tr></thead>
+    <tbody>
+      <tr><td><code>APP_PORT</code></td><td>8080</td><td>Porta usada no navegador</td></tr>
+      <tr><td><code>APP_SECRET_KEY</code></td><td>—</td><td>Chave secreta do Django (gerada pelo script)</td></tr>
+      <tr><td><code>APP_ALLOWED_HOSTS</code></td><td>localhost,127.0.0.1</td><td>Endereços aceitos</td></tr>
+      <tr><td><code>APP_HTTPS</code></td><td>false</td><td>Cookies seguros e HSTS atrás de proxy HTTPS</td></tr>
+      <tr><td><code>APP_CSRF_TRUSTED_ORIGINS</code></td><td>—</td><td>Origens confiáveis com HTTPS</td></tr>
+      <tr><td><code>APP_SEED_DEMO</code></td><td>true</td><td>Contas e documentos de demonstração num banco vazio</td></tr>
+      <tr><td><code>APP_SIGNUP</code></td><td>true</td><td>Cadastro aberto na tela de entrada</td></tr>
+      <tr><td><code>APP_MAX_UPLOAD_MB</code></td><td>200</td><td>Tamanho máximo por arquivo</td></tr>
+      <tr><td><code>APP_MAX_FILES_PER_UPLOAD</code></td><td>50</td><td>Arquivos por envio</td></tr>
+      <tr><td><code>APP_TIMEZONE</code></td><td>America/Sao_Paulo</td><td>Fuso horário das datas</td></tr>
+      <tr><td><code>APP_LOG_LEVEL</code></td><td>INFO</td><td>Nível de detalhe dos logs</td></tr>
+      <tr><td><code>APP_DEBUG</code></td><td>false</td><td>Somente para desenvolvimento</td></tr>
+      <tr><td><code>WEB_WORKERS</code></td><td>2</td><td>Processos do Uvicorn</td></tr>
+    </tbody>
+  </table>
+
+  <h3 id="s-cfg-dados">Banco, Redis e arquivos</h3>
+  <table class="cfg">
+    <thead><tr><th>Variável</th><th>Padrão</th><th>Finalidade</th></tr></thead>
+    <tbody>
+      <tr><td><code>DB_NAME</code> · <code>DB_USER</code></td><td>lume</td><td>Banco e usuário do PostgreSQL</td></tr>
+      <tr><td><code>DB_PASSWORD</code></td><td>—</td><td>Senha do PostgreSQL (gerada pelo script)</td></tr>
+      <tr><td><code>DB_HOST</code> · <code>DB_PORT</code></td><td>postgres · 5432</td><td>Endereço do banco (a porta também é publicada, apenas em 127.0.0.1)</td></tr>
+      <tr><td><code>REDIS_URL</code></td><td>redis://redis:6379/0</td><td>Endereço do Redis</td></tr>
+      <tr><td><code>DATA_ROOT</code></td><td>/data</td><td>Pasta dos documentos (volume compartilhado)</td></tr>
+    </tbody>
+  </table>
+
+  <h3 id="s-cfg-pipeline">Pipeline e IA</h3>
+  <table class="cfg">
+    <thead><tr><th>Variável</th><th>Padrão</th><th>Finalidade</th></tr></thead>
+    <tbody>
+      <tr><td><code>WORKER_THREADS</code></td><td>2</td><td>Documentos processados ao mesmo tempo por worker</td></tr>
+      <tr><td><code>PROCESSOR_URL</code></td><td>http://processor:8090</td><td>Endereço do processador</td></tr>
+      <tr><td><code>PROCESSOR_TIMEOUT</code></td><td>300</td><td>Espera máxima por documento (s)</td></tr>
+      <tr><td><code>PIPELINE_MAX_ATTEMPTS</code></td><td>4</td><td>Tentativas antes de marcar Falhou</td></tr>
+      <tr><td><code>PIPELINE_VISIBILITY_TIMEOUT</code></td><td>600</td><td>Segundos até reassumir a mensagem de um worker interrompido</td></tr>
+      <tr><td><code>PIPELINE_STALE_AFTER</code></td><td>1800</td><td>Segundos até a varredura devolver um documento parado</td></tr>
+      <tr><td><code>AI_PROVIDER</code></td><td>local</td><td><code>local</code>, <code>anthropic</code> ou <code>openai</code></td></tr>
+      <tr><td><code>AI_API_KEY</code></td><td>—</td><td>Chave do provedor externo</td></tr>
+      <tr><td><code>AI_MODEL</code></td><td>claude-haiku-5-5 (anthropic)</td><td>Modelo usado</td></tr>
+      <tr><td><code>AI_BASE_URL</code></td><td>API oficial</td><td>Outro endereço compatível (Ollama, LM Studio…)</td></tr>
+      <tr><td><code>AI_TIMEOUT</code></td><td>60</td><td>Espera pela resposta da IA (s)</td></tr>
+      <tr><td><code>AI_MAX_INPUT_CHARS</code></td><td>12000</td><td>Tamanho do trecho enviado</td></tr>
+    </tbody>
+  </table>
+
+  <h3 id="s-cfg-java">Processador Java</h3>
+  <table class="cfg">
+    <thead><tr><th>Variável</th><th>Padrão</th><th>Finalidade</th></tr></thead>
+    <tbody>
+      <tr><td><code>PROCESSOR_PORT</code></td><td>8090</td><td>Porta HTTP interna</td></tr>
+      <tr><td><code>PROCESSOR_DATA_ROOT</code></td><td>/data</td><td>Raiz dos arquivos (nada fora dela é lido)</td></tr>
+      <tr><td><code>PROCESSOR_CONCURRENCY</code></td><td>2</td><td>Documentos lidos ao mesmo tempo</td></tr>
+      <tr><td><code>PROCESSOR_ACQUIRE_TIMEOUT</code></td><td>60</td><td>Espera por uma vaga antes de responder 503 (s)</td></tr>
+      <tr><td><code>PROCESSOR_MAX_TEXT_CHARS</code></td><td>2000000</td><td>Limite do texto extraído</td></tr>
+      <tr><td><code>PROCESSOR_LOG_LEVEL</code></td><td>INFO</td><td>DEBUG, INFO, WARN ou ERROR</td></tr>
+    </tbody>
+  </table>
+
+  <h3 id="s-checklist">Checklist para produção</h3>
+  <ul>
+    <li>Senha do banco e <code>APP_SECRET_KEY</code> longas e aleatórias (os scripts já as geram); o <code>.env</code> nunca vai para o Git.</li>
+    <li><code>APP_SEED_DEMO=false</code> e, se for o caso, <code>APP_SIGNUP=false</code>.</li>
+    <li>HTTPS em um proxy reverso (Nginx, Caddy, Traefik) com <code>APP_HTTPS=true</code>, <code>APP_ALLOWED_HOSTS</code> e <code>APP_CSRF_TRUSTED_ORIGINS</code>; o proxy precisa repassar o WebSocket em <code>/ws/</code>.</li>
+    <li>Backup diário do PostgreSQL (<code>pg_dump</code>) e do volume <code>documents</code>, sempre os dois juntos.</li>
+    <li>Quantidade de workers e <code>PROCESSOR_CONCURRENCY</code> ajustados à CPU; acompanhe a tela Sistema.</li>
+    <li>Para IA externa com documentos sensíveis, prefira um modelo executado na sua rede.</li>
+  </ul>
+</section>
+
+<!-- ===================== 10 TESTES ===================== -->
+<section class="chapter" id="ch-testes">
+  <div class="chapter-head">
+    <div class="num">Capítulo 10</div>
+    <h2>Testes e automação</h2>
+    <p class="lede">Os testes rodam contra PostgreSQL e Redis reais, e os testes de ponta a ponta usam o processador Java compilado.</p>
+  </div>
+
+  <h3 id="s-pytest">Pytest</h3>
+  <pre><code>cd web
+pip install -r requirements-dev.txt
+export DB_NAME=lume DB_USER=lume DB_PASSWORD=...
+python -m pytest</code></pre>
+  <p>São 70 testes, com cobertura em torno de 90%:</p>
+  <table>
+    <thead><tr><th style="width:28%">Arquivo</th><th>Cobertura</th></tr></thead>
+    <tbody>
+      <tr><td><code>test_accounts.py</code></td><td>Entrada, bloqueio após 5 erros, CSRF, cadastro, senha, tokens e administração de contas</td></tr>
+      <tr><td><code>test_upload.py</code></td><td>Envio, detecção pelo conteúdo, repetidos, arquivos inválidos, limite de tamanho, coleção e visibilidade</td></tr>
+      <tr><td><code>test_documents.py</code></td><td>Privacidade, compartilhamento, edição, busca sem acento e com trechos, filtros, leitura, anotações, coleções, Range e exclusão</td></tr>
+      <tr><td><code>test_pipeline.py</code></td><td>Etapas, mensagens repetidas, recusa, retentativas com espera, higienização do HTML, recuperação e Redis apagado</td></tr>
+      <tr><td><code>test_ai.py</code></td><td>Resumo local, idioma, etiquetas, Claude e APIs compatíveis simulados, fallback e chave nunca exposta</td></tr>
+      <tr><td><code>test_realtime.py</code></td><td>WebSocket: recusa sem login, eventos próprios e compartilhados</td></tr>
+      <tr><td><code>test_system.py</code></td><td>Saúde, tela Sistema e esquema OpenAPI</td></tr>
+      <tr><td><code>test_e2e_processor.py</code></td><td>PDF, DOCX e PDF corrompido passando pelo processador Java real</td></tr>
+    </tbody>
+  </table>
+  <div class="note"><span class="eyebrow">Isolamento</span>Os testes usam um banco próprio, criado pelo pytest-django, e o banco 15 do Redis (altere com <code>TEST_REDIS_URL</code>), limpo a cada teste. O banco do Redis usado pela aplicação nunca é tocado.</div>
+  <h4>Ponta a ponta com o processador</h4>
+  <pre><code>PROCESSOR_DATA_ROOT=/tmp/lume-e2e java -jar processor/target/processor.jar &amp;
+PROCESSOR_URL=http://localhost:8090 E2E_DATA_ROOT=/tmp/lume-e2e python -m pytest -m e2e</code></pre>
+  <p>Sem o processador em execução, esses quatro testes são pulados.</p>
+
+  <h3 id="s-ci">Integração contínua</h3>
+  <p>O workflow <code>.github/workflows/ci.yml</code> é executado a cada push, em pull requests e uma vez por dia: compila o processador com Maven, sobe PostgreSQL e Redis como serviços, roda o Pytest completo (inclusive os testes de ponta a ponta com o jar recém-compilado) e constrói as imagens Docker.</p>
+
+  <h3 id="s-diario">Atividade diária</h3>
+  <p>O workflow <code>.github/workflows/diario.yml</code> faz dois commits discretos por dia, registrando uma linha no arquivo <code>.github/atividade.txt</code> (que guarda apenas as últimas 60 linhas). Commits de atividade não disparam o CI.</p>
+  <table>
+    <thead><tr><th>Turno</th><th>Horário (Brasília)</th><th>Reserva, se o primeiro falhar</th></tr></thead>
+    <tbody>
+      <tr><td>1º turno</td><td>11:34</td><td>12:56</td></tr>
+      <tr><td>2º turno</td><td>21:12</td><td>22:43</td></tr>
+    </tbody>
+  </table>
+  <ol class="steps">
+    <li>No GitHub, abra <strong>Settings → Secrets and variables → Actions</strong>.</li>
+    <li>Crie os secrets <code>GIT_NAME</code> (seu nome no GitHub) e <code>GIT_EMAIL</code> (o e-mail noreply do GitHub, para não expor o pessoal).</li>
+    <li>Em <strong>Actions → Atividade diária → Run workflow</strong>, execute uma vez para testar.</li>
+  </ol>
+  <p>Se o turno já tiver sido registrado no dia, a execução reserva termina sem novo commit. O push é tentado três vezes, com <code>git pull --rebase</code> entre as tentativas.</p>
+</section>
+
+<!-- ===================== 11 PROBLEMAS ===================== -->
+<section class="chapter" id="ch-problemas">
+  <div class="chapter-head">
+    <div class="num">Capítulo 11</div>
+    <h2>Solução de problemas</h2>
+    <p class="lede">Sintomas mais comuns, a causa provável e a correção. Em caso de dúvida, comece pela tela Sistema e por <code>docker compose logs</code>.</p>
+  </div>
+  <table>
+    <thead><tr><th style="width:28%">Sintoma</th><th style="width:28%">Causa provável</th><th>Solução</th></tr></thead>
+    <tbody>
+      <tr><td>“port is already allocated” ao subir</td><td>Outra aplicação usa a porta 8080 ou 5432</td><td>Altere <code>APP_PORT</code> ou <code>DB_PORT</code> no <code>.env</code> e execute <code>docker compose up -d</code></td></tr>
+      <tr><td>A página não abre em outro computador</td><td>Endereço fora de <code>APP_ALLOWED_HOSTS</code></td><td>Acrescente o IP ou o domínio e reinicie o web</td></tr>
+      <tr><td>Documento fica em “Falhou”</td><td>Arquivo recusado ou tentativas esgotadas</td><td>Veja o motivo no detalhe ou em Sistema; use “Ler o arquivo de novo”</td></tr>
+      <tr><td>“PDF protegido por senha”</td><td>PDF com senha de abertura</td><td>Remova a senha em um leitor de PDF e envie novamente</td></tr>
+      <tr><td>“.doc antigos não são suportados”</td><td>Formato do Word 97–2003</td><td>Abra no Word e salve como <code>.docx</code></td></tr>
+      <tr><td>Documentos parados em “Na fila”</td><td>Worker ou processador fora do ar</td><td><code>docker compose ps</code> e depois <code>docker compose logs worker processor</code>; quando voltarem, a fila anda sozinha</td></tr>
+      <tr><td>Sistema mostra “Processador fora do ar”</td><td>Contêiner parado ou sem memória</td><td><code>docker compose restart processor</code>; documentos muito grandes exigem mais memória</td></tr>
+      <tr><td>IA com “Falta configurar”</td><td>Provedor externo sem chave ou sem modelo</td><td>Preencha <code>AI_API_KEY</code> / <code>AI_MODEL</code> ou volte para <code>AI_PROVIDER=local</code></td></tr>
+      <tr><td>Descrição em “Resumo automático” apesar da IA externa</td><td>A API falhou e o resumo local entrou no lugar</td><td>Veja o erro em Sistema → Últimas etapas e use “Gerar de novo”</td></tr>
+      <tr><td>Redis apagado ou reiniciado sem dados</td><td>Filas perdidas</td><td>Nenhuma ação necessária: os grupos são recriados e a varredura recoloca os documentos na fila</td></tr>
+      <tr><td>“Permission denied” em <code>/data</code></td><td>Volume criado por outro usuário</td><td>As imagens usam UID/GID 10001; ajuste com <code>chown -R 10001:10001</code> no volume</td></tr>
+      <tr><td>“Reconectando…” no menu</td><td>WebSocket bloqueado pelo proxy</td><td>Libere o upgrade de conexão em <code>/ws/</code> no proxy reverso</td></tr>
+      <tr><td>Capa de um PDF ficou em branco</td><td>Primeiras páginas vazias ou só com imagem transparente</td><td>O processador tenta as 3 primeiras; reenviar não muda o resultado. Edite o PDF se quiser outra capa</td></tr>
+    </tbody>
+  </table>
+  <div class="note tip"><span class="eyebrow">Diagnóstico rápido</span><code>curl http://localhost:8080/api/health</code> confirma se o banco e o Redis respondem. A tela Sistema mostra, em um só lugar, o estado do processador, dos workers, das filas e do provedor de IA.</div>
+</section>
+
+<!-- ===================== 12 REFERÊNCIA ===================== -->
+<section class="chapter" id="ch-ref">
+  <div class="chapter-head">
+    <div class="num">Capítulo 12</div>
+    <h2>Referência</h2>
+    <p class="lede">Termos usados neste manual, componentes de terceiros incluídos no projeto e o histórico de versões.</p>
+  </div>
+
+  <h3 id="s-glossario">Glossário</h3>
+  <dl class="gloss">
+    <div class="item"><dt>Coleção</dt><dd>Agrupamento de documentos criado pelo usuário, com ordem própria. Excluí-la não apaga os documentos.</dd></div>
+    <div class="item"><dt>Compartilhado</dt><dd>Documento visível, apenas para leitura, a todas as contas da instalação.</dd></div>
+    <div class="item"><dt>Estante</dt><dd>Situação de leitura de um documento para cada pessoa: Quero ler, Lendo ou Lidos.</dd></div>
+    <div class="item"><dt>Etiqueta</dt><dd>Palavra-chave de um documento; sugerida pela IA ou definida pelo usuário, que tem prioridade.</dd></div>
+    <div class="item"><dt>Etapa</dt><dd>Cada fase do pipeline: Na fila, Lendo o documento, Escrevendo a descrição, Pronto ou Falhou.</dd></div>
+    <div class="item"><dt>Faísca</dt><dd>A marca do Lume: uma página com uma estrela de quatro pontas vazada.</dd></div>
+    <div class="item"><dt>HTML de leitura</dt><dd>Versão do DOCX convertida pelo processador Java e higienizada, exibida no leitor.</dd></div>
+    <div class="item"><dt>Pipeline</dt><dd>Sequência assíncrona que leva o documento do envio ao estado Pronto, conduzida pelo worker.</dd></div>
+    <div class="item"><dt>Processador</dt><dd>Serviço Java 21 com PDFBox que extrai texto, sumário e metadados e gera capas.</dd></div>
+    <div class="item"><dt>Range</dt><dd>Requisição HTTP de parte de um arquivo; permite abrir PDFs grandes antes do fim do download.</dd></div>
+    <div class="item"><dt>Resumo extrativo</dt><dd>Descrição formada por frases do próprio documento, gerada localmente pelo provedor <code>local</code>.</dd></div>
+    <div class="item"><dt>SHA-256</dt><dd>Impressão digital do arquivo, usada para reconhecer envios repetidos.</dd></div>
+    <div class="item"><dt>Stream</dt><dd>Estrutura do Redis usada como fila de mensagens com grupos de consumidores.</dd></div>
+    <div class="item"><dt>Token da API</dt><dd>Credencial pessoal no formato <code>dl_…</code> para scripts; apenas o hash é armazenado.</dd></div>
+    <div class="item"><dt>Worker</dt><dd>Processo Python que consome as filas, chama o processador e escreve a descrição.</dd></div>
+    <div class="item"><dt>WebSocket</dt><dd>Conexão permanente com o navegador, usada para os avisos em tempo real.</dd></div>
+  </dl>
+
+  <h3 id="s-terceiros">Componentes de terceiros</h3>
+  <p>O Lume inclui ou depende de componentes com licenças próprias, que continuam valendo para cada um deles.</p>
+  <table>
+    <thead><tr><th style="width:24%">Componente</th><th>Uso no projeto</th><th style="width:28%">Licença</th></tr></thead>
+    <tbody>
+      <tr><td>pdf.js</td><td>Renderização de PDF no leitor</td><td>Apache-2.0</td></tr>
+      <tr><td>Apache PDFBox</td><td>Serviço Java de capas, texto e sumário</td><td>Apache-2.0</td></tr>
+      <tr><td>Django</td><td>Back-end web</td><td>BSD-3-Clause</td></tr>
+      <tr><td>Lucide</td><td>Ícones da interface</td><td>ISC</td></tr>
+      <tr><td>Public Sans</td><td>Fonte da interface</td><td>SIL Open Font License 1.1</td></tr>
+      <tr><td>Literata</td><td>Fonte de títulos e de leitura</td><td>SIL Open Font License 1.1</td></tr>
+      <tr><td>IBM Plex Mono <span class="tag new">1.1.0</span></td><td>Fonte de metadados, contadores, rótulos e atalhos (<code>web/static/fonts/OFL-IBMPlexMono.txt</code>)</td><td>SIL Open Font License 1.1</td></tr>
+      <tr><td>Pytest</td><td>Testes automatizados</td><td>MIT</td></tr>
+    </tbody>
+  </table>
+  <p>PostgreSQL e Redis rodam como serviços externos via Docker e não são redistribuídos no repositório; cada um segue a licença da própria imagem. Os documentos enviados pelos usuários pertencem aos seus autores e não são cobertos pela licença do projeto.</p>
+
+  <h3 id="s-versoes">Histórico de versões</h3>
+  <div class="version">
+    <div class="vh"><span class="vn">1.1.0</span><span class="vd">Outubro de 2026 · versão atual</span></div>
+    <ul>
+      <li>Nova identidade visual: Creme como mesa, fundo de leitura mais claro, tinta escura #1E252C e Rosé tinta #9C4A5B como cor de assinatura; Sálvia escura para tudo o que vem da IA; tema escuro revisto.</li>
+      <li>Tipografia em três vozes, com a nova IBM Plex Mono auto-hospedada.</li>
+      <li>Biblioteca com cabeçalho de resumo, filtros em abas com contadores e capas com efeito de lombada.</li>
+      <li>Cantos menos arredondados e sombras mais discretas.</li>
+      <li>Acessibilidade: link “Pular para o conteúdo”, respeito a <code>prefers-reduced-motion</code> e contraste AA.</li>
+      <li>Manual técnico reescrito, com visão rápida, atalhos, acessibilidade e glossário.</li>
+    </ul>
+  </div>
+  <div class="version old">
+    <div class="vh"><span class="vn">1.0.0</span><span class="vd">Lançamento</span></div>
+    <ul>
+      <li>Primeira versão pública: envio com capas automáticas, descrição por IA, busca em texto completo, leitor de PDF e DOCX com anotações, estantes, coleções, administração e API REST.</li>
+    </ul>
+  </div>
+
+  <div class="colophon">Lume · Manual técnico · versão 1.1.0 · outubro de 2026. Composto em Literata, Public Sans e IBM Plex Mono. Copyright © 2026 Clara A. Portes. Distribuído sob a licença MIT.</div>
+</section>
+</body>
+</html>

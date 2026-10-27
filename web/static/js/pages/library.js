@@ -17,7 +17,32 @@ const SORTS = [
 function greeting() {
   const hour = new Date().getHours();
   const part = hour < 5 ? "Boa noite" : hour < 12 ? "Bom dia" : hour < 18 ? "Boa tarde" : "Boa noite";
-  return `${part}, ${store.user.name.split(" ")[0]}`;
+  return `${part}, ${store.user.name.split(" ")[0]}.`;
+}
+
+function today() {
+  return new Intl.DateTimeFormat("pt-BR", { weekday: "long", day: "numeric", month: "long" }).format(new Date());
+}
+
+const plural = (n, one, many) => `${fmt.n(n)} ${n === 1 ? one : many}`;
+
+/* Resumo em uma frase, com números reais: diz o que está em andamento em vez de uma pergunta genérica. */
+function summary(s) {
+  const total = s.total || 0;
+  if (!total) return ["Sua biblioteca ainda está vazia. Arraste PDFs ou DOCX para esta janela, ou use ", h("b", "Enviar documentos"), "."];
+  const reading = s.shelves?.lendo || 0;
+  const parts = [h("b", plural(total, "documento", "documentos")), " na sua biblioteca"];
+  if (reading) parts.push(", ", h("b", plural(reading, "em leitura", "em leitura")));
+  if (s.processing) parts.push(" e ", h("b", plural(s.processing, "sendo preparado", "sendo preparados")));
+  parts.push(".");
+  if (s.failed) parts.push(` ${plural(s.failed, "arquivo precisa", "arquivos precisam")} de atenção.`);
+  return parts;
+}
+
+function ledger(s) {
+  const item = (label, value) => h("div", h("dt", label), h("dd", fmt.n(value || 0)));
+  return h("dl.ledger", { "aria-label": "Resumo da biblioteca" },
+    item("Quero ler", s.shelves?.para_ler), item("Lendo", s.shelves?.lendo), item("Lidos", s.shelves?.lido));
 }
 
 function viewPref() {
@@ -37,7 +62,7 @@ export async function mount({ root, props, params, navigate }) {
   const state = { page: 1, next: null, loading: false, docs: new Map(), view: viewPref(), total: 0 };
   const results = h("div");
   const sentinel = h("div.more-loader", { hidden: true }, h("span.spinner"));
-  const chipsBox = h("div.chips", { role: "toolbar", "aria-label": "Filtros" });
+  const chipsBox = h("div.chips.filters", { role: "toolbar", "aria-label": "Filtros" });
   const sortSelect = h("select.input.select-sm", { "aria-label": "Ordenar" });
   const viewSeg = h("div.seg.icons", { role: "group", "aria-label": "Visualização" });
   const head = h("div");
@@ -75,7 +100,10 @@ export async function mount({ root, props, params, navigate }) {
       head.append(h("div.page-head", h("div", h("h1", "Compartilhados"),
         h("p", "Documentos que outras pessoas desta instalação deixaram visíveis para todos."))));
     } else {
-      head.append(h("div.page-head.greeting", h("div", h("h1", greeting()), h("p", "O que você vai ler hoje?"))));
+      const s = store.stats || {};
+      head.append(h("div.page-head.greeting",
+        h("div", h("span.eyebrow", today()), h("h1", greeting()), h("p.summary", ...summary(s))),
+        s.total ? ledger(s) : null));
     }
   }
 
@@ -182,10 +210,11 @@ export async function mount({ root, props, params, navigate }) {
       chip("Todos", null, null, mine ? s.total : null),
       chip("PDF", "kind", "pdf", mine ? s.pdf : null),
       chip("DOCX", "kind", "docx", mine ? s.docx : null),
+      h("span.sep", { "aria-hidden": "true" }),
       chip("Quero ler", "shelf", "para_ler", null, "var(--shelf-para_ler)"),
       chip("Lendo", "shelf", "lendo", null, "var(--shelf-lendo)"),
       chip("Lidos", "shelf", "lido", null, "var(--shelf-lido)"),
-      chip("Favoritos", "favorite", "1"),
+      chip("Favoritos", "favorite", "1", mine ? s.favorites : null),
       mine && s.processing ? chip("Processando", "status", "processing", s.processing) : null,
       mine && s.failed ? chip("Com erro", "status", "failed", s.failed) : null,
     );
@@ -372,6 +401,7 @@ export async function mount({ root, props, params, navigate }) {
   window.addEventListener("library:query", onQuery);
   window.addEventListener("library:refresh", onQuery);
   const unsubscribe = subscribe(() => {
+    if (!collection && scope === "mine") renderHead();
     renderContinue();
     renderFilters();
   });
