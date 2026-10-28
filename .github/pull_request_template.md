@@ -10,5 +10,6 @@
 ## Checklist
 - [ ] Os testes passaram (`pytest`)
 - [ ] O Ruff não apontou problemas (`ruff check .`)
+- [ ] Não há migrações pendentes (`python manage.py makemigrations --check --dry-run`)
 - [ ] O README ou o manual foi atualizado, se necessário
 - [ ] Se foi feito em dupla, o commit inclui `Co-authored-by:`
