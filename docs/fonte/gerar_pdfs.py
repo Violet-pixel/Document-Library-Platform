@@ -1,8 +1,10 @@
 """Gera os manuais em PDF do Lume a partir dos HTML desta pasta.
 
-Uso:  python docs/fonte/gerar_pdfs.py            # os dois
+Uso:  python docs/fonte/gerar_pdfs.py            # todos
       python docs/fonte/gerar_pdfs.py manual     # só o manual
       python docs/fonte/gerar_pdfs.py banco      # só o banco de dados
+      python docs/fonte/gerar_pdfs.py apresentacao  # só a apresentação
+      python docs/fonte/gerar_pdfs.py guia       # só o guia de uso
 
 Requer: pip install weasyprint==70.0
 Grava o PDF na raiz do repositório e uma cópia idêntica em docs/.
@@ -18,6 +20,8 @@ RAIZ = AQUI.parents[1]
 DOCS = {
     "manual": ("manual.html", "Manual-Lume.pdf"),
     "banco": ("banco-de-dados.html", "Banco-de-Dados-Lume.pdf"),
+    "apresentacao": ("apresentacao.html", "Apresentacao-Lume.pdf"),
+    "guia": ("guia.html", "Guia-de-Uso-Lume.pdf"),
 }
 
 

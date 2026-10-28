@@ -1,0 +1,406 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Lume — Apresentação do projeto</title>
+<meta name="author" content="Clara A. Portes">
+<meta name="description" content="Apresentação do Lume: problema, solução, arquitetura, decisões técnicas e design">
+<meta name="dcterms.created" content="2026-10-27">
+<link rel="stylesheet" href="base.css">
+<link rel="stylesheet" href="manual.css">
+<link rel="stylesheet" href="apresentacao.css">
+</head>
+<body>
+<span class="doc-title">Apresentação do projeto</span><span class="doc-version">versão 1.1.0 · outubro de 2026</span>
+
+<!-- ===================== CAPA ===================== -->
+<div class="cover">
+  <div class="spine"><span>Lume · apresentação · 1.1.0</span></div>
+  <div class="top"><span>Lume · DOC-03 · v1.1.0</span><span>Apresentação do projeto</span></div>
+  <div class="rule"></div>
+  <div class="mark"><svg viewBox="0 0 64 64"><path fill="#1E252C" fill-rule="evenodd" d="M18 6H46A6 6 0 0 1 52 12V52A6 6 0 0 1 46 58H18A6 6 0 0 1 12 52V12A6 6 0 0 1 18 6ZM32 14.5C33.1 23.6 36.4 26.9 45.5 28C36.4 29.1 33.1 32.4 32 41.5C30.9 32.4 27.6 29.1 18.5 28C27.6 26.9 30.9 23.6 32 14.5ZM22 47.5A2 2 0 0 1 24 45.5H40A2 2 0 0 1 42 47.5V49.5A2 2 0 0 1 40 51.5H24A2 2 0 0 1 22 49.5Z"/></svg></div>
+  <h1>Lume</h1>
+  <div class="sub">Apresentação do projeto</div>
+  <div class="desc">O que o Lume resolve, como foi construído e por que cada peça está onde está — em dez páginas, para quem quer conhecer o projeto sem instalar nada.</div>
+
+  <div class="card">
+    <div class="card-id"><span>Ficha DOC-03</span><span>004.4 · LUM</span></div>
+    <dl>
+      <div class="row"><dt>Assunto</dt><dd>Problema, solução, arquitetura, decisões e design</dd></div>
+      <div class="row"><dt>Plataforma</dt><dd>Django · Python · Java 21 · PostgreSQL · Redis</dd></div>
+      <div class="row"><dt>Público</dt><dd>Recrutadores, colaboradores e curiosos</dd></div>
+      <div class="row"><dt>Edição</dt><dd>Versão 1.1.0 · outubro de 2026</dd></div>
+      <div class="row"><dt>Licença</dt><dd>MIT</dd></div>
+    </dl>
+    <div class="hole"></div>
+  </div>
+
+  <div class="labels">
+    <div style="background:#F4F1DE;border:0.6pt solid #C9BFA8"><b>Creme</b>#F4F1DE</div>
+    <div style="background:#B0A08C"><b>Camurça</b>#B0A08C</div>
+    <div style="background:#B8C9A9"><b>Sálvia</b>#B8C9A9</div>
+    <div style="background:#8395A7"><b>Ardósia</b>#8395A7</div>
+    <div style="background:#D8A7B1"><b>Rosé</b>#D8A7B1</div>
+  </div>
+
+  <div class="foot">
+    <div><div class="author">Clara A. Portes</div>em parceria com Erik Pimenta</div>
+    <div class="mono">Outubro de 2026<br>Rio de Janeiro · pt-BR</div>
+  </div>
+</div>
+
+<!-- ===================== 01 EM UMA PÁGINA ===================== -->
+<section class="chapter" id="ch-resumo">
+  <div class="chapter-head">
+    <div class="num">01 · Em uma página</div>
+    <h2>Uma biblioteca que lê junto com você</h2>
+    <p class="lede">O Lume é uma biblioteca web auto-hospedada para PDF e DOCX. Você solta os arquivos; ele gera as capas, extrai texto e sumário, escreve uma descrição com IA e abre tudo num leitor próprio que lembra onde você parou.</p>
+  </div>
+
+  <div class="stats">
+    <div class="stat accent"><div class="v">5</div><div class="l">serviços no<br>Docker Compose</div></div>
+    <div class="stat"><div class="v">3</div><div class="l">linguagens<br>Python · Java · JS</div></div>
+    <div class="stat"><div class="v">~13<small> mil</small></div><div class="l">linhas de código<br>próprio</div></div>
+    <div class="stat"><div class="v">70</div><div class="l">testes automatizados<br>com ponta a ponta</div></div>
+    <div class="stat"><div class="v">0</div><div class="l">etapas de build<br>no front-end</div></div>
+  </div>
+
+  <div class="eyebrow">Do envio à leitura</div>
+  <div class="flow">
+    <div><b>01 · Envio</b>Arrastar e soltar em qualquer lugar da janela</div>
+    <div><b>02 · Fila</b>Redis Streams com grupo de consumidores</div>
+    <div><b>03 · Leitura</b>Processador Java extrai texto, sumário e capa</div>
+    <div class="ai"><b>04 · Descrição</b>Resumo e etiquetas por IA ou local</div>
+    <div><b>05 · Leitor</b>Pronto, avisado em tempo real pelo WebSocket</div>
+  </div>
+
+  <figure style="margin-top:6mm">
+    <img src="../images/tela-biblioteca.png" alt="Biblioteca do Lume">
+    <figcaption><b>Fig. 1</b>A biblioteca: cabeçalho com números reais, filtros como abas de índice, capas geradas e a prévia com a descrição por IA.</figcaption>
+  </figure>
+</section>
+
+<!-- ===================== 02 PROBLEMA ===================== -->
+<section class="chapter" id="ch-problema">
+  <div class="chapter-head">
+    <div class="num">02 · O problema</div>
+    <h2>Documentos espalhados, leitura perdida</h2>
+    <p class="lede">Apostilas, manuais, relatórios e atas vivem em pastas, e-mails e aplicativos diferentes — sem capa, sem resumo e sem lembrar onde a leitura parou.</p>
+  </div>
+
+  <div class="versus">
+    <div class="before">
+      <div class="eyebrow">Antes</div>
+      <ul>
+        <li>Arquivos com nomes como <code>final_v3.pdf</code>, sem pista do conteúdo.</li>
+        <li>Para saber do que trata um documento, é preciso abri-lo.</li>
+        <li>Busca só pelo nome do arquivo, nunca pelo texto de dentro.</li>
+        <li>Cada leitor guarda (ou não) a página e as anotações do seu jeito.</li>
+        <li>Compartilhar com a equipe significa mandar o arquivo de novo.</li>
+      </ul>
+    </div>
+    <div class="after">
+      <div class="eyebrow">Com o Lume</div>
+      <ul>
+        <li>Toda entrada ganha capa, autor, páginas e tempo de leitura.</li>
+        <li>Duas ou três frases de descrição e etiquetas sugeridas.</li>
+        <li>Busca no texto inteiro, sem diferenciar acentos, com o trecho em destaque.</li>
+        <li>Posição, destaques, notas e marcadores salvos por pessoa.</li>
+        <li>Estantes, coleções e documentos compartilhados com a instalação.</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>Para quem foi feito</h3>
+  <div class="cards three">
+    <div class="c"><div class="k">Equipes</div><h4>Um acervo único</h4><p>Reunir manuais, políticas, contratos e atas num lugar pesquisável, com contas, papéis e compartilhamento.</p></div>
+    <div class="c"><div class="k">Leitores</div><h4>Uma estante pessoal</h4><p>Quero ler, lendo e lidos, com progresso, destaques em quatro cores e modo foco — no próprio computador ou servidor.</p></div>
+    <div class="c"><div class="k">Desenvolvedores</div><h4>Um projeto para estudar</h4><p>Uma aplicação Django com processamento assíncrono, serviço Java e tempo real, toda documentada e testada.</p></div>
+  </div>
+
+  <h3>O que entra na biblioteca</h3>
+  <table class="compact">
+    <thead><tr><th>Recurso</th><th>Como funciona</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Capas</strong></td><td>A página 1 do PDF vira capa (se estiver em branco, tenta a próxima). DOCX ganha uma capa tipográfica na paleta do projeto.</td></tr>
+      <tr><td><strong>Descrição por IA</strong></td><td>Sem chave, um resumo extrativo local. Com chave, Claude, OpenAI, Ollama ou qualquer API compatível. Se o provedor falhar, o local assume.</td></tr>
+      <tr><td><strong>Leitor</strong></td><td>PDF com pdf.js (zoom, miniaturas, sumário, busca, temas papel, sépia e noite) e DOCX convertido em HTML de leitura.</td></tr>
+      <tr><td><strong>Organização</strong></td><td>Estantes com arrastar e soltar, coleções com ordem própria, favoritos e etiquetas.</td></tr>
+      <tr><td><strong>Tempo real</strong></td><td>Capas, descrições, contadores e estantes se atualizam em todas as abas abertas.</td></tr>
+      <tr><td><strong>Operação</strong></td><td>Painel Sistema com filas, workers, processador e IA; tokens pessoais para a API REST.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ===================== 03 PRODUTO ===================== -->
+<section class="chapter" id="ch-produto">
+  <div class="chapter-head">
+    <div class="num">03 · O produto</div>
+    <h2>Feito para ler de verdade</h2>
+    <p class="lede">O centro do Lume é o leitor. Tudo o que vem antes — capa, texto, sumário, descrição — existe para que abrir um documento seja rápido e voltar a ele seja natural.</p>
+  </div>
+
+  <figure class="shot">
+    <img src="../images/tela-leitor-pdf.png" alt="Leitor de PDF">
+    <figcaption><b>Fig. 2</b>Leitor de PDF: sumário à esquerda, página aberta, zoom, busca e destaques. O progresso é salvo a cada página.</figcaption>
+  </figure>
+
+  <figure class="shot">
+    <img src="../images/tela-documento.png" alt="Detalhe do documento">
+    <figcaption><b>Fig. 3</b>Detalhe do documento: descrição por IA (em sálvia), etiquetas, estante, coleções e o sumário extraído do arquivo.</figcaption>
+  </figure>
+</section>
+
+<!-- ===================== 04 ARQUITETURA ===================== -->
+<section class="chapter" id="ch-arq">
+  <div class="chapter-head">
+    <div class="num">04 · Arquitetura</div>
+    <h2>Cinco serviços, um caminho</h2>
+    <p class="lede">A aplicação web responde rápido e nunca lê o arquivo ela mesma: o trabalho pesado vai para uma fila, é feito por workers e por um processador Java isolado, e o resultado volta ao navegador por WebSocket.</p>
+  </div>
+
+  <div class="diagram">
+    <svg viewBox="0 0 674 270" xmlns="http://www.w3.org/2000/svg" font-family="Public Sans" font-size="11">
+      <defs><marker id="a" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L8 4L0 8Z" fill="#1E252C"/></marker></defs>
+      <!-- caixas -->
+      <g stroke="#1E252C" stroke-width="1" fill="#FFFFFF">
+        <rect x="10" y="100" width="110" height="56"/>
+        <rect x="170" y="100" width="120" height="56" fill="#F6E8EB" stroke="#9C4A5B"/>
+        <rect x="350" y="20" width="120" height="50" fill="#F4F1DE"/>
+        <rect x="350" y="190" width="120" height="50" fill="#F4F1DE"/>
+        <rect x="350" y="103" width="120" height="50"/>
+        <rect x="530" y="20" width="120" height="50"/>
+        <rect x="530" y="103" width="120" height="50" fill="#EDF2E6" stroke="#556B47"/>
+        <rect x="530" y="190" width="120" height="50" fill="#F4F1DE"/>
+      </g>
+      <g fill="#1E252C" text-anchor="middle">
+        <text x="65" y="124" font-weight="600">Navegador</text><text x="65" y="140" font-size="9" fill="#66707A">JavaScript + pdf.js</text>
+        <text x="230" y="124" font-weight="600">web</text><text x="230" y="140" font-size="9" fill="#66707A">Django ASGI</text>
+        <text x="410" y="42" font-weight="600">Redis 7</text><text x="410" y="58" font-size="9" fill="#66707A">Streams · pub/sub</text>
+        <text x="410" y="212" font-weight="600">PostgreSQL 16</text><text x="410" y="228" font-size="9" fill="#66707A">fonte da verdade</text>
+        <text x="410" y="125" font-weight="600">worker</text><text x="410" y="141" font-size="9" fill="#66707A">Python</text>
+        <text x="590" y="42" font-weight="600">processor</text><text x="590" y="58" font-size="9" fill="#66707A">Java 21 + PDFBox</text>
+        <text x="590" y="125" font-weight="600">IA (opcional)</text><text x="590" y="141" font-size="9" fill="#66707A">Claude · OpenAI · Ollama</text>
+        <text x="590" y="212" font-weight="600">Volume /data</text><text x="590" y="228" font-size="9" fill="#66707A">originais, capas, HTML</text>
+      </g>
+      <!-- setas -->
+      <g stroke="#1E252C" stroke-width="1" fill="none" marker-end="url(#a)">
+        <path d="M120 128H168"/>
+        <path d="M290 112L350 55"/>
+        <path d="M410 70V101"/>
+        <path d="M470 115L530 55"/>
+        <path d="M470 128H528"/>
+        <path d="M410 153V188"/>
+        <path d="M650 45H664V215H652" stroke-dasharray="3 3"/>
+        <path d="M290 146L350 205"/>
+      </g>
+      <g fill="#FFFFFF"><rect x="278" y="77" width="84" height="11"/><rect x="460" y="77" width="80" height="11"/></g>
+      <g font-family="Plex Mono" font-size="8" fill="#9C4A5B" text-anchor="middle">
+        <text x="144" y="122">HTTP · WS</text>
+        <text x="320" y="85">XADD docs:extract</text>
+        <text x="500" y="85">POST /v1/process</text>
+        <text x="600" y="176">processor grava capa</text>
+        <text x="600" y="185">e HTML no volume</text>
+      </g>
+      <g font-family="Plex Mono" font-size="8" fill="#9C4A5B">
+        <text x="415" y="90">XREADGROUP</text>
+        <text x="415" y="176">metadados, texto</text>
+      </g>
+    </svg>
+  </div>
+
+  <table class="stack">
+    <thead><tr><th>Serviço</th><th>Tecnologia</th><th>Responsabilidade</th></tr></thead>
+    <tbody>
+      <tr><td>web</td><td>Django 5.2, DRF, Channels, Uvicorn</td><td>Páginas, API REST, WebSocket, sessões, permissões e entrega dos arquivos com suporte a Range.</td></tr>
+      <tr><td>worker</td><td>Python</td><td>Consome as filas, chama o processador, grava metadados e texto, escreve a descrição e refaz o índice de busca.</td></tr>
+      <tr><td>processor</td><td>Java 21, PDFBox 3, StAX</td><td>Lê PDF e DOCX: páginas, palavras, sumário, metadados, texto, capa e HTML de leitura. Não acessa banco nem Redis.</td></tr>
+      <tr><td>postgres</td><td>PostgreSQL 16</td><td>Documentos, leitura, anotações, coleções, contas e histórico do processamento.</td></tr>
+      <tr><td>redis</td><td>Redis 7</td><td>Filas, retentativas, eventos em tempo real, cache e sessões.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ===================== 05 DECISÕES ===================== -->
+<section class="chapter" id="ch-decisoes">
+  <div class="chapter-head">
+    <div class="num">05 · Decisões técnicas</div>
+    <h2>Por que foi feito assim</h2>
+    <p class="lede">Cada escolha abaixo responde a um problema concreto que apareceu ao transformar "subir um PDF" em algo confiável com vários usuários, vários workers e arquivos imprevisíveis.</p>
+  </div>
+
+  <div class="dec"><div class="n">01</div><div>
+    <h4>Um processador Java separado, sem acesso a banco</h4>
+    <p>PDF e DOCX reais vêm quebrados, enormes ou com senha. Isolar a leitura num serviço Java com PDFBox, que só recebe um caminho e devolve JSON, impede que um arquivo ruim derrube a aplicação web.</p>
+    <p><span class="why">Efeito</span>O processador escala sozinho e um <code>PathGuard</code> restringe a leitura à pasta de dados.</p>
+  </div></div>
+
+  <div class="dec"><div class="n">02</div><div>
+    <h4>Redis Streams com grupo de consumidores</h4>
+    <p>Uma fila simples perde a tarefa se o worker cair no meio. Com Streams, cada mensagem fica pendente até ser confirmada, e uma varredura recoloca na fila o que ficou para trás — inclusive se o Redis for apagado.</p>
+    <p><span class="why">Efeito</span><code>docker compose up --scale worker=3</code> funciona sem mudar uma linha.</p>
+  </div></div>
+
+  <div class="dec"><div class="n">03</div><div>
+    <h4>O banco decide quem processa: <code>SELECT … FOR UPDATE SKIP LOCKED</code></h4>
+    <p>Mensagens repetidas são normais em filas distribuídas. Antes de trabalhar, o worker trava a linha do documento; se outro já a pegou, ele segue em frente.</p>
+    <p><span class="why">Efeito</span>Nenhum documento é processado duas vezes, mesmo com entrega duplicada.</p>
+  </div></div>
+
+  <div class="dec"><div class="n">04</div><div>
+    <h4>Retentativas com espera exponencial e falha explicada</h4>
+    <p>Falhas passageiras voltam para a fila em 5 s, 15 s, 45 s… Arquivos que nunca vão abrir (com senha, corrompidos, <code>.doc</code> antigo) param em "Falhou" com o motivo em português.</p>
+    <p><span class="why">Efeito</span>A pessoa sabe o que fazer; o painel Sistema mostra o histórico de cada etapa.</p>
+  </div></div>
+
+  <div class="dec"><div class="n">05</div><div>
+    <h4>Conteúdo conferido, arquivo deduplicado</h4>
+    <p>A extensão não basta: o <code>web</code> confere os bytes do arquivo e calcula o SHA-256 para não guardar o mesmo documento duas vezes. O HTML gerado a partir do DOCX é higienizado com <code>nh3</code> antes de chegar ao navegador.</p>
+    <p><span class="why">Efeito</span>Menos disco, e nenhum script embutido num DOCX chega ao leitor.</p>
+  </div></div>
+
+  <div class="dec"><div class="n">06</div><div>
+    <h4>IA opcional, com resumo local de reserva</h4>
+    <p>Exigir chave de API afastaria quem só quer testar. O padrão é um resumo extrativo feito no próprio worker; Claude, OpenAI ou Ollama entram por variável de ambiente, recebendo só título, autor, sumário e um trecho limitado do texto.</p>
+    <p><span class="why">Efeito</span>Funciona offline e envia o mínimo de dados ao provedor.</p>
+  </div></div>
+
+  <div class="dec"><div class="n">07</div><div>
+    <h4>Busca no PostgreSQL, sem serviço extra</h4>
+    <p><code>SearchVector</code> e <code>SearchRank</code> para o texto completo, <code>unaccent</code> para ignorar acentos e <code>TrigramSimilarity</code> para tolerar erros de digitação no título.</p>
+    <p><span class="why">Efeito</span>Busca relevante sem Elasticsearch para manter.</p>
+  </div></div>
+
+  <div class="dec"><div class="n">08</div><div>
+    <h4>Front-end em módulos ES, sem etapa de build</h4>
+    <p>Para um projeto auto-hospedado, cada ferramenta a mais é um ponto de quebra. A interface é JavaScript puro em módulos, com CSS em tokens e fontes auto-hospedadas.</p>
+    <p><span class="why">Efeito</span>Nenhuma chamada a serviços externos e nada para compilar antes de rodar.</p>
+  </div></div>
+</section>
+
+<!-- ===================== 06 DESIGN ===================== -->
+<section class="chapter" id="ch-design">
+  <div class="chapter-head">
+    <div class="num">06 · Design</div>
+    <h2>Uma ficha de catálogo, não um painel</h2>
+    <p class="lede">A identidade vem das bibliotecas: papel creme, tinta escura, etiquetas coloridas e metadados em letra de máquina. Cada cor tem um papel, e o Rosé tinta é a assinatura.</p>
+  </div>
+
+  <div class="swatches">
+    <div class="sw"><div class="chip" style="background:#F4F1DE"></div><b>Creme</b><span class="hex">#F4F1DE</span>A "mesa": barra lateral</div>
+    <div class="sw"><div class="chip" style="background:#1E252C"></div><b>Tinta</b><span class="hex">#1E252C</span>Texto e ação principal</div>
+    <div class="sw"><div class="chip" style="background:#9C4A5B"></div><b>Rosé tinta</b><span class="hex">#9C4A5B</span>Navegação, progresso, foco</div>
+    <div class="sw"><div class="chip" style="background:#556B47"></div><b>Sálvia escura</b><span class="hex">#556B47</span>Tudo o que vem da IA</div>
+    <div class="sw"><div class="chip" style="background:#8395A7"></div><b>Ardósia</b><span class="hex">#8395A7</span>Estante "lendo"</div>
+  </div>
+
+  <div class="type-voices">
+    <div class="voice serif"><div class="eyebrow">Títulos e leitura</div><div class="sample">Literata</div><p>Serifa feita para leitura longa em tela.</p></div>
+    <div class="voice sans"><div class="eyebrow">Interface</div><div class="sample">Public Sans</div><p>Neutra e legível em tamanhos pequenos.</p></div>
+    <div class="voice mono"><div class="eyebrow">Metadados</div><div class="sample">IBM Plex Mono</div><p>Contadores e rótulos, como numa ficha.</p></div>
+  </div>
+
+  <div class="fig-pair">
+    <figure>
+      <img src="../images/tela-escuro.png" alt="Tema escuro">
+      <figcaption><b>Fig. 4</b>Tema escuro: mesma hierarquia, assinatura em rosé claro.</figcaption>
+    </figure>
+    <figure>
+      <img src="../images/tela-celular.png" alt="Celular">
+      <figcaption><b>Fig. 5</b>No celular.</figcaption>
+    </figure>
+  </div>
+
+  <h3>Acessibilidade desde o começo</h3>
+  <p>Link "Pular para o conteúdo", anel de foco visível em todos os controles, rótulos ARIA nas ações só com ícone, contraste AA nos dois temas, animações desligadas com <code>prefers-reduced-motion</code> e atalhos de teclado na biblioteca e no leitor (<kbd>/</kbd> busca, <kbd>U</kbd> envio, <kbd>F</kbd> modo foco).</p>
+</section>
+
+<!-- ===================== 07 TELAS ===================== -->
+<section class="chapter" id="ch-telas">
+  <div class="chapter-head">
+    <div class="num">07 · Telas</div>
+    <h2>O resto da casa</h2>
+    <p class="lede">Além da biblioteca e do leitor, o Lume tem estantes, busca, envio com progresso ao vivo e um painel para quem administra a instalação.</p>
+  </div>
+
+  <div class="gallery">
+    <figure><img src="../images/tela-estantes.png" alt="Estantes"><figcaption><b>Fig. 6</b>Estantes: arraste um cartão para mudar o estado de leitura.</figcaption></figure>
+    <figure><img src="../images/tela-busca.png" alt="Busca"><figcaption><b>Fig. 7</b>Busca no texto completo, com o trecho encontrado em destaque.</figcaption></figure>
+    <figure><img src="../images/tela-envio.png" alt="Envio"><figcaption><b>Fig. 8</b>Envio: solte os arquivos em qualquer lugar da janela.</figcaption></figure>
+    <figure><img src="../images/tela-leitor-docx.png" alt="Leitor DOCX"><figcaption><b>Fig. 9</b>Leitor de DOCX no tema sépia, com sumário pelos títulos do arquivo.</figcaption></figure>
+  </div>
+  <figure class="shot sm">
+    <img src="../images/tela-sistema.png" alt="Sistema">
+    <figcaption><b>Fig. 10</b>Sistema: saúde do processador, workers, filas, provedor de IA e contas.</figcaption>
+  </figure>
+</section>
+
+<!-- ===================== 08 QUALIDADE ===================== -->
+<section class="chapter" id="ch-qualidade">
+  <div class="chapter-head">
+    <div class="num">08 · Qualidade e entrega</div>
+    <h2>Testado de ponta a ponta</h2>
+    <p class="lede">Os testes usam PostgreSQL e Redis de verdade, e uma parte deles passa pelo processador Java com arquivos reais. Nada é simulado onde o erro costuma morar.</p>
+  </div>
+
+  <div class="cards">
+    <div class="c"><div class="k">Pytest · 70 testes</div><h4>Do upload ao WebSocket</h4><p>API, envio, permissões, busca, pipeline, IA, tempo real e painel Sistema. Os de ponta a ponta usam PDF com marcadores, DOCX com títulos e um arquivo corrompido.</p></div>
+    <div class="c"><div class="k">GitHub Actions</div><h4>Integração contínua</h4><p>A cada push: compila o processador com Maven, roda todos os testes e constrói as imagens Docker.</p></div>
+    <div class="c"><div class="k">Um comando</div><h4>Rodar em minutos</h4><p><code>iniciar.cmd</code> ou <code>iniciar.sh</code> criam o <code>.env</code> com senhas aleatórias, sobem os cinco contêineres e abrem o navegador.</p></div>
+    <div class="c"><div class="k">Documentação</div><h4>Três PDFs, mesma identidade</h4><p>Manual técnico, Banco de Dados e esta apresentação, gerados a partir de HTML e CSS em <code>docs/fonte</code> a cada versão.</p></div>
+  </div>
+
+  <h3>Pilha completa</h3>
+  <table class="stack">
+    <thead><tr><th>Camada</th><th>Tecnologia</th><th>Uso</th></tr></thead>
+    <tbody>
+      <tr><td>Back-end</td><td>Python 3.13 · Django 5.2</td><td>DRF para a API, Channels para WebSocket, Uvicorn como servidor ASGI</td></tr>
+      <tr><td>Processamento</td><td>Java 21 · PDFBox 3 · StAX</td><td>Texto, sumário, metadados, capas e HTML de leitura</td></tr>
+      <tr><td>Front-end</td><td>JavaScript (módulos ES) · pdf.js 5</td><td>Biblioteca, leitor, estantes, coleções, sistema e conta</td></tr>
+      <tr><td>Dados</td><td>PostgreSQL 16 · Redis 7</td><td>Fonte da verdade, busca em texto completo, filas e eventos</td></tr>
+      <tr><td>Infraestrutura</td><td>Docker Compose · GitHub Actions</td><td>Cinco serviços, perfil opcional com Ollama, CI a cada push</td></tr>
+      <tr><td>Qualidade</td><td>Pytest · WeasyPrint</td><td>Testes com serviços reais; documentação em PDF</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ===================== 09 PRÓXIMOS PASSOS E CRÉDITOS ===================== -->
+<section class="chapter" id="ch-creditos">
+  <div class="chapter-head">
+    <div class="num">09 · Versões e créditos</div>
+    <h2>De onde veio, para onde vai</h2>
+    <p class="lede">O Lume nasceu da vontade de ter um lugar único para organizar, ler e anotar documentos, sem depender de vários aplicativos diferentes.</p>
+  </div>
+
+  <div class="version">
+    <div class="vh"><span class="vn">1.1.0</span><span class="vd">Outubro de 2026 · revisão de design</span></div>
+    <ul>
+      <li>Identidade mais autoral: o Rosé tinta como cor de assinatura e IBM Plex Mono para metadados.</li>
+      <li>Cabeçalho com números reais, filtros como abas de índice e capas com lombada.</li>
+      <li>Acessibilidade: foco visível, contraste AA e respeito a <code>prefers-reduced-motion</code>.</li>
+      <li>Manuais em PDF reescritos, com a fonte em HTML no repositório.</li>
+    </ul>
+  </div>
+  <div class="version old">
+    <div class="vh"><span class="vn">1.0.0</span><span class="vd">Lançamento</span></div>
+    <ul>
+      <li>Biblioteca, leitor de PDF e DOCX, descrição por IA, estantes, coleções, busca, tempo real e API REST.</li>
+    </ul>
+  </div>
+
+  <h3>Também para Windows</h3>
+  <p>O <strong>Lume para Windows</strong> (<code>havelroot/Document-Library-Desktop</code>) leva a mesma biblioteca para um único <code>Lume.exe</code>, sem Docker nem servidor: Electron, SQLite com FTS5, leitura dos arquivos em JavaScript e chaves de IA guardadas no cofre de credenciais do Windows.</p>
+
+  <h3>Feito a quatro mãos</h3>
+  <div class="credits">
+    <div><div class="eyebrow">Autoria</div><div class="who">Clara A. Portes</div><p>Repositório oficial em <code>Violet-pixel/Document-Library-Platform</code>.</p></div>
+    <div><div class="eyebrow">Parceria</div><div class="who">Erik Pimenta</div><p>Parceiro de projetos e de vida (<code>@ravelroot</code>), das decisões de arquitetura ao design do leitor.</p></div>
+  </div>
+
+  <p class="closing">Sugestões, issues e pull requests são bem-vindos. Para instalar e operar, veja o Manual técnico; para o modelo de dados, o documento Banco de Dados.</p>
+
+  <p class="colophon">Composto em Literata, Public Sans e IBM Plex Mono (SIL Open Font License 1.1). Gerado com WeasyPrint a partir de <code>docs/fonte/apresentacao.html</code>. Lume é distribuído sob a licença MIT · Copyright © 2026 Clara A. Portes.</p>
+</section>
+
+</body>
+</html>

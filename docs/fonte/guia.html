@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Lume — Guia de uso</title>
+<meta name="author" content="Clara A. Portes">
+<meta name="description" content="Guia de uso do Lume para quem lê e organiza documentos">
+<meta name="dcterms.created" content="2026-10-27">
+<link rel="stylesheet" href="base.css">
+<link rel="stylesheet" href="manual.css">
+<link rel="stylesheet" href="apresentacao.css">
+<style>
+  .cover { background: #FAF8F2; }
+  .cover .spine { background: var(--accent); }
+  .faq .item { border-top: 0.5pt solid var(--line-strong); padding: 2.4mm 0 1.6mm; break-inside: avoid; }
+  .faq h4 { margin: 0 0 1mm; font-family: var(--serif); font-size: 10pt; }
+  .faq p { font-size: 8.4pt; color: var(--ink-2); margin: 0; }
+  .shelves { display: flex; gap: 3mm; margin: 2mm 0 5mm; }
+  .shelves div { flex: 1; padding: 2.5mm 3mm; font-size: 8.2pt; border-radius: 0 0 1.4mm 1.4mm; }
+  .shelves b { display: block; font: 600 6.8pt var(--mono); letter-spacing: .08em; text-transform: uppercase; margin-bottom: 0.8mm; }
+  .hl { display: inline-block; width: 9mm; height: 3mm; vertical-align: -0.3mm; margin-right: 1mm; }
+</style>
+</head>
+<body>
+<span class="doc-title">Guia de uso</span><span class="doc-version">versão 1.1.0 · outubro de 2026</span>
+
+<!-- ===================== CAPA ===================== -->
+<div class="cover">
+  <div class="spine"><span>Lume · guia de uso · 1.1.0</span></div>
+  <div class="top"><span>Lume · DOC-04 · v1.1.0</span><span>Guia de uso</span></div>
+  <div class="rule"></div>
+  <div class="mark"><svg viewBox="0 0 64 64"><path fill="#1E252C" fill-rule="evenodd" d="M18 6H46A6 6 0 0 1 52 12V52A6 6 0 0 1 46 58H18A6 6 0 0 1 12 52V12A6 6 0 0 1 18 6ZM32 14.5C33.1 23.6 36.4 26.9 45.5 28C36.4 29.1 33.1 32.4 32 41.5C30.9 32.4 27.6 29.1 18.5 28C27.6 26.9 30.9 23.6 32 14.5ZM22 47.5A2 2 0 0 1 24 45.5H40A2 2 0 0 1 42 47.5V49.5A2 2 0 0 1 40 51.5H24A2 2 0 0 1 22 49.5Z"/></svg></div>
+  <h1>Lume</h1>
+  <div class="sub">Guia de uso</div>
+  <div class="desc">Para quem só quer ler: como enviar, encontrar, ler, anotar e organizar seus documentos. Nenhum comando, nenhuma configuração.</div>
+
+  <div class="card">
+    <div class="card-id"><span>Ficha DOC-04</span><span>004.4 · LUM</span></div>
+    <dl>
+      <div class="row"><dt>Assunto</dt><dd>Envio, busca, leitura, anotações e organização</dd></div>
+      <div class="row"><dt>Público</dt><dd>Leitores e membros da equipe</dd></div>
+      <div class="row"><dt>Requisito</dt><dd>Um navegador e uma conta no Lume</dd></div>
+      <div class="row"><dt>Edição</dt><dd>Versão 1.1.0 · outubro de 2026</dd></div>
+      <div class="row"><dt>Licença</dt><dd>MIT</dd></div>
+    </dl>
+    <div class="hole"></div>
+  </div>
+
+  <div class="labels">
+    <div style="background:#D8A7B1"><b>Quero ler</b>Rosé</div>
+    <div style="background:#8395A7"><b>Lendo</b>Ardósia</div>
+    <div style="background:#B8C9A9"><b>Lidos</b>Sálvia</div>
+    <div style="background:#F4F1DE;border:0.6pt solid #C9BFA8"><b>Mesa</b>Creme</div>
+    <div style="background:#B0A08C"><b>Capa</b>Camurça</div>
+  </div>
+
+  <div class="foot">
+    <div><div class="author">Clara A. Portes</div>em parceria com Erik Pimenta</div>
+    <div class="mono">Outubro de 2026<br>Rio de Janeiro · pt-BR</div>
+  </div>
+</div>
+
+<!-- ===================== 01 PRIMEIROS PASSOS ===================== -->
+<section class="chapter" id="ch-entrar">
+  <div class="chapter-head">
+    <div class="num">01 · Primeiros passos</div>
+    <h2>Entrar e se localizar</h2>
+    <p class="lede">O Lume abre no navegador. Depois de entrar, você cai direto na sua biblioteca — o lugar de onde sai tudo o mais.</p>
+  </div>
+
+  <ol class="steps">
+    <li><strong>Abra o endereço do Lume</strong> que a pessoa responsável pela instalação passou (num computador local, costuma ser <code>http://localhost:8080</code>).</li>
+    <li><strong>Entre com seu e-mail e senha</strong>, ou crie uma conta na própria tela de entrada, se a instalação permitir.</li>
+    <li><strong>Para só experimentar</strong>, use a conta de demonstração <code>leitor@lume.dev</code> com a senha <code>Lume@2026</code>.</li>
+  </ol>
+
+  <figure class="shot sm">
+    <img src="../images/tela-entrada.png" alt="Tela de entrada">
+    <figcaption><b>Fig. 1</b>Tela de entrada: login e criação de conta.</figcaption>
+  </figure>
+
+  <h3>As partes da biblioteca</h3>
+  <div class="cards three">
+    <div class="c"><div class="k">À esquerda</div><h4>A barra lateral</h4><p>Biblioteca, estantes, coleções, compartilhados e sua conta. O item em rosé é onde você está.</p></div>
+    <div class="c"><div class="k">No topo</div><h4>O cabeçalho</h4><p>Data, saudação e um resumo com quantos documentos você tem, quantos está lendo e quantos ainda estão sendo preparados.</p></div>
+    <div class="c"><div class="k">No centro</div><h4>As capas</h4><p>Um cartão por documento. Clique para ver a prévia com a descrição; clique de novo para abrir no leitor.</p></div>
+  </div>
+</section>
+
+<!-- ===================== 02 ENVIAR ===================== -->
+<section class="chapter" id="ch-enviar">
+  <div class="chapter-head">
+    <div class="num">02 · Enviar</div>
+    <h2>Solte o arquivo, o Lume faz o resto</h2>
+    <p class="lede">Arraste PDFs e DOCX para qualquer lugar da janela, ou aperte <kbd>U</kbd>. Você pode continuar usando o Lume enquanto eles são preparados.</p>
+  </div>
+
+  <figure class="shot">
+    <img src="../images/tela-envio.png" alt="Envio de arquivos">
+    <figcaption><b>Fig. 2</b>Ao arrastar arquivos, a janela inteira vira área de envio.</figcaption>
+  </figure>
+
+  <div class="eyebrow">O que acontece depois — acompanhe na bandeja de envios</div>
+  <div class="flow">
+    <div><b>Na fila</b>O arquivo chegou e aguarda sua vez</div>
+    <div><b>Lendo o documento</b>Capa, páginas, texto e sumário</div>
+    <div class="ai"><b>Escrevendo a descrição</b>Resumo e etiquetas sugeridas</div>
+    <div><b>Pronto</b>A capa aparece sozinha na biblioteca</div>
+  </div>
+
+  <div class="note tip"><span class="eyebrow">Bom saber</span>O Lume aceita <strong>PDF</strong> e <strong>DOCX</strong> de até 200 MB cada (o limite pode mudar na sua instalação). Se você enviar o mesmo arquivo duas vezes, ele é guardado uma vez só.</div>
+  <div class="note warn"><span class="eyebrow">Apareceu "Falhou"?</span>O motivo fica escrito no cartão. Os mais comuns: arquivo protegido por senha, arquivo corrompido ou <code>.doc</code> antigo do Word. Abra no programa original, salve como PDF ou DOCX e envie de novo.</div>
+</section>
+
+<!-- ===================== 03 ENCONTRAR ===================== -->
+<section class="chapter" id="ch-encontrar">
+  <div class="chapter-head">
+    <div class="num">03 · Encontrar</div>
+    <h2>Busque pelo que está escrito dentro</h2>
+    <p class="lede">A busca olha título, autor, descrição, etiquetas e o texto inteiro dos arquivos. Aperte <kbd>/</kbd> em qualquer lugar da biblioteca para começar a digitar.</p>
+  </div>
+
+  <figure class="shot">
+    <img src="../images/tela-busca.png" alt="Busca">
+    <figcaption><b>Fig. 3</b>Resultado da busca com o trecho encontrado em destaque.</figcaption>
+  </figure>
+
+  <ul>
+    <li><strong>Acentos não importam:</strong> "migracao" encontra "migração".</li>
+    <li><strong>Erros de digitação no título são tolerados:</strong> "postgress" ainda acha "Introdução ao PostgreSQL".</li>
+    <li><strong>Use as abas de filtro</strong> abaixo do cabeçalho para ver só PDFs, só DOCX, favoritos ou o que ainda está em processamento. O número ao lado de cada aba mostra quantos itens há nela.</li>
+    <li><strong>Clique numa etiqueta</strong> para ver todos os documentos marcados com ela.</li>
+  </ul>
+</section>
+
+<!-- ===================== 04 LER ===================== -->
+<section class="chapter" id="ch-ler">
+  <div class="chapter-head">
+    <div class="num">04 · Ler</div>
+    <h2>Um leitor que lembra onde você parou</h2>
+    <p class="lede">Ao abrir um documento, ele volta na página em que você estava. Feche quando quiser: o progresso é salvo sozinho.</p>
+  </div>
+
+  <figure class="shot">
+    <img src="../images/tela-leitor-pdf.png" alt="Leitor de PDF">
+    <figcaption><b>Fig. 4</b>Leitor de PDF com sumário, página aberta e ferramentas no topo.</figcaption>
+  </figure>
+
+  <table class="compact">
+    <thead><tr><th>Quero…</th><th>Como faço</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Mudar de página</strong></td><td><kbd>←</kbd> <kbd>→</kbd> ou <kbd>PgUp</kbd> <kbd>PgDn</kbd>; <kbd>Home</kbd> e <kbd>End</kbd> vão para o início e o fim. Ou clique numa miniatura ou num item do sumário.</td></tr>
+      <tr><td><strong>Aumentar ou diminuir</strong></td><td><kbd>+</kbd> e <kbd>-</kbd>. No PDF muda o zoom; no DOCX, o tamanho da letra.</td></tr>
+      <tr><td><strong>Procurar uma palavra</strong></td><td><kbd>Ctrl</kbd> + <kbd>F</kbd> dentro do leitor.</td></tr>
+      <tr><td><strong>Descansar a vista</strong></td><td>Troque o tema da página: <strong>papel</strong>, <strong>sépia</strong> ou <strong>noite</strong>.</td></tr>
+      <tr><td><strong>Ler sem distrações</strong></td><td><kbd>F</kbd> liga o modo foco; <kbd>Esc</kbd> sai dele.</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Destaques, notas e marcadores</h3>
+  <p>Selecione um trecho para destacá-lo em uma de quatro cores e, se quiser, escreva uma nota sobre ele. Use marcadores para guardar páginas importantes. Tudo isso é só seu: outras pessoas que leem o mesmo documento não veem suas anotações.</p>
+</section>
+
+<!-- ===================== 05 ORGANIZAR ===================== -->
+<section class="chapter" id="ch-organizar">
+  <div class="chapter-head">
+    <div class="num">05 · Organizar</div>
+    <h2>Estantes, coleções e etiquetas</h2>
+    <p class="lede">Três formas de arrumar a biblioteca, que podem ser usadas juntas: as estantes dizem <em>em que pé está a leitura</em>, as coleções dizem <em>do que se trata</em>, e as etiquetas cruzam tudo.</p>
+  </div>
+
+  <div class="shelves">
+    <div style="background:#F6E8EB"><b style="color:#9C4A5B">Quero ler</b>O que você separou para depois.</div>
+    <div style="background:#EEF1F4"><b style="color:#4F6276">Lendo</b>O que está em andamento, com o progresso.</div>
+    <div style="background:#EDF2E6"><b style="color:#556B47">Lidos</b>O que você terminou.</div>
+  </div>
+
+  <figure class="shot sm">
+    <img src="../images/tela-estantes.png" alt="Estantes">
+    <figcaption><b>Fig. 5</b>Para mudar a estante, arraste o cartão de uma coluna para outra.</figcaption>
+  </figure>
+
+  <div class="cards">
+    <div class="c"><div class="k">Coleções</div><h4>Pastas com ordem própria</h4><p>Agrupe documentos por assunto ou projeto e arraste para definir a ordem. Um documento pode estar em várias coleções ao mesmo tempo.</p></div>
+    <div class="c"><div class="k">Favoritos e etiquetas</div><h4>Atalhos para o que importa</h4><p>Marque como favorito para achar rápido. As etiquetas sugeridas pela IA podem ser mantidas, apagadas ou complementadas.</p></div>
+    <div class="c"><div class="k">Compartilhados</div><h4>Para toda a equipe</h4><p>Ao compartilhar um documento, todos da instalação podem lê-lo. As anotações continuam pessoais.</p></div>
+    <div class="c ai"><div class="k">Descrição por IA</div><h4>Um resumo para cada documento</h4><p>Aparece em verde-sálvia na prévia. Você pode editá-la como quiser ou pedir outra com <strong>Gerar de novo</strong>.</p></div>
+  </div>
+</section>
+
+<!-- ===================== 06 DÚVIDAS ===================== -->
+<section class="chapter" id="ch-duvidas">
+  <div class="chapter-head">
+    <div class="num">06 · Dúvidas comuns</div>
+    <h2>Perguntas e atalhos</h2>
+    <p class="lede">As respostas rápidas para o que mais aparece no dia a dia.</p>
+  </div>
+
+  <div class="faq">
+    <div class="item"><h4>Enviei um arquivo e ele ainda não tem capa.</h4><p>Ele ainda está sendo preparado. Arquivos grandes demoram mais; acompanhe pela bandeja de envios. A capa aparece sozinha, sem recarregar a página.</p></div>
+    <div class="item"><h4>A descrição ficou estranha.</h4><p>Use <strong>Editar</strong> no detalhe do documento ou use <strong>Gerar de novo</strong>. Documentos escaneados (só imagem, sem texto) costumam gerar descrições fracas.</p></div>
+    <div class="item"><h4>Outra pessoa vê meus destaques?</h4><p>Não. Posição de leitura, destaques, notas, marcadores, estantes e favoritos são de cada conta.</p></div>
+    <div class="item"><h4>Posso usar no celular?</h4><p>Sim. A biblioteca se ajusta à tela, e as abas de filtro rolam para o lado.</p></div>
+    <div class="item"><h4>Como deixo a tela escura?</h4><p>Use o botão de tema claro/escuro da interface. O leitor tem, além disso, o tema noite para a página.</p></div>
+    <div class="item"><h4>Quero enviar arquivos por um script.</h4><p>Crie um token em <strong>Minha conta → Tokens da API</strong> e veja o capítulo de API do Manual técnico.</p></div>
+  </div>
+
+  <h3>Atalhos de teclado</h3>
+  <table class="keys compact">
+    <thead><tr><th>Tecla</th><th>Onde</th><th>O que faz</th></tr></thead>
+    <tbody>
+      <tr><td><kbd>/</kbd></td><td>Biblioteca</td><td>Ir para a busca</td></tr>
+      <tr><td><kbd>U</kbd></td><td>Biblioteca</td><td>Enviar documentos</td></tr>
+      <tr><td><kbd>←</kbd> <kbd>→</kbd> · <kbd>PgUp</kbd> <kbd>PgDn</kbd></td><td>Leitor</td><td>Página anterior e seguinte (PDF)</td></tr>
+      <tr><td><kbd>Home</kbd> · <kbd>End</kbd></td><td>Leitor</td><td>Primeira e última página (PDF)</td></tr>
+      <tr><td><kbd>+</kbd> · <kbd>-</kbd></td><td>Leitor</td><td>Zoom (PDF) ou tamanho da letra (DOCX)</td></tr>
+      <tr><td><kbd>Ctrl</kbd> + <kbd>F</kbd></td><td>Leitor</td><td>Buscar no documento</td></tr>
+      <tr><td><kbd>F</kbd> · <kbd>Esc</kbd></td><td>Leitor</td><td>Entrar e sair do modo foco</td></tr>
+    </tbody>
+  </table>
+
+  <p class="colophon">Para instalar, configurar ou administrar o Lume, veja o Manual técnico. Composto em Literata, Public Sans e IBM Plex Mono. Gerado com WeasyPrint a partir de <code>docs/fonte/guia.html</code> · Copyright © 2026 Clara A. Portes · Licença MIT.</p>
+</section>
+
+</body>
+</html>

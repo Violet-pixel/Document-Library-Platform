@@ -17,6 +17,8 @@
   <a href="#como-rodar">Como rodar</a> ·
   <a href="Manual-Lume.pdf">Manual técnico (PDF)</a> ·
   <a href="Banco-de-Dados-Lume.pdf">Banco de dados (PDF)</a> ·
+  <a href="Apresentacao-Lume.pdf">Apresentação (PDF)</a> ·
+  <a href="Guia-de-Uso-Lume.pdf">Guia de uso (PDF)</a> ·
   <a href="#usando-a-api">API</a> ·
   <a href="#design-e-acessibilidade">Design</a> ·
   <a href="#licença">Licença</a>
@@ -327,12 +329,14 @@ docs/                manuais em PDF, imagens do README e fonte dos manuais (docs
 |---|---|
 | [`Manual-Lume.pdf`](Manual-Lume.pdf) | Instalação, cada tela, o leitor, a descrição por IA, arquitetura, API, configuração, testes, acessibilidade, atalhos e solução de problemas |
 | [`Banco-de-Dados-Lume.pdf`](Banco-de-Dados-Lume.pdf) | Diagrama de relacionamentos, todas as tabelas com campos, tipos, chaves e índices, máquinas de estado, busca em texto completo, Redis, consultas úteis e manutenção |
+| [`Apresentacao-Lume.pdf`](Apresentacao-Lume.pdf) | O projeto em dez páginas: problema, produto, arquitetura, decisões técnicas, design, qualidade e créditos |
+| [`Guia-de-Uso-Lume.pdf`](Guia-de-Uso-Lume.pdf) | Para quem só usa: entrar, enviar, buscar, ler, anotar, organizar, dúvidas comuns e atalhos |
 
-Cópias idênticas ficam em [`docs/`](docs). Os dois são gerados a partir de HTML e CSS em [`docs/fonte`](docs/fonte), na mesma identidade da interface:
+Cópias idênticas ficam em [`docs/`](docs). Todos são gerados a partir de HTML e CSS em [`docs/fonte`](docs/fonte), na mesma identidade da interface:
 
 ```bash
 pip install weasyprint==70.0
-python docs/fonte/gerar_pdfs.py          # os dois; ou "manual" / "banco"
+python docs/fonte/gerar_pdfs.py          # todos; ou "manual" / "banco" / "apresentacao" / "guia"
 ```
 
 ## Versão para Windows
