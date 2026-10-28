@@ -291,6 +291,8 @@ python manage.py worker &
 uvicorn config.asgi:application --reload
 ```
 
+No Windows, pelo PowerShell, ative o ambiente com `.venv\Scripts\Activate.ps1`, defina cada variável com `$env:DB_NAME = "lume"` e rode o `worker` e o `uvicorn` em terminais separados.
+
 Os testes usam PostgreSQL e Redis de verdade (o Redis de teste fica no banco 15, separado do da aplicação):
 
 ```bash
