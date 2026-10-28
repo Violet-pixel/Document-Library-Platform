@@ -19,6 +19,8 @@ cp .env.example .env            # troque DB_PASSWORD e APP_SECRET_KEY
 docker compose up -d --build    # abre em http://localhost:8080
 ```
 
+No Windows, troque o `cp` por `powershell -ExecutionPolicy Bypass -File scripts\criar-env.ps1`, que cria o `.env` já com senha do banco e chave secreta aleatórias, ou dê dois cliques em `iniciar.cmd`, que faz tudo de uma vez.
+
 Para desenvolver sem Docker você precisa de Python 3.13, Java 21 com Maven, PostgreSQL 16 e Redis 7. Os passos estão na seção [Desenvolvimento e testes](README.md#desenvolvimento-e-testes) do README.
 
 ## Fluxo de trabalho
