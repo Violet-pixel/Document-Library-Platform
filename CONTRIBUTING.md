@@ -6,6 +6,7 @@ Obrigado pelo interesse em ajudar! Este guia resume como preparar o ambiente, pr
 
 - Procure nas [issues](https://github.com/Violet-pixel/Document-Library-Platform/issues) se o assunto já está sendo discutido.
 - Para mudanças grandes, abra uma issue primeiro e descreva a ideia.
+- Contribuições para o Lume para Windows ficam no repositório [ravelroot/Document-Library-Desktop](https://github.com/ravelroot/Document-Library-Desktop).
 
 ## Ambiente
 
