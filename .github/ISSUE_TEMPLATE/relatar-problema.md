@@ -23,4 +23,4 @@ labels: bug
 - Tipo de arquivo: <!-- PDF, DOCX ou os dois -->
 
 ## Prints ou registros
-<!-- Se possível, anexe prints da tela ou o trecho do log (docker compose logs web worker) -->
+<!-- Se possível, anexe prints da tela ou o trecho do log (docker compose logs web worker processor) -->
