@@ -299,7 +299,7 @@ python -m pytest                       # API, uploads, permissões, busca, pipel
 PROCESSOR_URL=http://localhost:8090 E2E_DATA_ROOT=../.data python -m pytest -m e2e   # ponta a ponta com o Java
 ```
 
-São 70 testes, incluindo o caminho completo com o processador Java (PDF com marcadores, DOCX com títulos, arquivo corrompido). O GitHub Actions compila o processador, roda todos os testes e constrói as imagens a cada push.
+São 70 testes, incluindo o caminho completo com o processador Java (PDF com marcadores, DOCX com títulos, arquivo corrompido). O GitHub Actions compila o processador, roda o Ruff e todos os testes, confere se há migrações pendentes e constrói as imagens a cada push na `main`, em cada pull request e uma vez por dia.
 
 ### Estrutura
 
