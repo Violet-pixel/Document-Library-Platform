@@ -341,7 +341,7 @@ python docs/fonte/gerar_pdfs.py          # todos; ou "manual" / "banco" / "apres
 
 ## Versão para Windows
 
-Quer usar o Lume sem Docker, servidor ou conta? O **[Lume para Windows](https://github.com/havelroot/Document-Library-Desktop)** traz a mesma biblioteca num único `Lume.exe`. Você arrasta arquivos ou pastas, ele gera as capas, extrai texto e sumário, escreve a descrição por IA e abre tudo no leitor próprio, com anotações, estantes, coleções e busca em texto completo. Tudo roda no seu computador.
+Quer usar o Lume sem Docker, servidor ou conta? O **[Lume para Windows](https://github.com/ravelroot/Document-Library-Desktop)** traz a mesma biblioteca num único `Lume.exe`. Você arrasta arquivos ou pastas, ele gera as capas, extrai texto e sumário, escreve a descrição por IA e abre tudo no leitor próprio, com anotações, estantes, coleções e busca em texto completo. Tudo roda no seu computador.
 
 | | Web (este repositório) | Desktop |
 |---|---|---|
@@ -353,7 +353,7 @@ Quer usar o Lume sem Docker, servidor ou conta? O **[Lume para Windows](https://
 | Contas | Várias, com papéis e compartilhamento | Sem conta, uso local |
 | Chaves de IA | Arquivo `.env` | Cofre de credenciais do Windows |
 
-Repositório: [havelroot/Document-Library-Desktop](https://github.com/havelroot/Document-Library-Desktop)
+Repositório: [ravelroot/Document-Library-Desktop](https://github.com/ravelroot/Document-Library-Desktop)
 
 ## Parceria
 
