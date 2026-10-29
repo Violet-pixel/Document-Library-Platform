@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Lume para Windows
+    url: https://github.com/ravelroot/Document-Library-Desktop
+    about: Problemas e ideias do app desktop ficam no repositório da versão para Windows.
+  - name: Guia de contribuição
+    url: https://github.com/Violet-pixel/Document-Library-Platform/blob/main/CONTRIBUTING.md
+    about: Como preparar o ambiente, abrir um pull request e registrar trabalho em dupla.
