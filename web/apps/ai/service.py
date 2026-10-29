@@ -165,7 +165,7 @@ def call_openai(cfg: dict, prompt: str, client: httpx.Client) -> str:
     choices = response.json().get("choices") or []
     if not choices:
         raise ProviderError("A API não devolveu nenhuma resposta.")
-    return choices[0].get("message", {}).get("content", "")
+    return (choices[0].get("message") or {}).get("content") or ""
 
 
 CALLERS = {"anthropic": call_anthropic, "openai": call_openai}
