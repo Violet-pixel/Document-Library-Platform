@@ -1,3 +1,5 @@
+import math
+
 from rest_framework import serializers
 
 from apps.library.models import Annotation, Collection, Document, ReadingState
@@ -16,6 +18,8 @@ class ReadingSerializer(serializers.ModelSerializer):
         read_only_fields = ["started_at", "finished_at", "last_opened_at"]
 
     def validate_progress(self, value):
+        if math.isnan(value):
+            raise serializers.ValidationError("Progresso inválido.")
         return min(max(float(value), 0.0), 1.0)
 
     def validate_location(self, value):

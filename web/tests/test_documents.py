@@ -109,6 +109,13 @@ def test_reading_state_and_open(api, user, ready):
     assert stats["shelves"]["lido"] == 1 and stats["continue_reading"][0]["id"] == str(document.id)
 
 
+def test_reading_progress_rejects_nan(api, ready):
+    document = ready()
+    url = f"/api/v1/documents/{document.id}/reading"
+    assert api.put(url, {"progress": "NaN"}, format="json").status_code == 400
+    assert api.put(url, {"progress": 0.5}, format="json").json()["progress"] == 0.5
+
+
 def test_annotations(api, api_for, other, ready):
     document = ready(visibility="shared")
     url = f"/api/v1/documents/{document.id}/annotations"
