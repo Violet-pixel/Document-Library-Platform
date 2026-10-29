@@ -114,7 +114,12 @@ def parse_answer(raw: str) -> tuple[str, list[str]]:
     summary = str(data.get("descricao") or data.get("description") or "").strip().strip('"')
     if len(summary) < 20:
         raise ProviderError("A descrição veio vazia.")
-    tags = [str(t).strip().lower()[:40] for t in (data.get("tags") or []) if str(t).strip()][:4]
+    raw_tags = data.get("tags") or []
+    if isinstance(raw_tags, str):
+        raw_tags = re.split(r"[,;\n]", raw_tags)
+    elif not isinstance(raw_tags, list):
+        raw_tags = []
+    tags = [str(t).strip().lower()[:40] for t in raw_tags if str(t).strip()][:4]
     return local.shorten(summary, 420), tags
 
 
