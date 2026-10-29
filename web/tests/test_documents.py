@@ -164,6 +164,16 @@ def test_file_supports_range_requests(api, ready):
     assert api.get(f"/api/v1/documents/{document.id}/file", HTTP_IF_NONE_MATCH=full["ETag"]).status_code == 304
 
 
+def test_malformed_ids_are_not_server_errors(api, user):
+    assert api.get("/api/v1/documents/nao-e-um-uuid").status_code == 404
+    assert api.get("/api/v1/documents/nao-e-um-uuid/file").status_code == 404
+    assert api.patch("/api/v1/documents/nao-e-um-uuid", {"title": "X"}, format="json").status_code == 404
+    response = api.get("/api/v1/documents?collection=nao-e-um-uuid")
+    assert response.status_code == 400 and response.json()["message"] == "Coleção inválida."
+    collection = Collection.objects.create(owner=user, name="Leituras")
+    assert api.delete(f"/api/v1/collections/{collection.id}/documents/{'-' * 36}").status_code == 404
+
+
 def test_delete_removes_files(api, ready):
     document = ready()
     folder = document.folder
