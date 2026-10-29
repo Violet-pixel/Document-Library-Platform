@@ -1,4 +1,7 @@
+from datetime import timedelta
+
 import pytest
+from django.utils import timezone
 from rest_framework.test import APIClient
 
 from apps.accounts.models import ApiToken
@@ -81,6 +84,14 @@ def test_personal_token_lifecycle(api, user):
 
     assert api.delete(f"/api/v1/me/tokens/{created['id']}").status_code == 204
     assert client.get("/api/v1/me", HTTP_AUTHORIZATION=f"Bearer {raw}").status_code == 401
+
+
+def test_token_cannot_be_created_already_expired(api):
+    past = (timezone.now() - timedelta(days=1)).isoformat()
+    response = api.post("/api/v1/me/tokens", {"name": "antigo", "expires_at": past}, format="json")
+    assert response.status_code == 400 and "expires_at" in response.json()["fields"]
+    future = (timezone.now() + timedelta(days=30)).isoformat()
+    assert api.post("/api/v1/me/tokens", {"name": "novo", "expires_at": future}, format="json").status_code == 201
 
 
 def test_users_admin_only(api, admin, api_for, user):
