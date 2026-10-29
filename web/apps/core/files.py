@@ -20,6 +20,13 @@ def content_disposition(filename: str, attachment: bool) -> str:
     return f"{kind}; filename=\"{ascii_name}\"; filename*=UTF-8''{quote(filename)}"
 
 
+def etag_matches(header: str, etag: str) -> bool:
+    """If-None-Match usa comparação fraca e pode trazer vários ETags ou "*" (RFC 9110, seção 13.1.2)."""
+    if header.strip() == "*":
+        return True
+    return etag in {tag.strip().removeprefix("W/") for tag in header.split(",")}
+
+
 async def _read_async(path: Path, start: int, length: int):
     loop = asyncio.get_running_loop()
     with open(path, "rb") as handle:
@@ -45,7 +52,7 @@ def file_response(
     size = stat.st_size
     etag = f'"{int(stat.st_mtime_ns // 1000)}-{size}"'
 
-    if request.headers.get("If-None-Match") == etag:
+    if etag_matches(request.headers.get("If-None-Match", ""), etag):
         response = HttpResponse(status=304)
         response["ETag"] = etag
         response["Cache-Control"] = cache_control
@@ -54,7 +61,7 @@ def file_response(
     start, end, status = 0, size - 1, 200
     header = request.headers.get("Range", "")
     match = RANGE_RE.match(header.strip()) if header else None
-    if match and size > 0 and (not request.headers.get("If-Range") or request.headers.get("If-Range") == etag):
+    if match and any(match.groups()) and size > 0 and (not request.headers.get("If-Range") or request.headers.get("If-Range") == etag):
         first, last = match.groups()
         if first == "" and last:
             start = max(size - int(last), 0)
