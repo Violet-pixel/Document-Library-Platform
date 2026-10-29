@@ -119,6 +119,18 @@ def test_bad_metadata_title_is_ignored(queued, fake_processor):
     assert document.title == "Relatorio final"
 
 
+@pytest.mark.parametrize(
+    "title", ["Untitled", "Untitled document", "Documento sem título", "Sem título 1", "Document1", "Documento 2"]
+)
+def test_placeholder_titles_are_ignored(title):
+    assert stages.good_metadata(title, 300) == ""
+
+
+def test_real_titles_are_kept():
+    assert stages.good_metadata("Documentos do RH", 300) == "Documentos do RH"
+    assert stages.good_metadata("Untitled documentary", 300) == "Untitled documentary"
+
+
 def test_recover_stale_documents(queued):
     document = queued()
     conn = r.client()

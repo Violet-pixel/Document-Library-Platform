@@ -22,7 +22,10 @@ CLAIMABLE = {
     "describe": [Document.Status.DESCRIBING],
 }
 RUNNING_STATUS = {"extract": Document.Status.EXTRACTING, "describe": Document.Status.DESCRIBING}
-BAD_TITLES = re.compile(r"^(untitled|sem t[ií]tulo|documento\d*|microsoft word\s*-.*|.*\.(docx?|pdf|tmp))$", re.I)
+BAD_TITLES = re.compile(
+    r"^(untitled( document)?( \d+)?|(documento )?sem t[ií]tulo( \d+)?|documento? ?\d*|microsoft word\s*-.*|.*\.(docx?|pdf|tmp))$",
+    re.I,
+)
 
 
 @dataclass
