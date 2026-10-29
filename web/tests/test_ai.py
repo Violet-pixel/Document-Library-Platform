@@ -120,6 +120,13 @@ def test_public_config_never_exposes_key(settings):
     assert config["configured"] is True and config["label"] == "Claude (Anthropic)"
 
 
+def test_empty_content_falls_back(settings):
+    settings.AI = {**settings.AI, "provider": "openai", "model": "m"}
+    transport = httpx.MockTransport(lambda r: httpx.Response(200, json={"choices": [{"message": {"content": None}}]}))
+    result = service.describe(doc(), LONG, transport=transport)
+    assert result.source == "local" and result.summary
+
+
 def test_scanned_document_without_text(settings):
     result = service.describe(doc(), "   ")
     assert "sem texto" in result.summary
