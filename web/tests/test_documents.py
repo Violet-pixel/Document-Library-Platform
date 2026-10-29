@@ -126,6 +126,14 @@ def test_annotations(api, api_for, other, ready):
     assert api.delete(f"/api/v1/annotations/{note_id}").status_code == 204
 
 
+def test_note_cannot_be_emptied_on_edit(api, ready):
+    document = ready()
+    url = f"/api/v1/documents/{document.id}/annotations"
+    note = api.post(url, {"kind": "note", "page": 1, "note": "Rever este trecho"}, format="json").json()
+    assert api.patch(f"/api/v1/annotations/{note['id']}", {"note": "   "}, format="json").status_code == 400
+    assert api.get(url).json()[0]["note"] == "Rever este trecho"
+
+
 def test_collections(api, user, ready):
     a, b = ready(name="a.pdf"), ready(name="b.pdf")
     created = api.post("/api/v1/collections", {"name": "Estudos"}, format="json").json()
