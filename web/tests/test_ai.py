@@ -113,6 +113,14 @@ def test_invalid_json_falls_back(settings):
     assert service.describe(doc(), LONG, transport=transport).source == "local"
 
 
+def test_tags_as_text_are_split():
+    summary = "Guia de PostgreSQL com exemplos de consultas, índices e transações."
+    _, tags = service.parse_answer(json.dumps({"descricao": summary, "tags": "PostgreSQL, SQL; índices"}))
+    assert tags == ["postgresql", "sql", "índices"]
+    _, tags = service.parse_answer(json.dumps({"descricao": summary, "tags": 3}))
+    assert tags == []
+
+
 def test_public_config_never_exposes_key(settings):
     settings.AI = {**settings.AI, "provider": "anthropic", "api_key": "segredo-123"}
     config = service.public_config()
