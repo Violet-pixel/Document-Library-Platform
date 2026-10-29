@@ -78,3 +78,8 @@ def test_upload_into_collection_with_visibility(api, user, pdf, send):
     item = send(api, "a.pdf", pdf(), collection=str(collection.id), visibility="shared").json()["items"][0]
     assert item["visibility"] == "shared"
     assert item["collections"] == [str(collection.id)]
+
+
+def test_upload_into_malformed_collection_is_not_found(api, pdf, send):
+    assert send(api, "a.pdf", pdf(), collection="nao-e-um-uuid").status_code == 404
+    assert not Document.objects.exists()
