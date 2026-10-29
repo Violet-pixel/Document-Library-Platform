@@ -1,4 +1,5 @@
 import re
+import uuid
 from html import escape
 
 from django.conf import settings
@@ -7,12 +8,12 @@ from django.db import connection, transaction
 from django.db.models import Count, F, OuterRef, Prefetch, Q, Subquery
 from django.db.models.functions import Lower
 from django.http import Http404
-from django.shortcuts import get_object_or_404
 from django.utils import timezone
 from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import OpenApiParameter, extend_schema
 from rest_framework import mixins, status, viewsets
 from rest_framework.decorators import action
+from rest_framework.generics import get_object_or_404
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -42,6 +43,7 @@ from apps.library.serializers import (
 
 PROCESSING = [Document.Status.QUEUED, Document.Status.EXTRACTING, Document.Status.DESCRIBING]
 MEDIA_NAME = re.compile(r"^[A-Za-z0-9_.-]{1,120}$")
+UUID_PATH = r"[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
 
 
 def visible_documents(user):
@@ -130,7 +132,11 @@ class DocumentViewSet(
         if p.get("favorite") in {"1", "true"}:
             qs = qs.filter(reading_states__user=user, reading_states__favorite=True)
         if p.get("collection"):
-            qs = qs.filter(collection_items__collection_id=p["collection"], collection_items__collection__owner=user)
+            try:
+                collection_id = uuid.UUID(p["collection"])
+            except ValueError:
+                raise ApiError("Coleção inválida.") from None
+            qs = qs.filter(collection_items__collection_id=collection_id, collection_items__collection__owner=user)
         if p.get("tag"):
             qs = qs.filter(document_tags__tag__slug=p["tag"])
         return qs
@@ -448,7 +454,7 @@ class CollectionViewSet(viewsets.ModelViewSet):
         return Response({"added": added})
 
     @extend_schema(request=None, responses={204: None})
-    @action(detail=True, methods=["delete"], url_path=r"documents/(?P<document_id>[0-9a-f-]{36})")
+    @action(detail=True, methods=["delete"], url_path=rf"documents/(?P<document_id>{UUID_PATH})")
     def remove_document(self, request, pk=None, document_id=None):
         collection = self.get_object()
         CollectionItem.objects.filter(collection=collection, document_id=document_id).delete()
