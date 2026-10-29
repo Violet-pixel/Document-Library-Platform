@@ -1,4 +1,5 @@
 from django.contrib.auth import password_validation
+from django.utils import timezone
 from rest_framework import serializers
 
 from apps.accounts.models import ApiToken, User
@@ -57,6 +58,11 @@ class TokenSerializer(serializers.ModelSerializer):
         model = ApiToken
         fields = ["id", "name", "prefix", "created_at", "last_used_at", "expires_at", "revoked_at"]
         read_only_fields = ["id", "prefix", "created_at", "last_used_at", "revoked_at"]
+
+    def validate_expires_at(self, value):
+        if value and value <= timezone.now():
+            raise serializers.ValidationError("A data de expiração precisa estar no futuro.")
+        return value
 
 
 class AdminUserSerializer(serializers.ModelSerializer):
