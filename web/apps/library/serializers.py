@@ -209,7 +209,8 @@ class AnnotationSerializer(serializers.ModelSerializer):
 
     def validate(self, data):
         kind = data.get("kind", getattr(self.instance, "kind", None))
-        if kind == Annotation.Kind.NOTE and not (data.get("note") or getattr(self.instance, "note", "")).strip():
+        note = data["note"] if "note" in data else getattr(self.instance, "note", "")
+        if kind == Annotation.Kind.NOTE and not note.strip():
             raise serializers.ValidationError({"note": "Escreva a nota."})
         if len(data.get("quote", "")) > 4000 or len(data.get("note", "")) > 8000:
             raise serializers.ValidationError("Texto longo demais.")
